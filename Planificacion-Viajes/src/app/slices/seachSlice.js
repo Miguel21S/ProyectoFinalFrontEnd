@@ -2,19 +2,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const searchSlice = createSlice({
-    nombre: 'search',
+    name: 'search',
     initialState: {
-        criteria: ""
+      criteria: ""
     },
-
     reducers: {
-        updateCriteria: (state, action) => {
-            return {
-                ...state,
-                criteria: action.payload
-            }
-        },
+      updateCriteria: (state, action) => {
+        return {
+          ...state,
+          criteria: action.payload
+        }
+      },
     }
+    
 });
 
 export const { updateCriteria } = searchSlice.actions;
