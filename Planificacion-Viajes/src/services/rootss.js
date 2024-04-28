@@ -13,12 +13,13 @@ export const RegitrarUser = async (user) => {
 
     try {
         const response = await fetch(`${root}auth/register`, options);
-        const data = response.json();
+        const data = await response.json();
+
         if (!data.success) {
             throw new Error(data.message);
         }
-
         return data;
+
     } catch (error) {
         return error;
     }
