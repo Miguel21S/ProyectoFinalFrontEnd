@@ -38,9 +38,11 @@ export const Login = () => {
                 }
                 dispatch(login({credentials: passport }))
                 
-                setTimeout(() => {
+                if (decodificado.userRole === "superAdmin") {
+                    navigate("/gestionusuarios");
+                  } else {
                     navigate("/");
-                }, 1200);
+                  }
             }
 
         } catch (error) {
