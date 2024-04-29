@@ -12,7 +12,7 @@ export const RegitrarUser = async (user) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/register`, options);
+        const response = await fetch(`${root}auth/loguear`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -26,7 +26,7 @@ export const RegitrarUser = async (user) => {
 }
 
 ////////////////  RUTA LOGIN  /////////////////////////////
-export const Login = async (user) => {
+export const LoginUsuario = async (user) => {
     const options = {
         method: "POST",
         headers: {
@@ -34,10 +34,14 @@ export const Login = async (user) => {
         },
         body: JSON.stringify(user),
     }
-
+    console.log("SOY USER DE ROOT", user)
     try {
         const response = await fetch(`${root}auth/loguear`, options);
-        const data = response.json();
+        console.log("SOY RESPONSE DE ROOT", response)
+
+        const data = await response.json();
+        console.log("SOY DATA DE ROOT", data)
+
         if (!data.success) {
             throw new Error(data.message);
         }
