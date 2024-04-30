@@ -72,8 +72,32 @@ export const ListarUsuarios = async (token) => {
     }
 }
 
-////////////////  RUTA LISTAR TODOS LOS USUARIOS DEL SISTEMA  /////////////////////////////
-export const eliminarUsuario = async (id, token) => {
+////////////////  RUTA ACTUALIZAR USUARIO   /////////////////////////////
+export const ActualizarUsuario = async (id, token) => {
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(id)
+    };
+
+    try {
+        const response = await fetch(`${root}users/profile/${id}`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+////////////////  RUTA ELIMINAR USUARIO  /////////////////////////////
+export const EliminarUsuario = async (id, token) => {
     const options = {
         method: "DELETE",
         headers: {

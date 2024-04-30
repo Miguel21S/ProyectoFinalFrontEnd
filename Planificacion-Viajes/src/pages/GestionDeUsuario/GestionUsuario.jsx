@@ -17,15 +17,11 @@ export const GestionUsuario = () => {
     const token = rdxUsuario.credentials.token;
 
     const [modalInsertar, setModalInsertar] = useState(false);
-    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({
-        name: "",
-        apellido: "",
-        email: "",
-        password: "",
-        role: ""
-    })
+    const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({})
+    const [usuario, setUsuario] = useState(false);
 
-    const [usuario, setUsuario] = useState({
+    const [usuarioEditando, setUsuarioEditando] = useState({
         name: "",
         apellido: "",
         email: "",
@@ -55,6 +51,7 @@ export const GestionUsuario = () => {
             }
         }
         todosSuarios();
+        setUsuario(false)
     }, [token])
 
     const registrar = async () => {
@@ -65,17 +62,28 @@ export const GestionUsuario = () => {
                 }
             }
             const fetched = await RegitrarUser(usuario);
-
+            setUsuario(fetched)
         } catch (error) {
             console.log(error);
         }
+    }
+
+    
+
+    const editar = (valor) => {
+        setUsuarioEditando({
+            ...valor
+        });
+        abrirCerrarModalEditar();
     }
 
     const abrirCerrarModalInsertar = () => {
         setModalInsertar(!modalInsertar);
     }
 
-    
+    const abrirCerrarModalEditar = () => {
+        setModalEditandoUsuarios(!modalEditandoUsuarios);
+    }
 
     return (
         <>
@@ -149,7 +157,7 @@ export const GestionUsuario = () => {
                                                         />
                                                     </td>
                                                     <td>
-                                                        <button className="btn btn-light" ><i className="bi bi-feather"></i></button>
+                                                        <button className="btn btn-light" onClick={() => editar(usuario)}><i className="bi bi-feather"></i></button>
                                                         <button className="btn btn-danger"><i className="bi bi-trash3"></i></button>
                                                     </td>
                                                 </tr>
@@ -199,7 +207,45 @@ export const GestionUsuario = () => {
                                             </Modal.Footer>
                                         </Modal>
 
-                                        
+                                        <Modal show={modalEditandoUsuarios} onHide={abrirCerrarModalEditar}>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>Editar Usuario</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <CInput
+                                                    type="name"
+                                                    name="name"
+                                                    placeholder="Nombre.."
+                                                    value={usuarioEditando.name || ""}
+                                                    changeEmit={inputHandler}
+                                                />
+                                                <CInput
+                                                    type="apellido"
+                                                    name="apellido"
+                                                    placeholder="Apellido.."
+                                                    value={usuarioEditando.apellido || ""}
+                                                    changeEmit={inputHandler}
+                                                />
+                                                <CInput
+                                                    type="password"
+                                                    name="password"
+                                                    placeholder="Password.."
+                                                    value={usuarioEditando.password || ""}
+                                                    changeEmit={inputHandler}
+                                                />
+                                                <CInput
+                                                    type="role"
+                                                    name="role"
+                                                    placeholder="role.."
+                                                    value={usuarioEditando.role || ""}
+                                                    changeEmit={inputHandler}
+                                                />
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cerrar</button>
+                                                <button className="btn btn-primary" >Guardar</button>
+                                            </Modal.Footer>
+                                        </Modal>
                                     </>
                                 }
                             </>
