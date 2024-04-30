@@ -60,14 +60,24 @@
 
 }
 
-
 #col, .header-rigth {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     margin: 25px;
     color: white;
+    font-weight: bold;    
 }
+
+.header-rigth:hover {
+    transition: 0.3s;
+    color: rgb(246, 2, 2);
+    cursor: pointer;
+  }
+
+  .salir{
+    width: 55px;
+  }
 
 .nav-drop {
     margin-left: 25px;

@@ -1,5 +1,7 @@
 
 .login-design{
-    background-color: white;
+    min-height: 90vh;
+    width: 98.9vw;
+    background-color: rgb(18, 18, 18);
     color: black;
 }

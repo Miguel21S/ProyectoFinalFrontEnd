@@ -1,6 +1,6 @@
 
 .registrar-design{
-    height: 100%;
-    width: 100%;
+    min-height: 90vh;
+    width: 98.9vw;
     background-color: rgb(231, 32, 32);
 }

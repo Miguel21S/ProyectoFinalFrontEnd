@@ -10,6 +10,7 @@ export const Registrar = () => {
 
     const [usuario, setUsuario] = useState({
         name: "",
+        apellido: "",
         email: "",
         password: "",
     });
@@ -31,7 +32,7 @@ export const Registrar = () => {
             const fetched = await RegitrarUser(usuario);
             
             setTimeout(() => {
-                navigate("/login");
+                navigate("/");
             }, 1200);
         } catch (error) {
             console.log(error);
@@ -45,6 +46,13 @@ export const Registrar = () => {
                     name="name"
                     placeholder=" Nombre.."
                     value={usuario.name || ""}
+                    changeEmit={inputHandler}
+                />
+                <CInput
+                    type="apellido"
+                    name="apellido"
+                    placeholder=" Apellido.."
+                    value={usuario.apellido || ""}
                     changeEmit={inputHandler}
                 />
 

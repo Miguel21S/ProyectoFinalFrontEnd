@@ -39,7 +39,7 @@ export const Login = () => {
                 dispatch(login({credentials: passport }))
                 
                 if (decodificado.userRole === "superAdmin") {
-                    navigate("/gestionusuarios");
+                    navigate("/gestion");
                   } else {
                     navigate("/");
                   }
