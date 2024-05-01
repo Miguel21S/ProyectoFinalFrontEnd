@@ -4,7 +4,6 @@
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import "./Header.css"
 import { useEffect, useState } from "react";

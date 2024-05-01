@@ -22,6 +22,14 @@
 
 }
 
+.btn-Registrar{
+ background-color: none;
+ color: rgb(255, 255, 255);
+ margin-bottom: 5px;
+}
+.btn-Registrar:hover{
+    border-color: rgb(213, 19, 19);
+}
 .tablaEditable {
     background-color: white;
     display: flex;
@@ -42,4 +50,16 @@ th, td {
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.btn-secondary:hover{
+    background-color: red;
 }
