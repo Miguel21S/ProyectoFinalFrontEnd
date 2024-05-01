@@ -82,11 +82,9 @@ export const ActualizarUsuario = async (IdUsuario, data, token) => {
         },
         body: JSON.stringify(data)
     };
-console.log("cab root: ", IdUsuario)
 
     try {
         const response = await fetch(`${root}users/profile/${IdUsuario}`, options);
-        console.log("id root: ", response)
 
         const data = await response.json();
         if (!data.success) {
@@ -105,7 +103,7 @@ export const EliminarUsuario = async (id, token) => {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer${token}`,
+            "Authorization": `Bearer ${token}`,
         },
     };
 

@@ -4,7 +4,7 @@ import "./GestionUsuario.css"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-import { ActualizarUsuario, ListarUsuarios, RegitrarUser } from "../../services/rootss";
+import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegitrarUser } from "../../services/rootss";
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CInput } from "../../common/CInput/CInput";
@@ -90,6 +90,16 @@ export const GestionUsuario = () => {
         }
     }
 
+    /////////////  MÉTODO ELIMINAR USUARIO   ////////////////
+    const eliminarUsuarioId = async(_id) => {
+        try {
+            const eliminarUsuario = await EliminarUsuario(_id, token);
+            setUsuarioEditando(eliminarUsuario);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const editar = (valor) => {
         setUsuarioEditando({
             ...valor
@@ -139,7 +149,7 @@ export const GestionUsuario = () => {
                                                     <td> { usuario._id } </td>
                                                     <td>
                                                         <button className="btn btn-light" onClick={() => editar(usuario)}><i className="bi bi-feather"></i></button>
-                                                        <button className="btn btn-danger"><i className="bi bi-trash3"></i></button>
+                                                        <button className="btn btn-danger" onClick={()=> eliminarUsuarioId(usuario._id)}><i className="bi bi-trash3"></i></button>
                                                     </td>
                                                 </tr>
                                             ))
