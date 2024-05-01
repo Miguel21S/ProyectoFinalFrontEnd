@@ -73,18 +73,21 @@ export const ListarUsuarios = async (token) => {
 }
 
 ////////////////  RUTA ACTUALIZAR USUARIO   /////////////////////////////
-export const ActualizarUsuario = async (id, token) => {
+export const ActualizarUsuario = async (IdUsuario, data, token) => {
     const options = {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
         },
-        body: JSON.stringify(id)
+        body: JSON.stringify(data)
     };
+console.log("cab root: ", IdUsuario)
 
     try {
-        const response = await fetch(`${root}users/profile/${id}`, options);
+        const response = await fetch(`${root}users/profile/${IdUsuario}`, options);
+        console.log("id root: ", response)
+
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

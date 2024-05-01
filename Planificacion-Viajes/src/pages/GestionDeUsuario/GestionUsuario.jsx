@@ -4,7 +4,7 @@ import "./GestionUsuario.css"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-import { ListarUsuarios, RegitrarUser } from "../../services/rootss";
+import { ActualizarUsuario, ListarUsuarios, RegitrarUser } from "../../services/rootss";
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CInput } from "../../common/CInput/CInput";
@@ -16,6 +16,7 @@ export const GestionUsuario = () => {
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
 
+    /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({})
@@ -25,7 +26,8 @@ export const GestionUsuario = () => {
         name: "",
         apellido: "",
         email: "",
-        password: ""
+        password: "",
+        _id: ""
     })
 
     useEffect(() => {
@@ -41,6 +43,7 @@ export const GestionUsuario = () => {
         }))
     }
 
+    /////////////  MÉTODO IMPRIMIR USUARIOS DEL DEL SISTEMA   ////////////////
     useEffect(() => {
         const todosSuarios = async () => {
             try {
@@ -54,6 +57,7 @@ export const GestionUsuario = () => {
         setUsuario(false)
     }, [token])
 
+    /////////////  MÉTODO REGISTRAR USUARIO   ////////////////
     const registrar = async () => {
         try {
             for (let elemento in usuario) {
@@ -68,7 +72,23 @@ export const GestionUsuario = () => {
         }
     }
 
-    
+    const inputHandlerEditar = (e) => {
+        setUsuarioEditando((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    }
+
+    /////////////  MÉTODO ACTUALIZAR USUARIO   ////////////////
+    const actualizarDatosUsuario = async ()=>{
+        try {
+            const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
+            setUsuarioEditando(actualizar)
+            console.log("id:", actualizar);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const editar = (valor) => {
         setUsuarioEditando({
@@ -77,6 +97,7 @@ export const GestionUsuario = () => {
         abrirCerrarModalEditar();
     }
 
+    /////////////  CREACIÓN DE MODALES    ////////////////
     const abrirCerrarModalInsertar = () => {
         setModalInsertar(!modalInsertar);
     }
@@ -111,51 +132,11 @@ export const GestionUsuario = () => {
                                         {
                                             usuarioSeleccionado.map((usuario) => (
                                                 <tr key={usuario._id}>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            name="name"
-                                                            value={usuario.name}
-                                                            onChange={e => inputHandler(e, usuario._id)}
-                                                        // readOnly={!editandoUsuarios[usuario._id]}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            name="apellido"
-                                                            value={usuario.apellido}
-                                                            onChange={e => inputHandler(e, usuario._id)}
-                                                        // readOnly={!editandoUsuarios[usuario._id]}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            name="email"
-                                                            value={usuario.email}
-                                                            onChange={e => inputHandler(e, usuario._id)}
-                                                        // readOnly={!editandoUsuarios[usuario._id]}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            name="role"
-                                                            value={usuario.role}
-                                                            onChange={e => inputHandler(e, usuario._id)}
-                                                        // readOnly={!editandoUsuarios[usuario._id]}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            name="role"
-                                                            value={usuario._id}
-                                                        // onChange={e => inputHandler(e, usuario._id)}
-                                                        // readOnly={!editandoUsuarios[usuario._id]}
-                                                        />
-                                                    </td>
+                                                    <td> { usuario.name} </td>
+                                                    <td> { usuario.apellido } </td>
+                                                    <td> { usuario.email } </td>
+                                                    <td> { usuario.role} </td>
+                                                    <td> { usuario._id } </td>
                                                     <td>
                                                         <button className="btn btn-light" onClick={() => editar(usuario)}><i className="bi bi-feather"></i></button>
                                                         <button className="btn btn-danger"><i className="bi bi-trash3"></i></button>
@@ -217,33 +198,33 @@ export const GestionUsuario = () => {
                                                     name="name"
                                                     placeholder="Nombre.."
                                                     value={usuarioEditando.name || ""}
-                                                    changeEmit={inputHandler}
+                                                    changeEmit={inputHandlerEditar}
                                                 />
                                                 <CInput
                                                     type="apellido"
                                                     name="apellido"
                                                     placeholder="Apellido.."
                                                     value={usuarioEditando.apellido || ""}
-                                                    changeEmit={inputHandler}
+                                                    changeEmit={inputHandlerEditar}
                                                 />
                                                 <CInput
                                                     type="password"
                                                     name="password"
                                                     placeholder="Password.."
                                                     value={usuarioEditando.password || ""}
-                                                    changeEmit={inputHandler}
+                                                    changeEmit={inputHandlerEditar}
                                                 />
                                                 <CInput
                                                     type="role"
                                                     name="role"
                                                     placeholder="role.."
                                                     value={usuarioEditando.role || ""}
-                                                    changeEmit={inputHandler}
+                                                    changeEmit={inputHandlerEditar}
                                                 />
                                             </Modal.Body>
                                             <Modal.Footer>
                                                 <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cerrar</button>
-                                                <button className="btn btn-primary" >Guardar</button>
+                                                <button className="btn btn-primary" onClick={()=>actualizarDatosUsuario()} >Guardar</button>
                                             </Modal.Footer>
                                         </Modal>
                                     </>
