@@ -1,4 +1,4 @@
-.gestio-design {
+.gestioVuelos-design {
     min-height: 90vh;
     width: 98.9vw;
     background-color: black;
@@ -8,7 +8,7 @@
     overflow-x: hidden;
 }
 
-.titulo-usuario {
+.titulo-Vuelos {
     height: 10vh;
     width: 100%;
     color: white;
@@ -18,10 +18,9 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
 }
 
-.content-usuarios {
+.content-vuelos {
     width: 100%;
     height: 50vh;
     display: flex;
@@ -31,33 +30,51 @@
     background-color: rgb(20, 20, 20);
 }
 
-.btn-Registrar {
+.btn-adicinar {
     margin-top: 10px;
     background-color: none;
     color: rgb(255, 255, 255);
     margin-bottom: 5px;
 }
 
-.btn-Registrar:hover {
-    border-color: rgb(213, 19, 19);
-}
-
-.tabla-usuarios {
-
+.tabla-Vuelos {
     width: 95%;
     height: 45vh;
     overflow: auto;
+}
 
+.btn-adicinar:hover {
+    border-color: rgb(213, 19, 19);
+}
+
+.content-table {
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+    /* Habilita el scroll horizontal */
 }
 
 table {
     border-collapse: collapse;
-    height: 25%;
-    width: 100%;
+    width: 95%;
+    color: white;
 }
 
-.btn-light:hover {
-    border-color: blue;
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    white-space: nowrap;
+    /* Evita el salto de línea en el texto */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 input {
@@ -72,17 +89,6 @@ input:hover {
 input:focus-visible {
     color: black;
     background-color: rgb(247, 249, 249);
-}
-
-th,
-td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
 }
 
 .modal {

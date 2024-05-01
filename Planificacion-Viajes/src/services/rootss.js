@@ -119,3 +119,27 @@ export const EliminarUsuario = async (id, token) => {
         return error;
     }
 }
+
+////////////////  RUTA LISTAR VUELO  /////////////////////////////
+export const ListaDeVuelos = async (token) => {
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    }
+
+    try {
+        const response = await fetch(`${root}auth/vuelo`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.message);
+        }
+        return data;
+      } catch (error) {
+        return error;
+    }
+
+}
