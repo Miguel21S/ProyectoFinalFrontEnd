@@ -135,11 +135,37 @@ export const ListaDeVuelos = async (token) => {
         const data = await response.json();
 
         if (!data.success) {
-          throw new Error(data.message);
+            throw new Error(data.message);
         }
         return data;
-      } catch (error) {
+    } catch (error) {
         return error;
     }
 
 }
+
+////////////////  RUTA ADICIONAR VUELO  /////////////////////////////
+export const AdicionarVuelo = async (data, token) => {
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+
+    try {
+        const response = await fetch(`${root}auth/vuelo`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+
+}
+
