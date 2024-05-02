@@ -5,6 +5,7 @@ import { Registrar } from "../Registro/Registrar";
 import { Login } from "../Login/Login";
 import { GestionUsuario } from "../GestionDeUsuario/GestionUsuario";
 import { GestionVuelos } from "../GestionDeVuelos/GestionVuelos";
+import { GestionDeAlojamientos } from "../GestionDeAlojamientos/GestionDeAlojamientos";
 
 export const Body = () => {
     return (
@@ -15,6 +16,7 @@ export const Body = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/gestionusaurio" element={<GestionUsuario />} />
             <Route path="/gestionvuelo" element={<GestionVuelos />} />
+            <Route path="/gestionalojamiento" element={<GestionDeAlojamientos />} />
         </Routes>
     )
 }
