@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { CrearAlojamiento, ListaDeAlojamientos } from "../../services/rootss";
+import { CrearAlojamiento, EliminarAjamiento, ListaDeAlojamientos } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 // import { TextField } from "@mui/material";
 
@@ -23,13 +23,13 @@ export const GestionDeAlojamientos = () => {
     const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState({})
     const [alojamiento, setAlojamiento] = useState(false);
 
-    // const [alojamientoEditando, setAlojamientoEditando] = useState({
-    //     _id: "",
-    //     name: "",
-    //     local: "",
-    //     tipo: "",
-    //     precio: "",
-    // })
+    const [alojamientoEditando, setAlojamientoEditando] = useState({
+        _id: "",
+        name: "",
+        local: "",
+        tipo: "",
+        precio: "",
+    })
 
     useEffect(() => {
         if (!rdxUsuario.credentials.token) {
@@ -44,7 +44,7 @@ export const GestionDeAlojamientos = () => {
         }))
     }
 
-    /////////////  MÉTODO LISTAR VUELOS   ////////////////
+    /////////////  MÉTODO LISTAR ALOJAMIENTO   ////////////////
     useEffect(() => {
         const listaDeAlojamientos = async () => {
             try {
@@ -57,7 +57,7 @@ export const GestionDeAlojamientos = () => {
         listaDeAlojamientos();
     }, [token])
 
-    /////////////  MÉTODO ADICIONAR VUELO  ////////////////
+    /////////////  MÉTODO ADICIONAR ALOJAMIENTO  ////////////////
     const crearAlojamientos = async () => {
         try {
             for (let elemento in alojamiento) {
@@ -79,7 +79,7 @@ export const GestionDeAlojamientos = () => {
     //     }));
     // }
 
-    /////////////  MÉTODO ACTUALIZAR VUELO   ////////////////
+    /////////////  MÉTODO ACTUALIZAR ALOJAMIENTO   ////////////////
     // const actualizarVuelo = async () => {
     //     try {
     //         const actualizar = await ActualizarVuelo(vuelosEditando, token);
@@ -97,15 +97,15 @@ export const GestionDeAlojamientos = () => {
     //     abrirCerrarModalEditar();
     // }
 
-    /////////////  MÉTODO ELIMINAR VUELO   ////////////////
-    // const eliminarVueloId = async (_id) => {
-    //     try {
-    //         const eliminarUsuario = await EliminarVuelo(_id, token);
-    //         setAlojamientoEditando(eliminarUsuario);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    /////////////  MÉTODO ELIMINAR ALOJAMIENTO   ////////////////
+    const eliminarAlojamiento = async (_id) => {
+        try {
+            const eliminarUsuario = await EliminarAjamiento(_id, token);
+            setAlojamientoEditando(eliminarUsuario);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     /////////////  CREACIÓN DE MODALES    ////////////////
     const abrirCerrarModalInsertar = () => {
@@ -188,8 +188,8 @@ export const GestionDeAlojamientos = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                {/* <button className="btn btn-light" onClick={() => editar(vuelos)}><i className="bi bi-feather"></i></button>
-                                                                <button className="btn btn-danger" onClick={() => eliminarVueloId(vuelos._id)}><i className="bi bi-trash3"></i></button> */}
+                                                                {/* <button className="btn btn-light" onClick={() => editar(vuelos)}><i className="bi bi-feather"></i></button> */}
+                                                                <button className="btn btn-danger" onClick={() => eliminarAlojamiento(alojamiento._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
                                                         </tr>
                                                     ))

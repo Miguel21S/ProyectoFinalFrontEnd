@@ -262,3 +262,26 @@ export const CrearAlojamiento = async (data, token) => {
         return error;
     }
 }
+
+////////////////  RUTA ELIMINAR ALOJAMIENTO POR ID /////////////////////////////
+export const EliminarAjamiento = async (id, token) =>{
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+
+    try {
+        const response = await fetch(`${root}auth/alojamiento/${id}`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
