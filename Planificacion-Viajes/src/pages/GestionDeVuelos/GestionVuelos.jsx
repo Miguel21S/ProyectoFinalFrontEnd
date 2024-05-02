@@ -7,7 +7,8 @@ import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
-import { AdicionarVuelo, ListaDeVuelos } from "../../services/rootss";
+import { ActualizarVuelo, AdicionarVuelo, ListaDeVuelos } from "../../services/rootss";
+import { TextField } from "@mui/material";
 
 export const GestionVuelos = () => {
     const navigate = useNavigate();
@@ -18,18 +19,22 @@ export const GestionVuelos = () => {
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
-    // const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
+    const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
     const [vueloSeleccionado, setVueloSeleccionado] = useState({})
     const [vuelo, setVuelo] = useState(false);
 
-    // const [vuelosEditando, setVuelosEditando] = useState({
-    //     _id: "",
-    //     name: "",
-    //     apellido: "",
-    //     email: "",
-    //     password: "",
-    //     role: "",
-    // })
+    const [vuelosEditando, setVuelosEditando] = useState({
+        _id: "",
+        name: "",
+        aerolinea: "",
+        origen: "",
+        destino: "",
+        precio: "",
+        fechaIda: "",
+        horaIda: "",
+        fechaRegreso: "",
+        horaRegreso: "",
+    })
 
     useEffect(() => {
         if (!rdxUsuario.credentials.token) {
@@ -72,23 +77,23 @@ export const GestionVuelos = () => {
         }
     }
 
-    // const inputHandlerEditar = (e) => {
-    //     setVuelosEditando((prevState) => ({
-    //         ...prevState,
-    //         [e.target.name]: e.target.value,
-    //     }));
-    // }
+    const inputHandlerEditar = (e) => {
+        setVuelosEditando((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    }
 
     /////////////  MÉTODO ACTUALIZAR USUARIO   ////////////////
-    // const actualizarDatosUsuario = async () => {
-    //     try {
-    //         const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
-    //         setVuelosEditando(actualizar)
-    //         console.log("id:", actualizar);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    const actualizarVuelo = async () => {
+        try {
+            const actualizar = await ActualizarVuelo(vuelosEditando, token);
+            setVuelosEditando(actualizar)
+            console.log("id:", actualizar);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     /////////////  MÉTODO ELIMINAR USUARIO   ////////////////
     // const eliminarUsuarioId = async (_id) => {
@@ -100,21 +105,31 @@ export const GestionVuelos = () => {
     //     }
     // }
 
-    // const editar = (valor) => {
-    //     setVuelosEditando({
-    //         ...valor
-    //     });
-    //     abrirCerrarModalEditar();
-    // }
+    const editar = (valor) => {
+        setVuelosEditando((prevState) => ({
+            ...prevState,
+            _id: valor._id,
+            name: valor.name,
+            aerolinea: valor.aerolinea,
+            origen: valor.origen,
+            destino: valor.destino,
+            precio: valor.precio,
+            fechaIda: valor.fechaIda,
+            horaIda: valor.horaIda,
+            fechaRegreso: valor.fechaRegreso,
+            horaRegreso: valor.horaRegreso,
+        }));
+        abrirCerrarModalEditar();
+    }
 
     /////////////  CREACIÓN DE MODALES    ////////////////
     const abrirCerrarModalInsertar = () => {
         setModalInsertar(!modalInsertar);
     }
 
-    // const abrirCerrarModalEditar = () => {
-    //     setModalEditandoUsuarios(!modalEditandoUsuarios);
-    // }
+    const abrirCerrarModalEditar = () => {
+        setModalEditandoUsuarios(!modalEditandoUsuarios);
+    }
 
     return (
         <>
@@ -233,8 +248,8 @@ export const GestionVuelos = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                {/* <button className="btn btn-light" onClick={() => editar(usuario)}><i className="bi bi-feather"></i></button>
-                                                            <button className="btn btn-danger" onClick={() => eliminarUsuarioId(usuario._id)}><i className="bi bi-trash3"></i></button> */}
+                                                                <button className="btn btn-light" onClick={() => editar(vuelos)}><i className="bi bi-feather"></i></button>
+                                                                {/* <button className="btn btn-danger" onClick={() => eliminarUsuarioId(usuario._id)}><i className="bi bi-trash3"></i></button> */}
                                                             </td>
                                                         </tr>
                                                     ))
@@ -245,119 +260,189 @@ export const GestionVuelos = () => {
                                             <>
                                                 <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
                                                     <Modal.Header closeButton>
-                                                        <Modal.Title>Insertar Usuario</Modal.Title>
+                                                        <Modal.Title>Adicionar Vuelo</Modal.Title>
                                                     </Modal.Header>
-                                                    <Modal.Body className="modal">
-                                                        <CTextField
-                                                            type="name"
-                                                            name="name"
-                                                            placeholder="Nombre.."
-                                                            value={vuelo.name || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="aerolinea"
-                                                            name="aerolinea"
-                                                            placeholder="Aerolinea.."
-                                                            value={vuelo.aerolinea || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="origen"
-                                                            name="origen"
-                                                            placeholder="Origen..."
-                                                            value={vuelo.origen || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="destino"
-                                                            name="destino"
-                                                            placeholder="Destino..."
-                                                            value={vuelo.destino || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="fechaIda"
-                                                            name="fechaIda"
-                                                            placeholder="Fecha de Ida..."
-                                                            value={vuelo.fechaIda || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="horaIda"
-                                                            name="horaIda"
-                                                            placeholder="Hora de Ida.."
-                                                            value={vuelo.horaIda || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="fechaRegreso"
-                                                            name="fechaRegreso"
-                                                            placeholder="Fecha de Regreso.."
-                                                            value={vuelo.fechaRegreso || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="horaRegreso"
-                                                            name="horaRegreso"
-                                                            placeholder="hora de Regreso.."
-                                                            value={vuelo.horaRegreso || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="precio"
-                                                            name="precio"
-                                                            placeholder="precio.."
-                                                            value={vuelo.precio || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
+                                                    <div className="row">
+                                                        <Modal.Body className="modal-vuelo">
+                                                            <div className="col">
+                                                                <CTextField
+                                                                    type="name"
+                                                                    name="name"
+                                                                    placeholder="Nombre.."
+                                                                    value={vuelo.name || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                                <CTextField
+                                                                    type="aerolinea"
+                                                                    name="aerolinea"
+                                                                    placeholder="Aerolinea.."
+                                                                    value={vuelo.aerolinea || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+
+                                                            </div>
+                                                            <div className="col">
+                                                                <CTextField
+                                                                    type="origen"
+                                                                    name="origen"
+                                                                    placeholder="Origen..."
+                                                                    value={vuelo.origen || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                                <CTextField
+                                                                    type="destino"
+                                                                    name="destino"
+                                                                    placeholder="Destino..."
+                                                                    value={vuelo.destino || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                            </div>
+                                                            <div className="col">
+                                                                <CTextField
+                                                                    type="fechaIda"
+                                                                    name="fechaIda"
+                                                                    placeholder="Fecha de Ida..."
+                                                                    value={vuelo.fechaIda || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                                <CTextField
+                                                                    type="horaIda"
+                                                                    name="horaIda"
+                                                                    placeholder="Hora de Ida.."
+                                                                    value={vuelo.horaIda || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                            </div>
+                                                            <div className="col">
+                                                                <CTextField
+                                                                    type="fechaRegreso"
+                                                                    name="fechaRegreso"
+                                                                    placeholder="Fecha de Regreso.."
+                                                                    value={vuelo.fechaRegreso || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                                <CTextField
+                                                                    type="horaRegreso"
+                                                                    name="horaRegreso"
+                                                                    placeholder="hora de Regreso.."
+                                                                    value={vuelo.horaRegreso || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                            </div>
+                                                            <div className="col">
+                                                                <CTextField
+                                                                    type="precio"
+                                                                    name="precio"
+                                                                    placeholder="precio.."
+                                                                    value={vuelo.precio || ""}
+                                                                    changeEmit={inputHandler}
+                                                                />
+                                                            </div>
+                                                        </Modal.Body>
+                                                    </div>
+                                                    <Modal.Footer className="modal-footer">
                                                         <button className="btn btn-primary" onClick={adicionarVuelo}>Guardar</button>
                                                         <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
                                                     </Modal.Footer>
                                                 </Modal>
 
-                                                {/* <Modal show={modalEditandoUsuarios} onHide={abrirCerrarModalEditar}>
+                                                <Modal show={modalEditandoUsuarios} onHide={abrirCerrarModalEditar}>
                                                     <Modal.Header closeButton>
-                                                        <Modal.Title>Editar Usuario</Modal.Title>
+                                                        <Modal.Title>Editar Vuelo</Modal.Title>
                                                     </Modal.Header>
                                                     <Modal.Body className="modal">
-                                                        <CTextField
-                                                            type="name"
-                                                            name="name"
-                                                            placeholder="Nombre.."
-                                                            value={vuelosEditando.name || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-                                                        <CTextField
-                                                            type="apellido"
-                                                            name="apellido"
-                                                            placeholder="Apellido.."
-                                                            value={vuelosEditando.apellido || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-                                                        <CTextField
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Password.."
-                                                            value={vuelosEditando.password || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-                                                        <CTextField
-                                                            type="role"
-                                                            name="role"
-                                                            placeholder="role.."
-                                                            value={vuelosEditando.role || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
+                                                        <div className="col">
+
+                                                            <TextField className="textFil"
+                                                                type="text"
+                                                                name="id"
+                                                                value={vuelosEditando._id}
+                                                                readOnly
+                                                            />
+                                                            <CTextField
+                                                                type="name"
+                                                                name="name"
+                                                                placeholder="Nombre.."
+                                                                value={vuelosEditando.name || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+
+
+                                                        </div>
+                                                        <div className="col">
+                                                            <CTextField
+                                                                type="aerolinea"
+                                                                name="aerolinea"
+                                                                placeholder="Aerolinea.."
+                                                                value={vuelosEditando.aerolinea || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+                                                            <CTextField
+                                                                type="origen"
+                                                                name="origen"
+                                                                placeholder="Origen..."
+                                                                value={vuelosEditando.origen || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+
+                                                        </div>
+                                                        <div className="col">
+                                                            <CTextField
+                                                                type="destino"
+                                                                name="destino"
+                                                                placeholder="Destino..."
+                                                                value={vuelosEditando.destino || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+                                                            <CTextField
+                                                                type="fechaIda"
+                                                                name="fechaIda"
+                                                                placeholder="Fecha de Ida..."
+                                                                value={vuelosEditando.fechaIda || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+
+                                                        </div>
+                                                        <div className="col">
+                                                            <CTextField
+                                                                type="horaIda"
+                                                                name="horaIda"
+                                                                placeholder="Hora de Ida.."
+                                                                value={vuelosEditando.horaIda || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+                                                            <CTextField
+                                                                type="fechaRegreso"
+                                                                name="fechaRegreso"
+                                                                placeholder="Fecha de Regreso.."
+                                                                value={vuelosEditando.fechaRegreso || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+
+                                                        </div>
+                                                        <div className="col">
+                                                            <CTextField
+                                                                type="horaRegreso"
+                                                                name="horaRegreso"
+                                                                placeholder="hora de Regreso.."
+                                                                value={vuelosEditando.horaRegreso || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+                                                            <CTextField
+                                                                type="precio"
+                                                                name="precio"
+                                                                placeholder="precio.."
+                                                                value={vuelosEditando.precio || ""}
+                                                                changeEmit={inputHandlerEditar}
+                                                            />
+                                                        </div>
 
                                                     </Modal.Body>
                                                     <Modal.Footer>
-                                                        <button className="btn btn-primary" onClick={() => actualizarDatosUsuario()} >Guardar</button>
+                                                        <button className="btn btn-primary" onClick={() => actualizarVuelo()} >Guardar</button>
                                                         <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
                                                     </Modal.Footer>
-                                                </Modal> */}
+                                                </Modal>
                                             </>
                                         }
                                     </>

@@ -158,7 +158,6 @@ export const AdicionarVuelo = async (data, token) => {
     try {
         const response = await fetch(`${root}auth/vuelo`, options);
         const data = await response.json();
-
         if (!data.success) {
             throw new Error(data.message);
         }
@@ -169,3 +168,26 @@ export const AdicionarVuelo = async (data, token) => {
 
 }
 
+////////////////  RUTA EDITAR VUELO  /////////////////////////////
+export const ActualizarVuelo = async(data, token) => {
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    };
+
+    try {
+        const response = await fetch(`${root}auth/vuelo`, options);
+        console.log(response)
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}

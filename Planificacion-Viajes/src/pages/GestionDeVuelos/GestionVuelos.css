@@ -91,14 +91,15 @@ input:focus-visible {
     background-color: rgb(247, 249, 249);
 }
 
-.modal {
+.modal-footer{
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
 }
 
+.textFil{
+    width: 31vw;
+}
 .btn-secondary:hover {
     background-color: red;
 }

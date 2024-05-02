@@ -273,7 +273,7 @@ export const GestionUsuario = () => {
                                                         />
 
                                                     </Modal.Body>
-                                                    <Modal.Footer>
+                                                    <Modal.Footer className="modal-footer">
                                                         <button className="btn btn-primary" onClick={() => actualizarDatosUsuario()} >Guardar</button>
                                                         <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
                                                     </Modal.Footer>
