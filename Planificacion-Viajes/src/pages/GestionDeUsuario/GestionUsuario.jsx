@@ -128,7 +128,6 @@ export const GestionUsuario = () => {
 
                     <div className="tabla-usuarios">
                         {
-
                             usuarioSeleccionado?.length > 0 ?
                                 (
                                     <>

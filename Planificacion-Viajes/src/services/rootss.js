@@ -72,7 +72,7 @@ export const ListarUsuarios = async (token) => {
     }
 }
 
-////////////////  RUTA ACTUALIZAR USUARIO   /////////////////////////////
+////////////////  RUTA ACTUALIZAR USUARIO POR ID   /////////////////////////////
 export const ActualizarUsuario = async (IdUsuario, data, token) => {
     const options = {
         method: "PUT",
@@ -97,7 +97,7 @@ export const ActualizarUsuario = async (IdUsuario, data, token) => {
     }
 }
 
-////////////////  RUTA ELIMINAR USUARIO  /////////////////////////////
+////////////////  RUTA ELIMINAR USUARIO POR ID  /////////////////////////////
 export const EliminarUsuario = async (id, token) => {
     const options = {
         method: "DELETE",
@@ -186,6 +186,29 @@ export const ActualizarVuelo = async(data, token) => {
         if (!data.success) {
             throw new Error(data.message);
         }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+////////////////  RUTA ELIMINAR VUELO POR ID  /////////////////////////////
+export const EliminarVuelo = async (id, token) => {
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    }
+
+    try {
+        const response = await fetch(`${root}auth/vuelo/${id}`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
         return data;
     } catch (error) {
         return error;

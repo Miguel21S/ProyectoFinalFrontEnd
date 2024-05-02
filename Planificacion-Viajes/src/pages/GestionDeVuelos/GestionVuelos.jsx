@@ -7,7 +7,7 @@ import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
-import { ActualizarVuelo, AdicionarVuelo, ListaDeVuelos } from "../../services/rootss";
+import { ActualizarVuelo, AdicionarVuelo, EliminarVuelo, ListaDeVuelos } from "../../services/rootss";
 import { TextField } from "@mui/material";
 
 export const GestionVuelos = () => {
@@ -19,7 +19,7 @@ export const GestionVuelos = () => {
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
-    const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
+    const [modalEditandoVuelo, setModalEditandoVuelo] = useState(false);
     const [vueloSeleccionado, setVueloSeleccionado] = useState({})
     const [vuelo, setVuelo] = useState(false);
 
@@ -49,7 +49,7 @@ export const GestionVuelos = () => {
         }))
     }
 
-    /////////////  MÉTODO IMPRIMIR USUARIOS DEL DEL SISTEMA   ////////////////
+    /////////////  MÉTODO LISTAR VUELOS   ////////////////
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
@@ -62,7 +62,7 @@ export const GestionVuelos = () => {
         listaDeVuelos();
     }, [token])
 
-    /////////////  MÉTODO REGISTRAR USUARIO   ////////////////
+    /////////////  MÉTODO ADICIONAR VUELO  ////////////////
     const adicionarVuelo = async () => {
         try {
             for (let elemento in vuelo) {
@@ -84,7 +84,7 @@ export const GestionVuelos = () => {
         }));
     }
 
-    /////////////  MÉTODO ACTUALIZAR USUARIO   ////////////////
+    /////////////  MÉTODO ACTUALIZAR VUELO   ////////////////
     const actualizarVuelo = async () => {
         try {
             const actualizar = await ActualizarVuelo(vuelosEditando, token);
@@ -95,15 +95,15 @@ export const GestionVuelos = () => {
         }
     }
 
-    /////////////  MÉTODO ELIMINAR USUARIO   ////////////////
-    // const eliminarUsuarioId = async (_id) => {
-    //     try {
-    //         const eliminarUsuario = await EliminarUsuario(_id, token);
-    //         setVuelosEditando(eliminarUsuario);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    /////////////  MÉTODO ELIMINAR VUELO   ////////////////
+    const eliminarVueloId = async (_id) => {
+        try {
+            const eliminarUsuario = await EliminarVuelo(_id, token);
+            setVuelosEditando(eliminarUsuario);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const editar = (valor) => {
         setVuelosEditando((prevState) => ({
@@ -128,7 +128,7 @@ export const GestionVuelos = () => {
     }
 
     const abrirCerrarModalEditar = () => {
-        setModalEditandoUsuarios(!modalEditandoUsuarios);
+        setModalEditandoVuelo(!modalEditandoVuelo);
     }
 
     return (
@@ -249,7 +249,7 @@ export const GestionVuelos = () => {
                                                             </td>
                                                             <td>
                                                                 <button className="btn btn-light" onClick={() => editar(vuelos)}><i className="bi bi-feather"></i></button>
-                                                                {/* <button className="btn btn-danger" onClick={() => eliminarUsuarioId(usuario._id)}><i className="bi bi-trash3"></i></button> */}
+                                                                <button className="btn btn-danger" onClick={() => eliminarVueloId(vuelos._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
                                                         </tr>
                                                     ))
@@ -346,7 +346,7 @@ export const GestionVuelos = () => {
                                                     </Modal.Footer>
                                                 </Modal>
 
-                                                <Modal show={modalEditandoUsuarios} onHide={abrirCerrarModalEditar}>
+                                                <Modal show={modalEditandoVuelo} onHide={abrirCerrarModalEditar}>
                                                     <Modal.Header closeButton>
                                                         <Modal.Title>Editar Vuelo</Modal.Title>
                                                     </Modal.Header>
