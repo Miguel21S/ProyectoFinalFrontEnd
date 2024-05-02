@@ -4,10 +4,10 @@ import "./GestionDeAlojamientos.css"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-// import { Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ListaDeAlojamientos } from "../../services/rootss";
-// import CTextField from "../../common/CTextField/CTextField";
+import { CrearAlojamiento, ListaDeAlojamientos } from "../../services/rootss";
+import CTextField from "../../common/CTextField/CTextField";
 // import { TextField } from "@mui/material";
 
 export const GestionDeAlojamientos = () => {
@@ -20,7 +20,7 @@ export const GestionDeAlojamientos = () => {
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     // const [modalEditandoAlojamiento, setModalEditandoAlojamiento] = useState(false);
-    // const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState({})
+    const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState({})
     const [alojamiento, setAlojamiento] = useState(false);
 
     // const [alojamientoEditando, setAlojamientoEditando] = useState({
@@ -37,19 +37,19 @@ export const GestionDeAlojamientos = () => {
         }
     }, [rdxUsuario]);
 
-    // const inputHandler = (e) => {
-    //     setAlojamiento((prevState) => ({
-    //         ...prevState,
-    //         [e.target.name]: e.target.value,
-    //     }))
-    // }
+    const inputHandler = (e) => {
+        setAlojamiento((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }))
+    }
 
     /////////////  MÉTODO LISTAR VUELOS   ////////////////
     useEffect(() => {
         const listaDeAlojamientos = async () => {
             try {
                 const listaVuelos = await ListaDeAlojamientos(token);
-                setAlojamiento(listaVuelos.data);
+                setAlojamientoSeleccionado(listaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -58,19 +58,19 @@ export const GestionDeAlojamientos = () => {
     }, [token])
 
     /////////////  MÉTODO ADICIONAR VUELO  ////////////////
-    // const adicionarVuelo = async () => {
-    //     try {
-    //         for (let elemento in alojamiento) {
-    //             if (alojamiento[elemento] === "") {
-    //                 throw new Error("Todos los campos tienen que estar rellenos");
-    //             }
-    //         }
-    //         const fetched = await AdicionarVuelo(alojamiento, token);
-    //         setAlojamiento(fetched)
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    const crearAlojamientos = async () => {
+        try {
+            for (let elemento in alojamiento) {
+                if (alojamiento[elemento] === "") {
+                    throw new Error("Todos los campos tienen que estar rellenos");
+                }
+            }
+            const fetched = await CrearAlojamiento(alojamiento, token);
+            setAlojamiento(fetched)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // const inputHandlerEditar = (e) => {
     //     setAlojamientoEditando((prevState) => ({
@@ -129,7 +129,7 @@ export const GestionDeAlojamientos = () => {
                     <div className="tabla-Vuelos">
                         {
 
-                            alojamiento?.length > 0 ?
+                            alojamientoSeleccionado?.length > 0 ?
                                 (
                                     <>
                                         <table>
@@ -145,7 +145,7 @@ export const GestionDeAlojamientos = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    alojamiento.map((alojamiento) => (
+                                                    alojamientoSeleccionado.map((alojamiento) => (
                                                         <tr key={alojamiento._id}>
                                                             <td>
                                                                 <input
@@ -198,49 +198,48 @@ export const GestionDeAlojamientos = () => {
                                         </table>
                                         {
                                             <>
-                                                {/* <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
+                                                <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
                                                     <Modal.Header closeButton>
                                                         <Modal.Title>Adicionar Alojamiento</Modal.Title>
                                                     </Modal.Header>
 
                                                     <Modal.Body className="modal-vuelo">
-
                                                         <CTextField
                                                             type="name"
                                                             name="name"
                                                             placeholder="Nombre.."
-                                                            value={vuelo.name || ""}
+                                                            value={alojamiento.name || ""}
                                                             changeEmit={inputHandler}
                                                         />
                                                         <CTextField
                                                             type="local"
                                                             name="local"
                                                             placeholder="Local..."
-                                                            value={vuelo.origen || ""}
+                                                            value={alojamiento.local || ""}
                                                             changeEmit={inputHandler}
                                                         />
                                                         <CTextField
                                                             type="tipo"
                                                             name="tipo"
                                                             placeholder="Tipo..."
-                                                            value={vuelo.aerolinea || ""}
+                                                            value={alojamiento.tipo || ""}
                                                             changeEmit={inputHandler}
                                                         />
                                                         <CTextField
                                                             type="precio"
                                                             name="precio"
                                                             placeholder="precio.."
-                                                            value={vuelo.precio || ""}
+                                                            value={alojamiento.precio || ""}
                                                             changeEmit={inputHandler}
                                                         />
                                                     </Modal.Body>
                                                     <Modal.Footer className="modal-footer">
-                                                        <button className="btn btn-primary" onClick={adicionarVuelo}>Guardar</button>
+                                                        <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button>
                                                         <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
                                                     </Modal.Footer>
                                                 </Modal>
 
-                                                <Modal show={modalEditandoAlojamiento} onHide={abrirCerrarModalEditar}>
+                                                {/* <Modal show={modalEditandoAlojamiento} onHide={abrirCerrarModalEditar}>
                                                     <Modal.Header closeButton>
                                                         <Modal.Title>Editar Vuelo</Modal.Title>
                                                     </Modal.Header>

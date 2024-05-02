@@ -238,3 +238,27 @@ export const ListaDeAlojamientos = async (token) => {
     }
 
 }
+
+////////////////  RUTA CREAR ALOJAMIENTO  /////////////////////////////
+export const CrearAlojamiento = async (data, token) => {
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data)
+    }
+
+    try {
+        const response = await fetch(`${root}auth/alojamiento`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
