@@ -95,6 +95,13 @@ export const GestionVuelos = () => {
         }
     }
 
+    const editar = (vuelo) => {
+        setVuelosEditando({
+            ...vuelo
+        });
+        abrirCerrarModalEditar();
+    }
+
     /////////////  MÉTODO ELIMINAR VUELO   ////////////////
     const eliminarVueloId = async (_id) => {
         try {
@@ -103,23 +110,6 @@ export const GestionVuelos = () => {
         } catch (error) {
             console.log(error);
         }
-    }
-
-    const editar = (valor) => {
-        setVuelosEditando((prevState) => ({
-            ...prevState,
-            _id: valor._id,
-            name: valor.name,
-            aerolinea: valor.aerolinea,
-            origen: valor.origen,
-            destino: valor.destino,
-            precio: valor.precio,
-            fechaIda: valor.fechaIda,
-            horaIda: valor.horaIda,
-            fechaRegreso: valor.fechaRegreso,
-            horaRegreso: valor.horaRegreso,
-        }));
-        abrirCerrarModalEditar();
     }
 
     /////////////  CREACIÓN DE MODALES    ////////////////
@@ -366,9 +356,8 @@ export const GestionVuelos = () => {
                                                                 value={vuelosEditando.name || ""}
                                                                 changeEmit={inputHandlerEditar}
                                                             />
-
-
                                                         </div>
+
                                                         <div className="col">
                                                             <CTextField
                                                                 type="aerolinea"
@@ -384,8 +373,8 @@ export const GestionVuelos = () => {
                                                                 value={vuelosEditando.origen || ""}
                                                                 changeEmit={inputHandlerEditar}
                                                             />
-
                                                         </div>
+
                                                         <div className="col">
                                                             <CTextField
                                                                 type="destino"
@@ -403,6 +392,7 @@ export const GestionVuelos = () => {
                                                             />
 
                                                         </div>
+
                                                         <div className="col">
                                                             <CTextField
                                                                 type="horaIda"
@@ -420,6 +410,7 @@ export const GestionVuelos = () => {
                                                             />
 
                                                         </div>
+
                                                         <div className="col">
                                                             <CTextField
                                                                 type="horaRegreso"
