@@ -91,6 +91,13 @@ export const GestionUsuario = () => {
         }
     }
 
+    const editar = (valor) => {
+        setUsuarioEditando({
+            ...valor
+        });
+        abrirCerrarModalEditar();
+    }
+
     /////////////  MÉTODO ELIMINAR USUARIO   ////////////////
     const eliminarUsuarioId = async (_id) => {
         try {
@@ -99,13 +106,6 @@ export const GestionUsuario = () => {
         } catch (error) {
             console.log(error);
         }
-    }
-
-    const editar = (valor) => {
-        setUsuarioEditando({
-            ...valor
-        });
-        abrirCerrarModalEditar();
     }
 
     /////////////  CREACIÓN DE MODALES    ////////////////

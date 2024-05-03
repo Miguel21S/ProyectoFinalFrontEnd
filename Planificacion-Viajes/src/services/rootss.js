@@ -263,6 +263,30 @@ export const CrearAlojamiento = async (data, token) => {
     }
 }
 
+////////////////  RUTA ACTUALIZAR ALOJAMIENTO  /////////////////////////////
+export const ActualizarAlojamiento = async (id, data, token) => {
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data)
+    }
+
+    try {
+        const response = await fetch(`${root}auth/alojamiento/${id}`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
 ////////////////  RUTA ELIMINAR ALOJAMIENTO POR ID /////////////////////////////
 export const EliminarAjamiento = async (id, token) =>{
     const options = {
