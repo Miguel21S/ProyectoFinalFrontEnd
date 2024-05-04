@@ -86,6 +86,7 @@ export const Header = () => {
                                                     <CLink path="/gestionusaurio" title="Usuarios"></CLink>
                                                     <CLink path="/gestionvuelo" title="Vuelos"></CLink>
                                                     <CLink path="/gestionalojamiento" title="Alojamientos"></CLink>
+                                                    <CLink path="/gestionreservavuelo" title="Reserva de vuelos"></CLink>
                                                     <div className="header-rigth" onClick={() => dispatch(logout({ credentials: "" }))}>
                                                         <div className='salir' onClick={() => navigate("/login")}>
                                                             Salir <i className="bi bi-power"></i>

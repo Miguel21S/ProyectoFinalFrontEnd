@@ -49,6 +49,7 @@ export const LoginUsuario = async (user) => {
     }
 }
 
+// -------------------------  RUTAS DE USUARIO  -----------------------------//
 ////////////////  RUTA LISTAR TODOS LOS USUARIOS DEL SISTEMA  /////////////////////////////
 export const ListarUsuarios = async (token) => {
     const options = {
@@ -120,6 +121,7 @@ export const EliminarUsuario = async (id, token) => {
     }
 }
 
+// -------------------------  RUTAS DE VUELO  -----------------------------//
 ////////////////  RUTA LISTAR VUELO  /////////////////////////////
 export const ListaDeVuelos = async (token) => {
     const options = {
@@ -215,6 +217,7 @@ export const EliminarVuelo = async (id, token) => {
     }
 }
 
+// -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
 ////////////////  RUTA LISTAR ALOJAMIENTOS  /////////////////////////////
 export const ListaDeAlojamientos = async (token) => {
     const options = {
@@ -307,5 +310,28 @@ export const EliminarAjamiento = async (id, token) =>{
         return data;
     } catch (error) {
         return error;
+    }
+}
+
+// -------------------------  RUTAS DE RESERVAS DE VUELO  -----------------------------//
+////////////////  RUTA LISTAR RESERVAS DE VUELO  /////////////////////////////
+export const ListarReservasVuelo = async (token) =>{
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+    try {
+       const response = await fetch(`${root}lista/reserva/vuelo`, options);
+       const data = await response.json();
+
+       if (!data.success) {
+           throw new Error(data.message);
+       }
+       return data;
+   } catch (error) {
+       return error;
     }
 }
