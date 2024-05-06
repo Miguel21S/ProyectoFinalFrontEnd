@@ -326,6 +326,7 @@ export const ListarReservasVuelo = async (token) =>{
     try {
        const response = await fetch(`${root}lista/reserva/vuelo`, options);
        const data = await response.json();
+       console.log("R: ", data)
 
        if (!data.success) {
            throw new Error(data.message);
@@ -333,5 +334,29 @@ export const ListarReservasVuelo = async (token) =>{
        return data;
    } catch (error) {
        return error;
+    }
+}
+
+////////////////  RUTA LISTAR RESERVAS DE VUELO  /////////////////////////////
+export const HacerReservaVuelo = async (id, data, token)=>{
+    const options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+
+    try {
+        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
     }
 }

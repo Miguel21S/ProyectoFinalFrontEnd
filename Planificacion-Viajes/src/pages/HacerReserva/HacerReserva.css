@@ -1,0 +1,29 @@
+
+.home-design{
+    background-color: black;
+    min-height: 90vh;
+    width: 98.9vw;
+    margin: 0 auto;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .home-top {
+        flex-direction: column;
+    }
+
+    .home-top-left,
+    .home-top-right {
+        width: 100%;
+    }
+
+    .todosPostes {
+        width: 100%;
+        margin: 10px auto;
+    }
+}

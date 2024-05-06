@@ -64,6 +64,23 @@ table {
     color: white;
 }
 
+.select-container {
+    max-height: 100px;
+    /* Altura máxima del contenedor */
+    overflow-y: scroll;
+    /* Agregar scroll vertical cuando sea necesario */
+}
+
+/* Estilos para cada opción del selector */
+.select-option {
+    padding: 8px;
+}
+
+/* Estilos para la opción seleccionada */
+.select-option.selected {
+    background-color: #f0f0f0;
+}
+
 th,
 td {
     border: 1px solid #dddddd;
@@ -91,15 +108,16 @@ input:focus-visible {
     background-color: rgb(247, 249, 249);
 }
 
-.modal-footer{
+.modal-footer {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.textFil{
+.textFil {
     width: 31vw;
 }
+
 .btn-secondary:hover {
     background-color: red;
 }

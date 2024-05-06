@@ -59,13 +59,14 @@
     background-color: rgb(63, 71, 71);
 
 }
-
-#col, .header-rigth {
+#col{
+    color: white;
+}
+.header-rigth {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     margin: 25px;
-    color: white;
     font-weight: bold;    
 }
 
@@ -81,6 +82,13 @@
 
 .nav-drop {
     margin-left: 25px;
+}
+
+.nav-drop .dropdown-menu a:focus,
+.nav-drop .dropdown-menu a:active {
+    background-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 @media (max-width: 768px) {

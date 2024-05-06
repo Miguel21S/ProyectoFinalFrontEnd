@@ -7,6 +7,7 @@ import { GestionUsuario } from "../GestionDeUsuario/GestionUsuario";
 import { GestionVuelos } from "../GestionDeVuelos/GestionVuelos";
 import { GestionDeAlojamientos } from "../GestionDeAlojamientos/GestionDeAlojamientos";
 import { GestionReservasVuelos } from "../GestionReservasVuelos/GestionReservasVuelos";
+import { HacerReserva } from "../HacerReserva/HacerReserva";
 
 export const Body = () => {
     return (
@@ -19,6 +20,7 @@ export const Body = () => {
             <Route path="/gestionvuelo" element={<GestionVuelos />} />
             <Route path="/gestionalojamiento" element={<GestionDeAlojamientos />} />
             <Route path="/gestionreservavuelo" element={<GestionReservasVuelos />} />
+            <Route path="/hacerreserva" element={<HacerReserva />} />
         </Routes>
     )
 }

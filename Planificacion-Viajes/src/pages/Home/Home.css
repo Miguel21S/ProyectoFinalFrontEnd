@@ -1,5 +1,4 @@
-
-.home-design{
+.home-design {
     background-color: black;
     min-height: 90vh;
     width: 98.9vw;
@@ -8,8 +7,46 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+}
+
+.porColuna1 {
+    background-color: aquamarine;
+    margin-top: 10px;
+    width: 95vw;
+    height: 50vh;
+    display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.content1 {
+    width: 90vw;
+    height: 35vh;
+    margin-top: 10px;
+    background-color: rgb(61, 42, 165);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.porColuna2 {
+    margin-top: 10px;
+    background-color: aquamarine;
+    width: 95vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#col-cards-ciudads{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (max-width: 768px) {

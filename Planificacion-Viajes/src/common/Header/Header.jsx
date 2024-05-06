@@ -14,6 +14,7 @@ import { updateCriteria } from "../../app/slices/seachSlice";
 import { CInput } from "../CInput/CInput";
 import { CLink } from '../CLink/CLink';
 import { useNavigate } from 'react-router-dom';
+import { color } from '@mui/system';
 
 // import { useNavigate } from "react-router-dom";
 
@@ -52,12 +53,13 @@ export const Header = () => {
                                     {
                                         rdxUsuario?.credentials?.usuario?.usuarioRole === "superAdmin" ?
                                             <>
-                                                <div className="col">
+                                                <div id='col' className="col">
                                                     <div className="header-left">
                                                         {
                                                             <CLink path="/" title="Home" />
                                                         }
                                                         <NavDropdown className='nav-drop' title="Link" id="navbarScrollingDropdown">
+
                                                             <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                                                             <NavDropdown.Item href="#action4">
                                                                 Another action
@@ -83,15 +85,29 @@ export const Header = () => {
                                                 </div>
 
                                                 <div id='col' className="col">
-                                                    <CLink path="/gestionusaurio" title="Usuarios"></CLink>
-                                                    <CLink path="/gestionvuelo" title="Vuelos"></CLink>
-                                                    <CLink path="/gestionalojamiento" title="Alojamientos"></CLink>
-                                                    <CLink path="/gestionreservavuelo" title="Reserva de vuelos"></CLink>
-                                                    <div className="header-rigth" onClick={() => dispatch(logout({ credentials: "" }))}>
-                                                        <div className='salir' onClick={() => navigate("/login")}>
-                                                            Salir <i className="bi bi-power"></i>
-                                                        </div>
-                                                    </div>
+                                                    <NavDropdown className='nav-drop' title="Link" id="navbarScrollingDropdown">
+                                                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                                        <NavDropdown.Item className="item" href="#action4">
+                                                            <CLink path="/gestionusaurio" title="Usuarios"></CLink>
+                                                        </NavDropdown.Item>
+                                                        <NavDropdown.Item className="item" href="#action4">
+                                                            <CLink path="/gestionvuelo" title="Vuelos"></CLink>
+                                                        </NavDropdown.Item>
+                                                        <NavDropdown.Item className="item" href="#action4">
+                                                            <CLink path="/gestionalojamiento" title="Alojamientos"></CLink>
+                                                        </NavDropdown.Item>
+                                                        <NavDropdown.Item className="item" href="#action4">
+                                                            <CLink path="/gestionreservavuelo" title="Reserva de vuelos"></CLink>
+                                                        </NavDropdown.Item>
+                                                        <NavDropdown.Divider />
+                                                        <NavDropdown.Item href="#action5">
+                                                            <div className="header-rigth" onClick={() => dispatch(logout({ credentials: "" }))}>
+                                                                <div className='salir' onClick={() => navigate("/login")}>
+                                                                    Salir <i className="bi bi-power"></i>
+                                                                </div>
+                                                            </div>
+                                                        </NavDropdown.Item>
+                                                    </NavDropdown>
                                                 </div>
                                             </>
                                             :
@@ -137,17 +153,18 @@ export const Header = () => {
                                     }
                                 </>
                             )
-                            :
-                            (
-                                <>
-                                    <div className="col">
-                                        <div className="header-rigth">
+                                :
+                                (
+                                    <>
+                                        <div className="col">
+                                            <div className="header-rigth">
+                                                <CLink path="/" title="Home" />
                                                 <CLink path="/login" title="Iniciar Sensión" />
                                                 <CLink path="/registrar" title="Registrarse" />
+                                            </div>
                                         </div>
-                                    </div>
-                                </>
-                            )
+                                    </>
+                                )
                         }
 
                     </div>
