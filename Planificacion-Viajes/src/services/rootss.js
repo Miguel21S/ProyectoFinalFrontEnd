@@ -411,7 +411,7 @@ export const EliminarAjamiento = async (id, token) => {
 
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
-////////////////  RUTA LISTAR ALOJAMIENTOS  /////////////////////////////
+////////////////  RUTA LISTAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
 export const ListaReservaAlojamiento = async (token)=>{
     const options = {
         method: "GET",
@@ -422,6 +422,77 @@ export const ListaReservaAlojamiento = async (token)=>{
     }
     try {
         const response = await fetch(`${root}reserva`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+////////////////  RUTA HACER RESERVA DE ALOJAMIENTOS  /////////////////////////////
+export const HacerReservaAlojamiento = async (id, data, token) =>{
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+    try {
+        const response = fetch(`${root}crear/reserva/${id}`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+
+}
+
+////////////////  RUTA ACTUALIZAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
+export const EditarReservaAlojamiento = async (id, data, token) =>{
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+
+    try {
+        const response = fetch(`${root}actualizar/reserva/${id}`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+////////////////  RUTA ELIMINAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
+export const EliminarReservaAlojamiento = async (id, token) => {
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    }
+
+    try {
+        const response = fetch(`${root}eliminar/reserva/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

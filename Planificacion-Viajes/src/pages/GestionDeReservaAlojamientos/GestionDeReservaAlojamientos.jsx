@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaReservaAlojamiento } from "../../services/rootss";
+import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAlojamiento } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { TextField } from "@mui/material";
 
@@ -19,16 +19,16 @@ export const GestionDeReservaAlojamientos = () => {
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
-    const [modalEditandoAlojamiento, setModalEditandoAlojamiento] = useState(false);
+    const [modalEditandoReservaAlojamiento, setModalEditandoReservaAlojamiento] = useState(false);
     const [reservaAlojamientoSeleccionado, setReservaAlojamientoSeleccionado] = useState({})
     const [alojamiento, setAlojamiento] = useState(false);
 
-    const [editandoalojamiento, setEditandoAlojamiento] = useState({
+    const [editandoReservaAlojamiento, setEditandoReservaAlojamiento] = useState({
         _id: "",
-        name: "",
-        local: "",
-        tipo: "",
-        precio: "",
+        fechaEntrada: "",
+        horaEntrada: "",
+        fechaSalida: "",
+        horaSalida: " "
     })
 
     useEffect(() => {
@@ -58,26 +58,26 @@ export const GestionDeReservaAlojamientos = () => {
     }, [token])
 
     /////////////  MÉTODO ADICIONAR ALOJAMIENTO  ////////////////
-    const crearAlojamientos = async () => {
-        try {
-            for (let elemento in alojamiento) {
-                if (alojamiento[elemento] === "") {
-                    throw new Error("Todos los campos tienen que estar rellenos");
-                }
-            }
-            const fetched = await CrearAlojamiento(alojamiento, token);
-            setAlojamiento(fetched)
+    // const crearAlojamientos = async () => {
+    //     try {
+    //         for (let elemento in alojamiento) {
+    //             if (alojamiento[elemento] === "") {
+    //                 throw new Error("Todos los campos tienen que estar rellenos");
+    //             }
+    //         }
+    //         const fetched = await CrearAlojamiento(alojamiento, token);
+    //         setAlojamiento(fetched)
 
-            const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
-                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
-            abrirCerrarModalInsertar();
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //         const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+    //         setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
+    //         abrirCerrarModalInsertar();
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const inputHandlerEditar = (e) => {
-        setEditandoAlojamiento((prevState) => ({
+        setEditandoReservaAlojamiento((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }));
@@ -86,32 +86,32 @@ export const GestionDeReservaAlojamientos = () => {
     /////////////  MÉTODO ACTUALIZAR ALOJAMIENTO   ////////////////
     const actualizarAlojamiento = async () => {
         try {
-            const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
-            setEditandoAlojamiento(actualizar)
-            
+            const actualizar = await EditarReservaAlojamiento(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
+            setModalEditandoReservaAlojamiento(actualizar)
+
             const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
-                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
+            setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             abrirCerrarModalEditar();
         } catch (error) {
             console.log(error);
         }
     }
 
-    const editar = (alojamiento) => {
-        setEditandoAlojamiento({
-            ...alojamiento
+    const editar = (rAlojamiento) => {
+        setEditandoReservaAlojamiento({
+            ...rAlojamiento
         });
         abrirCerrarModalEditar();
     }
 
     /////////////  MÉTODO ELIMINAR ALOJAMIENTO   ////////////////
-    const eliminarAlojamiento = async (_id) => {
+    const eliminarReservaAlojamiento = async (_id) => {
         try {
-            const eliminarUsuario = await EliminarAjamiento(_id, token);
-            setEditandoAlojamiento(eliminarUsuario);
+            const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
+            setEditandoReservaAlojamiento(eReservaUsuario);
 
             const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
-                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
+            setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
         } catch (error) {
             console.log(error);
         }
@@ -123,7 +123,7 @@ export const GestionDeReservaAlojamientos = () => {
     }
 
     const abrirCerrarModalEditar = () => {
-        setModalEditandoAlojamiento(!modalEditandoAlojamiento);
+        setModalEditandoReservaAlojamiento(!modalEditandoReservaAlojamiento);
     }
 
     return (
@@ -139,7 +139,7 @@ export const GestionDeReservaAlojamientos = () => {
                     <div className="tabla-Vuelos">
                         {
 
-reservaAlojamientoSeleccionado?.length > 0 ?
+                            reservaAlojamientoSeleccionado?.length > 0 ?
                                 (
                                     <>
                                         <table>
@@ -226,7 +226,7 @@ reservaAlojamientoSeleccionado?.length > 0 ?
                                                             </td>
                                                             <td>
                                                                 <button className="btn btn-light" onClick={() => editar(rAlojamiento)}><i className="bi bi-feather"></i></button>
-                                                                <button className="btn btn-danger" onClick={() => eliminarAlojamiento(rAlojamiento._id)}><i className="bi bi-trash3"></i></button>
+                                                                <button className="btn btn-danger" onClick={() => eliminarReservaAlojamiento(rAlojamiento._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
                                                         </tr>
                                                     ))
@@ -278,12 +278,12 @@ reservaAlojamientoSeleccionado?.length > 0 ?
                                         />
                                     </Modal.Body>
                                     <Modal.Footer className="modal-footer">
-                                        <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button>
+                                        {/* <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button> */}
                                         <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
                                     </Modal.Footer>
                                 </Modal>
 
-                                <Modal show={modalEditandoAlojamiento} onHide={abrirCerrarModalEditar}>
+                                <Modal show={modalEditandoReservaAlojamiento} onHide={abrirCerrarModalEditar}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Editar Vuelo</Modal.Title>
                                     </Modal.Header>
@@ -291,35 +291,35 @@ reservaAlojamientoSeleccionado?.length > 0 ?
                                         <TextField className="textFil"
                                             type="text"
                                             name="id"
-                                            value={editandoalojamiento._id}
+                                            value={editandoReservaAlojamiento._id}
                                             readOnly
                                         />
                                         <CTextField
-                                            type="name"
-                                            name="name"
-                                            placeholder="Nombre.."
-                                            value={editandoalojamiento.name || ""}
+                                            type="fechaEntrada"
+                                            name="fechaEntrada"
+                                            placeholder="Fecha entrada.."
+                                            value={editandoReservaAlojamiento.fechaEntrada || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="local"
-                                            name="local"
-                                            placeholder="Local..."
-                                            value={editandoalojamiento.local || ""}
+                                            type="horaEntrada"
+                                            name="horaEntrada"
+                                            placeholder="Hora entrada..."
+                                            value={editandoReservaAlojamiento.horaEntrada  || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="tipo"
-                                            name="tipo"
-                                            placeholder="Tipo..."
-                                            value={editandoalojamiento.tipo || ""}
+                                            type="fechaSalida"
+                                            name="fechaSalida"
+                                            placeholder="Fecha salida..."
+                                            value={editandoReservaAlojamiento.fechaSalida || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="precio"
-                                            name="precio"
-                                            placeholder="precio.."
-                                            value={editandoalojamiento.precio || ""}
+                                            type="horaSalida"
+                                            name="horaSalida"
+                                            placeholder="hora salida.."
+                                            value={editandoReservaAlojamiento.horaSalida || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
 
