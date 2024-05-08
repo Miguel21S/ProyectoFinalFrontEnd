@@ -4,22 +4,49 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ListaDeVuelos, ListarReservasVuelo } from "../../services/rootss";
+import { EditarReservaVuelo, EliminarReservaVuelo, ListarReservasVuelo } from "../../services/rootss";
 import { CLink } from "../../common/CLink/CLink";
+import { Modal } from "react-bootstrap";
+import CTextField from "../../common/CTextField/CTextField";
+import { TextField } from "@mui/material";
 
 export const GestionReservasVuelos = () => {
     const navigate = useNavigate();
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+
     const [vueloSeleccionado, setVueloSeleccionado] = useState({});
-    const [vuelo, setVuelo] = useState([]);
+    const [modalEditandoReservaVuelo, setModalEditandoReservaVuelo] = useState(false);
+
+    const [editandoReservaVuelo, setEditandoReservaVuelo] = useState({
+        _id: "",
+        cantidadAsiento: "",
+        precioPagar: "",
+        idUsuario: "",
+        nameUsuario: "",
+        emailUsuario: "",
+        idVuelo: "",
+        nameVuelo: "",
+        origeVuelo: "",
+        destinoVuelo: "",
+        fechaVuelo: "",
+        horaVuelo: "",
+    })
+
+    // const [vuelo, setVuelo] = useState([]);
 
     useEffect(() => {
         if (!rdxUsuario.credentials.token) {
             navigate("/")
         }
-    }, [rdxUsuario]);
+    }, []);
 
+    const inputHandlerEditar = (e) => {
+        setEditandoReservaVuelo((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    }
     useEffect(() => {
         const listaDeReservasVuelo = async () => {
             try {
@@ -32,17 +59,55 @@ export const GestionReservasVuelos = () => {
         listaDeReservasVuelo();
     }, [])
 
-    useEffect(() => {
-        const listaDeVuelos = async () => {
-            try {
-                const listaVuelos = await ListaDeVuelos(token);
-                setVuelo(listaVuelos.data);
-            } catch (error) {
-                console.log("Error:", error);
-            }
+    const editar = (reservaV) => {
+        setEditandoReservaVuelo({
+            ...reservaV
+        });
+        abrirCerrarModalEditar();
+    }
+
+    /////////////  MÉTODO ACTUALIZAR RESERVA DE VUELO   ////////////////
+    const actualizarAlojamiento = async () => {
+        try {
+            const actualizar = await EditarReservaVuelo(editandoReservaVuelo._id, editandoReservaVuelo, token);
+            setEditandoReservaVuelo(actualizar)
+
+            const listaReservaVuelos = await ListarReservasVuelo(token);
+            setVueloSeleccionado(listaReservaVuelos.data);
+            abrirCerrarModalEditar();
+        } catch (error) {
+            console.log(error);
         }
-        listaDeVuelos();
-    }, [token])
+    }
+
+    /////////////  MÉTODO ELIMINAR RESERVA DE VUELO   ////////////////
+    const eliminarReservaVuelo = async (_id) => {
+        try {
+            const eliminarRe = await EliminarReservaVuelo(_id, token);
+            setEditandoReservaVuelo(eliminarRe);
+
+            const listaReservaVuelos = await ListarReservasVuelo(token);
+            setVueloSeleccionado(listaReservaVuelos.data);
+        } catch (error) {
+            console.log("Error:", error);
+
+        }
+    }
+    /////////////  CREACIÓN DE MODALES    ////////////////
+    const abrirCerrarModalEditar = () => {
+        setModalEditandoReservaVuelo(!modalEditandoReservaVuelo);
+    }
+    // useEffect(() => {
+    //     const listaDeVuelos = async () => {
+    //         try {
+    //             const listaVuelos = await ListaDeVuelos(token);
+    //             setVuelo(listaVuelos.data);
+    //         } catch (error) {
+    //             console.log("Error:", error);
+    //         }
+    //     }
+    //     listaDeVuelos();
+    // }, [token])
 
     return (
         <>
@@ -53,7 +118,7 @@ export const GestionReservasVuelos = () => {
 
                 <div className="content-vuelos">
 
-                    <button className="btn-adicinar"> <CLink path="/hacerreserva" title="Reservar vuelos"></CLink></button>
+                    <button className="btn-adicinar"> <CLink path="/vuelos/:origenDestino" title="Reservar vuelos"></CLink></button>
 
                     <div className="tabla-Vuelos">
                         {
@@ -63,8 +128,8 @@ export const GestionReservasVuelos = () => {
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
                                                     <th>Email</th>
+                                                    <th>Nombre</th>
                                                     <th>Id Vuelo</th>
                                                     <th>Nombre Vuelo</th>
                                                     <th>Fecha</th>
@@ -133,19 +198,18 @@ export const GestionReservasVuelos = () => {
                                                                     value={reservaVuelos.cantidadAsiento}
                                                                     readOnly
                                                                 />
-                                                                {console.log("Cant: ", reservaVuelos.cantidadAsiento)}
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="pago"
-                                                                    value={reservaVuelos.pago}
+                                                                    name="precioPagar"
+                                                                    value={reservaVuelos.precioPagar}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
-                                                                {/* <button className="btn btn-light" onClick={() => editar(reservaVuelos)}><i className="bi bi-feather"></i></button> */}
-                                                                {/* <button className="btn btn-danger" onClick={() => eliminarVueloId(reservaVuelos._id)}><i className="bi bi-trash3"></i></button> */}
+                                                                <button className="btn btn-light" onClick={() => editar(reservaVuelos)}><i className="bi bi-feather"></i></button>
+                                                                <button className="btn btn-danger" onClick={() => eliminarReservaVuelo(reservaVuelos._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
                                                         </tr>
                                                     ))
@@ -156,8 +220,44 @@ export const GestionReservasVuelos = () => {
                                 )
                                 :
                                 (
-                                    <div>No hay usuarios disponibles</div>
+                                    <div>No hay reserva de vuelos</div>
                                 )
+                        }
+                        {
+                            <>
+                                <Modal show={modalEditandoReservaVuelo} onHide={abrirCerrarModalEditar}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Editar Vuelo</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body className="modal">
+                                        <TextField className="textFil"
+                                            type="text"
+                                            name="id"
+                                            value={editandoReservaVuelo._id}
+                                            readOnly
+                                        />
+                                        <CTextField
+                                            type="cantidadAsiento"
+                                            name="cantidadAsiento"
+                                            placeholder="Cantidad de asientos.."
+                                            value={editandoReservaVuelo.cantidadAsiento || ""}
+                                            changeEmit={inputHandlerEditar}
+                                        />
+                                        <CTextField
+                                            type="precioPagar"
+                                            name="precioPagar"
+                                            placeholder="Precio a pagar.."
+                                            value={editandoReservaVuelo.precioPagar || ""}
+                                            changeEmit={inputHandlerEditar}
+                                        />
+
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button className="btn btn-primary" onClick={() => actualizarAlojamiento()} >Guardar</button>
+                                        <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
+                                    </Modal.Footer>
+                                </Modal>
+                            </>
                         }
                     </div>
                 </div>

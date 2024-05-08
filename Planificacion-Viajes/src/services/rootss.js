@@ -49,6 +49,7 @@ export const LoginUsuario = async (user) => {
     }
 }
 
+//________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE USUARIO  -----------------------------//
 ////////////////  RUTA LISTAR TODOS LOS USUARIOS DEL SISTEMA  /////////////////////////////
 export const ListarUsuarios = async (token) => {
@@ -121,14 +122,14 @@ export const EliminarUsuario = async (id, token) => {
     }
 }
 
+//________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE VUELO  -----------------------------//
 ////////////////  RUTA LISTAR VUELO  /////////////////////////////
-export const ListaDeVuelos = async (token) => {
+export const ListaDeVuelos = async () => {
     const options = {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
         },
     }
 
@@ -171,7 +172,7 @@ export const AdicionarVuelo = async (data, token) => {
 }
 
 ////////////////  RUTA EDITAR VUELO  /////////////////////////////
-export const ActualizarVuelo = async(data, token) => {
+export const ActualizarVuelo = async (idVuelo, data, token) => {
     const options = {
         method: "PUT",
         headers: {
@@ -182,9 +183,9 @@ export const ActualizarVuelo = async(data, token) => {
     };
 
     try {
-        const response = await fetch(`${root}auth/vuelo`, options);
-        console.log(response)
+        const response = await fetch(`${root}auth/vuelo/${idVuelo}`, options);
         const data = await response.json();
+        console.log("DELA RUTA", data)
         if (!data.success) {
             throw new Error(data.message);
         }
@@ -217,6 +218,101 @@ export const EliminarVuelo = async (id, token) => {
     }
 }
 
+//________________________________________________________________________________________________________________________________//
+// -------------------------  RUTAS DE RESERVAS DE VUELO  -----------------------------//
+////////////////  RUTA LISTAR RESERVAS DE VUELO  /////////////////////////////
+export const ListarReservasVuelo = async (token) => {
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+    try {
+        const response = await fetch(`${root}lista/reserva/vuelo`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+////////////////  RUTA HACER RESERVAS DE VUELO  /////////////////////////////  AUN NO TIENE FUNCIONALIDAD
+export const HacerReservaVuelo = async (id, data, token) => {
+    const options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+
+    try {
+        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+////////////////  RUTA EDITAR RESERVAS DE VUELO  /////////////////////////////
+export const EditarReservaVuelo = async (id, data, token) => {
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    }
+    try {
+        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+
+}
+
+////////////////  RUTA ELIMINAR RESERVAS DE VUELO  /////////////////////////////
+export const EliminarReservaVuelo = async (id, token) =>{
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+    try {
+        const response = fetch(`${root}reserva/vuelo/${id}`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+//________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
 ////////////////  RUTA LISTAR ALOJAMIENTOS  /////////////////////////////
 export const ListaDeAlojamientos = async (token) => {
@@ -291,7 +387,7 @@ export const ActualizarAlojamiento = async (id, data, token) => {
 }
 
 ////////////////  RUTA ELIMINAR ALOJAMIENTO POR ID /////////////////////////////
-export const EliminarAjamiento = async (id, token) =>{
+export const EliminarAjamiento = async (id, token) => {
     const options = {
         method: "DELETE",
         headers: {
@@ -313,48 +409,24 @@ export const EliminarAjamiento = async (id, token) =>{
     }
 }
 
-// -------------------------  RUTAS DE RESERVAS DE VUELO  -----------------------------//
-////////////////  RUTA LISTAR RESERVAS DE VUELO  /////////////////////////////
-export const ListarReservasVuelo = async (token) =>{
+//________________________________________________________________________________________________________________________________//
+// -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
+////////////////  RUTA LISTAR ALOJAMIENTOS  /////////////////////////////
+export const ListaReservaAlojamiento = async (token)=>{
     const options = {
-        method: 'GET',
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
         }
     }
     try {
-       const response = await fetch(`${root}lista/reserva/vuelo`, options);
-       const data = await response.json();
-       console.log("R: ", data)
-
-       if (!data.success) {
-           throw new Error(data.message);
-       }
-       return data;
-   } catch (error) {
-       return error;
-    }
-}
-
-////////////////  RUTA LISTAR RESERVAS DE VUELO  /////////////////////////////
-export const HacerReservaVuelo = async (id, data, token)=>{
-    const options = {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-    }
-
-    try {
-        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
+        const response = await fetch(`${root}reserva`, options);
         const data = await response.json();
-
         if (!data.success) {
             throw new Error(data.message);
         }
+
         return data;
     } catch (error) {
         return error;

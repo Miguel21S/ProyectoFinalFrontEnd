@@ -99,6 +99,9 @@ export const Header = () => {
                                                         <NavDropdown.Item className="item" href="#action4">
                                                             <CLink path="/gestionreservavuelo" title="Reserva de vuelos"></CLink>
                                                         </NavDropdown.Item>
+                                                        <NavDropdown.Item className="item" href="#action4">
+                                                            <CLink path="/gestionDeReservaAlojamientos" title="Reserva de Alojamientos"></CLink>
+                                                        </NavDropdown.Item>
                                                         <NavDropdown.Divider />
                                                         <NavDropdown.Item href="#action5">
                                                             <div className="header-rigth" onClick={() => dispatch(logout({ credentials: "" }))}>

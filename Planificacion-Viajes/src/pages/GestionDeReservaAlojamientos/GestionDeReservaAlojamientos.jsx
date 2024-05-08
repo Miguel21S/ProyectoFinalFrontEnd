@@ -1,16 +1,16 @@
 
 import { useNavigate } from "react-router-dom"
-import "./GestionDeAlojamientos.css"
+import "./GestionDeReservaAlojamientos.css"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaDeAlojamientos } from "../../services/rootss";
+import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaReservaAlojamiento } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { TextField } from "@mui/material";
 
-export const GestionDeAlojamientos = () => {
+export const GestionDeReservaAlojamientos = () => {
     const navigate = useNavigate();
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
@@ -20,7 +20,7 @@ export const GestionDeAlojamientos = () => {
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoAlojamiento, setModalEditandoAlojamiento] = useState(false);
-    const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState({})
+    const [reservaAlojamientoSeleccionado, setReservaAlojamientoSeleccionado] = useState({})
     const [alojamiento, setAlojamiento] = useState(false);
 
     const [editandoalojamiento, setEditandoAlojamiento] = useState({
@@ -44,17 +44,17 @@ export const GestionDeAlojamientos = () => {
         }))
     }
 
-    /////////////  MÉTODO LISTAR ALOJAMIENTO   ////////////////
+    /////////////  MÉTODO LISTAR RESERVA DE ALOJAMIENTO   ////////////////
     useEffect(() => {
-        const listaDeAlojamientos = async () => {
+        const reservaAlojamientos = async () => {
             try {
-                const listaVuelos = await ListaDeAlojamientos(token);
-                setAlojamientoSeleccionado(listaVuelos.data);
+                const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             } catch (error) {
                 console.log("Error:", error);
             }
         }
-        listaDeAlojamientos();
+        reservaAlojamientos();
     }, [token])
 
     /////////////  MÉTODO ADICIONAR ALOJAMIENTO  ////////////////
@@ -68,8 +68,8 @@ export const GestionDeAlojamientos = () => {
             const fetched = await CrearAlojamiento(alojamiento, token);
             setAlojamiento(fetched)
 
-            const listaVuelos = await ListaDeAlojamientos(token);
-            setAlojamientoSeleccionado(listaVuelos.data);
+            const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             abrirCerrarModalInsertar();
         } catch (error) {
             console.log(error);
@@ -89,8 +89,8 @@ export const GestionDeAlojamientos = () => {
             const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
             setEditandoAlojamiento(actualizar)
             
-            const listaVuelos = await ListaDeAlojamientos(token);
-            setAlojamientoSeleccionado(listaVuelos.data);
+            const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             abrirCerrarModalEditar();
         } catch (error) {
             console.log(error);
@@ -110,8 +110,8 @@ export const GestionDeAlojamientos = () => {
             const eliminarUsuario = await EliminarAjamiento(_id, token);
             setEditandoAlojamiento(eliminarUsuario);
 
-            const listaVuelos = await ListaDeAlojamientos(token);
-            setAlojamientoSeleccionado(listaVuelos.data);
+            const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
         } catch (error) {
             console.log(error);
         }
@@ -134,34 +134,37 @@ export const GestionDeAlojamientos = () => {
                 </div>
 
                 <div className="content-vuelos">
-                    {<button className="btn-adicinar" onClick={() => abrirCerrarModalInsertar()}>Adicionar Alojamiento</button>}
+                    {<button className="btn-adicinar" onClick={() => abrirCerrarModalInsertar()}>Reservar Alojamiento</button>}
 
                     <div className="tabla-Vuelos">
                         {
 
-                            alojamientoSeleccionado?.length > 0 ?
+reservaAlojamientoSeleccionado?.length > 0 ?
                                 (
                                     <>
                                         <table>
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
-                                                    <th>Nombre</th>
-                                                    <th>local</th>
-                                                    <th>tipo</th>
-                                                    <th>Precio</th>
+                                                    <th>Alojamiento</th>
+                                                    <th>Usuario</th>
+                                                    <th>Email</th>
+                                                    <th>Fecha de entrada</th>
+                                                    <th>Hora de entrada</th>
+                                                    <th>Fecha de salida</th>
+                                                    <th>Hora de salida</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    alojamientoSeleccionado.map((alojamiento) => (
+                                                    reservaAlojamientoSeleccionado.map((rAlojamiento) => (
                                                         <tr key={alojamiento._id}>
                                                             <td>
                                                                 <input
                                                                     type="text"
                                                                     name="id"
-                                                                    value={alojamiento._id}
+                                                                    value={rAlojamiento._id}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -169,7 +172,7 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="name"
-                                                                    value={alojamiento.name}
+                                                                    value={rAlojamiento.nameAlojamiento}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -177,7 +180,7 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="local"
-                                                                    value={alojamiento.local}
+                                                                    value={rAlojamiento.nameUsuario}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -185,7 +188,7 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="tipo"
-                                                                    value={alojamiento.tipo}
+                                                                    value={rAlojamiento.emailUsuario}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -193,13 +196,37 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="precio"
-                                                                    value={alojamiento.precio}
+                                                                    value={rAlojamiento.fechaEntrada}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
-                                                                <button className="btn btn-light" onClick={() => editar(alojamiento)}><i className="bi bi-feather"></i></button>
-                                                                <button className="btn btn-danger" onClick={() => eliminarAlojamiento(alojamiento._id)}><i className="bi bi-trash3"></i></button>
+                                                                <input
+                                                                    type="text"
+                                                                    name="precio"
+                                                                    value={rAlojamiento.horaEntrada}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="precio"
+                                                                    value={rAlojamiento.fechaSalida}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="precio"
+                                                                    value={rAlojamiento.horaSalida}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <button className="btn btn-light" onClick={() => editar(rAlojamiento)}><i className="bi bi-feather"></i></button>
+                                                                <button className="btn btn-danger" onClick={() => eliminarAlojamiento(rAlojamiento._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
                                                         </tr>
                                                     ))

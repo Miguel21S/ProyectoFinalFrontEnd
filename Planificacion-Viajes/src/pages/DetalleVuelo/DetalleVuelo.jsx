@@ -1,7 +1,7 @@
 
 
 import { useNavigate } from "react-router-dom";
-import "./HacerReserva.css"
+import "./DetalleVuelo.css"
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { useEffect } from "react";
@@ -9,7 +9,7 @@ import { useEffect } from "react";
 // import { ListaDeVuelos } from "../../services/rootss";
 
 
-export const HacerReserva = () => {
+export const DetalleVuelo = () => {
     const navigate = useNavigate();
 
     // const [reservaVuelo, setReservaVuelo] = useState([]);

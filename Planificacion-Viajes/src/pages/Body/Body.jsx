@@ -7,7 +7,9 @@ import { GestionUsuario } from "../GestionDeUsuario/GestionUsuario";
 import { GestionVuelos } from "../GestionDeVuelos/GestionVuelos";
 import { GestionDeAlojamientos } from "../GestionDeAlojamientos/GestionDeAlojamientos";
 import { GestionReservasVuelos } from "../GestionReservasVuelos/GestionReservasVuelos";
-import { HacerReserva } from "../HacerReserva/HacerReserva";
+import { DetalleVuelo } from "../DetalleVuelo/DetalleVuelo";
+import { GestionDeReservaAlojamientos } from "../GestionDeReservaAlojamientos/GestionDeReservaAlojamientos";
+
 
 export const Body = () => {
     return (
@@ -20,7 +22,10 @@ export const Body = () => {
             <Route path="/gestionvuelo" element={<GestionVuelos />} />
             <Route path="/gestionalojamiento" element={<GestionDeAlojamientos />} />
             <Route path="/gestionreservavuelo" element={<GestionReservasVuelos />} />
-            <Route path="/hacerreserva" element={<HacerReserva />} />
+            <Route path="/gestionDeReservaAlojamientos" element={<GestionDeReservaAlojamientos />} />
+            {/* Agrega una ruta para mostrar detalles del vuelo */}
+            <Route path="/vuelos/:origenDestino" element={<DetalleVuelo />} />
+      {/* <Route path="/vuelos/:origenDestino" element={<DetalleVuelo />} /> */}
         </Routes>
     )
 }

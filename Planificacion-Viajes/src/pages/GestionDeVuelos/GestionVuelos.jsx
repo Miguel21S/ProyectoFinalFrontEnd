@@ -73,6 +73,10 @@ export const GestionVuelos = () => {
             }
             const fetched = await AdicionarVuelo(vuelo, token);
             setVuelo(fetched)
+
+            const listaVuelos = await ListaDeVuelos(token);
+            setVueloSeleccionado(listaVuelos.data);
+            abrirCerrarModalInsertar();
         } catch (error) {
             console.log(error);
         }
@@ -85,21 +89,26 @@ export const GestionVuelos = () => {
         }));
     }
 
-    /////////////  MÉTODO ACTUALIZAR VUELO   ////////////////
-    const actualizarVuelo = async () => {
-        try {
-            const actualizar = await ActualizarVuelo(vuelosEditando, token);
-            setVuelosEditando(actualizar)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     const editar = (vuelo) => {
         setVuelosEditando({
             ...vuelo
         });
         abrirCerrarModalEditar();
+    }
+    /////////////  MÉTODO ACTUALIZAR VUELO   ////////////////
+    const actualizarVuelo = async () => {
+        try {
+            console.log("QUE SE ENVIA", ActualizarVuelo(vuelosEditando._id, vuelosEditando, token))
+
+            const actualizar = await ActualizarVuelo(vuelosEditando._id, vuelosEditando, token);
+            setVuelosEditando(actualizar)
+           
+            const listaVuelos = await ListaDeVuelos(token);
+            setVueloSeleccionado(listaVuelos.data);
+            abrirCerrarModalEditar();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     /////////////  MÉTODO ELIMINAR VUELO   ////////////////
@@ -107,6 +116,9 @@ export const GestionVuelos = () => {
         try {
             const eliminarUsuario = await EliminarVuelo(_id, token);
             setVuelosEditando(eliminarUsuario);
+
+            const listaVuelos = await ListaDeVuelos(token);
+            setVueloSeleccionado(listaVuelos.data);
         } catch (error) {
             console.log(error);
         }
@@ -366,13 +378,14 @@ export const GestionVuelos = () => {
                                     </Modal.Header>
                                     <Modal.Body className="modal">
                                         <div className="col">
-
                                             <TextField className="textFil"
                                                 type="text"
                                                 name="id"
                                                 value={vuelosEditando._id}
                                                 readOnly
                                             />
+                                        </div>
+                                        <div className="col">
                                             <CTextField
                                                 type="name"
                                                 name="name"
@@ -380,14 +393,21 @@ export const GestionVuelos = () => {
                                                 value={vuelosEditando.name || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
-                                        </div>
-
-                                        <div className="col">
                                             <CTextField
                                                 type="aerolinea"
                                                 name="aerolinea"
                                                 placeholder="Aerolinea.."
                                                 value={vuelosEditando.aerolinea || ""}
+                                                changeEmit={inputHandlerEditar}
+                                            />
+                                        </div>
+
+                                        <div className="col">
+                                            <CTextField
+                                                type="capacidadAsiento"
+                                                name="capacidadAsiento"
+                                                placeholder="Capacidad de asientos..."
+                                                value={vuelosEditando.capacidadAsiento || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                             <CTextField

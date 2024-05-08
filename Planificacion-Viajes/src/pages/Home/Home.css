@@ -48,6 +48,39 @@
     justify-content: center;
     align-items: center;
 }
+.title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.imge{
+    height: 10em;
+    width: 15em;
+}
+
+.custom-carousel {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.custom-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.custom-carousel .carousel-control-prev {
+    left: 0;
+}
+
+.custom-carousel .carousel-control-next {
+    right: 0;
+}
 
 @media (max-width: 768px) {
     .home-top {

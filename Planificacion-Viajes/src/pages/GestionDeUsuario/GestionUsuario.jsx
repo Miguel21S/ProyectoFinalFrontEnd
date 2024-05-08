@@ -35,7 +35,7 @@ export const GestionUsuario = () => {
         if (!rdxUsuario.credentials.token) {
             navigate("/")
         }
-    }, [rdxUsuario]);
+    }, []);
 
     const inputHandler = (e) => {
         setUsuario((prevState) => ({
@@ -68,6 +68,10 @@ export const GestionUsuario = () => {
             }
             const fetched = await RegitrarUser(usuario);
             setUsuario(fetched)
+            
+            const listaUsuarios = await ListarUsuarios(token);
+            setUsuarioSeleccionado(listaUsuarios.data);
+            abrirCerrarModalInsertar()
         } catch (error) {
             console.log(error);
         }
@@ -85,7 +89,10 @@ export const GestionUsuario = () => {
         try {
             const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
             setUsuarioEditando(actualizar)
-            console.log("id:", actualizar);
+            
+            const listaUsuarios = await ListarUsuarios(token);
+            setUsuarioSeleccionado(listaUsuarios.data);
+            abrirCerrarModalEditar();
         } catch (error) {
             console.log(error);
         }
@@ -103,6 +110,8 @@ export const GestionUsuario = () => {
         try {
             const eliminarUsuario = await EliminarUsuario(_id, token);
             setUsuarioEditando(eliminarUsuario);
+            const listaUsuarios = await ListarUsuarios(token);
+            setUsuarioSeleccionado(listaUsuarios.data);
         } catch (error) {
             console.log(error);
         }
@@ -195,90 +204,6 @@ export const GestionUsuario = () => {
                                                 }
                                             </tbody>
                                         </table>
-                                        {
-                                            <>
-                                                <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
-                                                    <Modal.Header closeButton>
-                                                        <Modal.Title>Insertar Usuario</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body className="modal">
-                                                        <CTextField
-                                                            type="name"
-                                                            name="name"
-                                                            placeholder="Nombre.."
-                                                            value={usuario.name || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="apellido"
-                                                            name="apellido"
-                                                            placeholder="Apellido.."
-                                                            value={usuario.apellido || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="email"
-                                                            name="email"
-                                                            placeholder="Email..."
-                                                            value={usuario.email || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                        <CTextField
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Password.."
-                                                            value={usuario.password || ""}
-                                                            changeEmit={inputHandler}
-                                                        />
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
-                                                        <button className="btn btn-primary" onClick={registrar}>Guardar</button>
-                                                        <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
-                                                    </Modal.Footer>
-                                                </Modal>
-
-                                                <Modal show={modalEditandoUsuarios} onHide={abrirCerrarModalEditar}>
-                                                    <Modal.Header closeButton>
-                                                        <Modal.Title>Editar Usuario</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body className="modal">
-                                                        <CTextField
-                                                            type="name"
-                                                            name="name"
-                                                            placeholder="Nombre.."
-                                                            value={usuarioEditando.name || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-                                                        <CTextField
-                                                            type="apellido"
-                                                            name="apellido"
-                                                            placeholder="Apellido.."
-                                                            value={usuarioEditando.apellido || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-                                                        <CTextField
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Password.."
-                                                            value={usuarioEditando.password || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-                                                        <CTextField
-                                                            type="role"
-                                                            name="role"
-                                                            placeholder="role.."
-                                                            value={usuarioEditando.role || ""}
-                                                            changeEmit={inputHandlerEditar}
-                                                        />
-
-                                                    </Modal.Body>
-                                                    <Modal.Footer className="modal-footer">
-                                                        <button className="btn btn-primary" onClick={() => actualizarDatosUsuario()} >Guardar</button>
-                                                        <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
-                                                    </Modal.Footer>
-                                                </Modal>
-                                            </>
-                                        }
                                     </>
                                 )
                                 :
@@ -287,6 +212,90 @@ export const GestionUsuario = () => {
                                 )
                         }
 
+                        {
+                            <>
+                                <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Insertar Usuario</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body className="modal">
+                                        <CTextField
+                                            type="name"
+                                            name="name"
+                                            placeholder="Nombre.."
+                                            value={usuario.name || ""}
+                                            changeEmit={inputHandler}
+                                        />
+                                        <CTextField
+                                            type="apellido"
+                                            name="apellido"
+                                            placeholder="Apellido.."
+                                            value={usuario.apellido || ""}
+                                            changeEmit={inputHandler}
+                                        />
+                                        <CTextField
+                                            type="email"
+                                            name="email"
+                                            placeholder="Email..."
+                                            value={usuario.email || ""}
+                                            changeEmit={inputHandler}
+                                        />
+                                        <CTextField
+                                            type="password"
+                                            name="password"
+                                            placeholder="Password.."
+                                            value={usuario.password || ""}
+                                            changeEmit={inputHandler}
+                                        />
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button className="btn btn-primary" onClick={registrar}>Guardar</button>
+                                        <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
+                                    </Modal.Footer>
+                                </Modal>
+
+                                <Modal show={modalEditandoUsuarios} onHide={abrirCerrarModalEditar}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Editar Usuario</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body className="modal">
+                                        <CTextField
+                                            type="name"
+                                            name="name"
+                                            placeholder="Nombre.."
+                                            value={usuarioEditando.name || ""}
+                                            changeEmit={inputHandlerEditar}
+                                        />
+                                        <CTextField
+                                            type="apellido"
+                                            name="apellido"
+                                            placeholder="Apellido.."
+                                            value={usuarioEditando.apellido || ""}
+                                            changeEmit={inputHandlerEditar}
+                                        />
+                                        <CTextField
+                                            type="password"
+                                            name="password"
+                                            placeholder="Password.."
+                                            value={usuarioEditando.password || ""}
+                                            changeEmit={inputHandlerEditar}
+                                        />
+                                        <CTextField
+                                            type="role"
+                                            name="role"
+                                            placeholder="role.."
+                                            value={usuarioEditando.role || ""}
+                                            changeEmit={inputHandlerEditar}
+                                        />
+
+                                    </Modal.Body>
+                                    <Modal.Footer className="modal-footer">
+                                        <button className="btn btn-primary" onClick={() => actualizarDatosUsuario()} >Guardar</button>
+                                        <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
+                                    </Modal.Footer>
+                                </Modal>
+                            </>
+                        }
                     </div>
                 </div>
             </div >
