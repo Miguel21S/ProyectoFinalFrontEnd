@@ -1,5 +1,5 @@
 .home-design {
-    background-color: black;
+    background-color: rgb(255, 255, 245);
     min-height: 90vh;
     width: 98.9vw;
     margin: 0 auto;
@@ -10,11 +10,31 @@
     flex-direction: row;
 }
 
+.home-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
 .porColuna1 {
-    background-color: aquamarine;
-    margin-top: 10px;
+    border-radius: 0.6cap;;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
     width: 95vw;
-    height: 50vh;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.porColuna2 {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 0.6cap;
+    margin-top: 25px;
+    width: 95vw;
+    height: 40vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,40 +42,34 @@
 }
 
 .content1 {
+    box-shadow: 0px -4px 6px rgb(225, 225, 224);
     width: 90vw;
     height: 35vh;
     margin-top: 10px;
-    /* background-color: rgb(61, 42, 165); */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.porColuna2 {
-    margin-top: 10px;
-    background-color: aquamarine;
-    width: 95vw;
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.carousel-control-next-icon, .carousel-control-prev-icon{
+    background-color: black;
 }
 
-#col-cards-ciudads{
+#col-cards-ciudads {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-.title{
+
+.title {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.imge{
+.imge {
     height: 10em;
     width: 15em;
 }
@@ -73,7 +87,7 @@
     transform: translateY(-50%);
     z-index: 10;
 }
- 
+
 .custom-carousel .carousel-control-prev {
     left: 0;
 }

@@ -47,6 +47,7 @@ export const GestionReservasVuelos = () => {
             [e.target.name]: e.target.value,
         }));
     }
+    
     useEffect(() => {
         const listaDeReservasVuelo = async () => {
             try {
@@ -93,21 +94,11 @@ export const GestionReservasVuelos = () => {
 
         }
     }
+
     /////////////  CREACIÓN DE MODALES    ////////////////
     const abrirCerrarModalEditar = () => {
         setModalEditandoReservaVuelo(!modalEditandoReservaVuelo);
     }
-    // useEffect(() => {
-    //     const listaDeVuelos = async () => {
-    //         try {
-    //             const listaVuelos = await ListaDeVuelos(token);
-    //             setVuelo(listaVuelos.data);
-    //         } catch (error) {
-    //             console.log("Error:", error);
-    //         }
-    //     }
-    //     listaDeVuelos();
-    // }, [token])
 
     return (
         <>

@@ -125,11 +125,12 @@ export const EliminarUsuario = async (id, token) => {
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE VUELO  -----------------------------//
 ////////////////  RUTA LISTAR VUELO  /////////////////////////////
-export const ListaDeVuelos = async () => {
+export const ListaDeVuelos = async (token) => {
     const options = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
         },
     }
     try {
@@ -202,7 +203,7 @@ export const EliminarVuelo = async (id, token) => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
         },
-    }
+    };
 
     try {
         const response = await fetch(`${root}auth/vuelo/${id}`, options);
@@ -299,7 +300,7 @@ export const EliminarReservaVuelo = async (id, token) =>{
         }
     }
     try {
-        const response = fetch(`${root}reserva/vuelo/${id}`, options);
+        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

@@ -44,6 +44,14 @@ export const GestionDeReservaAlojamientos = () => {
         }))
     }
 
+    const inputHandlerEditar = (e) => {
+        setEditandoReservaAlojamiento((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    }
+
+
     /////////////  MÉTODO LISTAR RESERVA DE ALOJAMIENTO   ////////////////
     useEffect(() => {
         const reservaAlojamientos = async () => {
@@ -76,13 +84,7 @@ export const GestionDeReservaAlojamientos = () => {
     //     }
     // }
 
-    const inputHandlerEditar = (e) => {
-        setEditandoReservaAlojamiento((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-    }
-
+  
     /////////////  MÉTODO ACTUALIZAR ALOJAMIENTO   ////////////////
     const actualizarAlojamiento = async () => {
         try {
@@ -147,6 +149,7 @@ export const GestionDeReservaAlojamientos = () => {
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Alojamiento</th>
+                                                    <th>Ciudad</th>
                                                     <th>Usuario</th>
                                                     <th>Email</th>
                                                     <th>Fecha de entrada</th>
@@ -173,6 +176,14 @@ export const GestionDeReservaAlojamientos = () => {
                                                                     type="text"
                                                                     name="name"
                                                                     value={rAlojamiento.nameAlojamiento}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="ciudadAlojamiento"
+                                                                    value={rAlojamiento.ciudadAlojamiento}
                                                                     readOnly
                                                                 />
                                                             </td>

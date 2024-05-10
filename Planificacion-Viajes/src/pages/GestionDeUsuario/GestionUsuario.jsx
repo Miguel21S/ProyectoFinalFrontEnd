@@ -33,7 +33,7 @@ export const GestionUsuario = () => {
 
     useEffect(() => {
         if (!rdxUsuario.credentials.token) {
-            navigate("/")
+            navigate("/login")
         }
     }, [token]);
 

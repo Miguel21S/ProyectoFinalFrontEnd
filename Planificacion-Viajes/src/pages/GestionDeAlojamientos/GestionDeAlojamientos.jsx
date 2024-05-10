@@ -88,7 +88,7 @@ export const GestionDeAlojamientos = () => {
         try {
             const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
             setEditandoAlojamiento(actualizar)
-            
+
             const listaVuelos = await ListaDeAlojamientos(token);
             setAlojamientoSeleccionado(listaVuelos.data);
             abrirCerrarModalEditar();
