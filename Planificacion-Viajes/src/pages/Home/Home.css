@@ -16,13 +16,15 @@
     justify-content: center;
 
 }
-
+h5{
+    color: #000;
+}
 .porColuna1 {
     border-radius: 0.6cap;;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     margin-top: 25px;
     width: 95vw;
-    height: 40vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,7 +36,7 @@
     border-radius: 0.6cap;
     margin-top: 25px;
     width: 95vw;
-    height: 40vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -44,7 +46,7 @@
 .content1 {
     box-shadow: 0px -4px 6px rgb(225, 225, 224);
     width: 90vw;
-    height: 35vh;
+    height: 65vh;
     margin-top: 10px;
     display: flex;
     justify-content: center;
@@ -62,16 +64,9 @@
     align-items: center;
 }
 
-.title {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .imge {
-    height: 10em;
-    width: 15em;
+    height: 20em;
+    width: 25em;
 }
 
 .custom-carousel {
@@ -94,20 +89,4 @@
 
 .custom-carousel .carousel-control-next {
     right: 0;
-}
-
-@media (max-width: 768px) {
-    .home-top {
-        flex-direction: column;
-    }
-
-    .home-top-left,
-    .home-top-right {
-        width: 100%;
-    }
-
-    .todosPostes {
-        width: 100%;
-        margin: 10px auto;
-    }
 }

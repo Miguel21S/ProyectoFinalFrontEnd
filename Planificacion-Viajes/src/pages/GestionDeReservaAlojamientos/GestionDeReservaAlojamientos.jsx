@@ -190,7 +190,7 @@ export const GestionDeReservaAlojamientos = () => {
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="local"
+                                                                    name="ciudad"
                                                                     value={rAlojamiento.nameUsuario}
                                                                     readOnly
                                                                 />
@@ -267,10 +267,10 @@ export const GestionDeReservaAlojamientos = () => {
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
-                                            type="local"
-                                            name="local"
-                                            placeholder="Local..."
-                                            value={alojamiento.local || ""}
+                                            type="ciudad"
+                                            name="ciudad"
+                                            placeholder="ciudad..."
+                                            value={alojamiento.ciudad || ""}
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField

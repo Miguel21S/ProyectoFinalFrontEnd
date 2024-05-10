@@ -10,6 +10,7 @@ import { GestionReservasVuelos } from "../GestionReservasVuelos/GestionReservasV
 import { DetalleVuelo } from "../DetalleVuelo/DetalleVuelo";
 import { GestionDeReservaAlojamientos } from "../GestionDeReservaAlojamientos/GestionDeReservaAlojamientos";
 import { DetalleVueloPasage } from "../DetalleVueloPasage/DetalleVueloPasage";
+import { DetalleAlojamientoPorCiudad } from "../DetalleAlojamientoPorCiudad/DetalleAlojamientoPorCiudad";
 
 
 export const Body = () => {
@@ -27,6 +28,7 @@ export const Body = () => {
             {/* Agrega una ruta para mostrar detalles del vuelo */}
             <Route path="/vuelos/:origen/:destino" element={<DetalleVuelo />} />
             <Route path="/detallevuelopasage/:_id" element={<DetalleVueloPasage />} />
+            <Route path="/alojamientos/:ciudad" element={<DetalleAlojamientoPorCiudad />} />
       {/* <Route path="/vuelos/:origenDestino" element={<DetalleVuelo />} /> */}
         </Routes>
     )

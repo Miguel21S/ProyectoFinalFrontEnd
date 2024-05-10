@@ -1,0 +1,70 @@
+
+.detalle-alojamiento{
+    background-color: rgb(253, 251, 251);
+    min-height: 90vh;
+    width: 98.9vw;
+    margin: 0 auto;
+    color: rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+.card{
+    width: 45vw;
+    margin: 8px;
+    background-color: rgb(255, 255, 255);
+    color: #020202;
+}
+
+p{
+    width:100px;
+    margin-left: 10%;
+}
+
+.linea-horizontal {
+    border-top: 1px solid black;
+}
+
+.origeDestino{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.origen, .destino{
+    width:85%;
+    /* border-right: 1px solid black; */
+    margin-left: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+.destino{
+    border-top: 1px solid black;
+}
+.precio{
+    border-left: 1px solid;
+    border-left-width: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+
+}
+
+@media (max-width: 768px) {
+    .home-top {
+        flex-direction: column;
+    }
+
+    .home-top-left,
+    .home-top-right {
+        width: 100%;
+    }
+
+    .todosPostes {
+        width: 100%;
+        margin: 10px auto;
+    }
+}

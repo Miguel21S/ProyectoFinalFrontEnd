@@ -26,7 +26,7 @@ export const GestionDeAlojamientos = () => {
     const [editandoalojamiento, setEditandoAlojamiento] = useState({
         _id: "",
         name: "",
-        local: "",
+        ciudad: "",
         tipo: "",
         precio: "",
     })
@@ -147,7 +147,7 @@ export const GestionDeAlojamientos = () => {
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Nombre</th>
-                                                    <th>local</th>
+                                                    <th>ciudad</th>
                                                     <th>tipo</th>
                                                     <th>Precio</th>
                                                     <th>Acciones</th>
@@ -176,8 +176,8 @@ export const GestionDeAlojamientos = () => {
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="local"
-                                                                    value={alojamiento.local}
+                                                                    name="ciudad"
+                                                                    value={alojamiento.ciudad}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -229,10 +229,10 @@ export const GestionDeAlojamientos = () => {
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
-                                            type="local"
-                                            name="local"
-                                            placeholder="Local..."
-                                            value={alojamiento.local || ""}
+                                            type="ciudad"
+                                            name="ciudad"
+                                            placeholder="ciudad..."
+                                            value={alojamiento.ciudad || ""}
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
@@ -275,10 +275,10 @@ export const GestionDeAlojamientos = () => {
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="local"
-                                            name="local"
-                                            placeholder="Local..."
-                                            value={editandoalojamiento.local || ""}
+                                            type="ciudad"
+                                            name="ciudad"
+                                            placeholder="ciudad..."
+                                            value={editandoalojamiento.ciudad || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField

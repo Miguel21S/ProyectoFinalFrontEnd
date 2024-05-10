@@ -327,7 +327,6 @@ export const ListaDeAlojamientos = async (token) => {
     try {
         const response = await fetch(`${root}auth/alojamiento`, options);
         const data = await response.json();
-
         if (!data.success) {
             throw new Error(data.message);
         }
@@ -335,7 +334,6 @@ export const ListaDeAlojamientos = async (token) => {
     } catch (error) {
         return error;
     }
-
 }
 
 ////////////////  RUTA CREAR ALOJAMIENTO  /////////////////////////////

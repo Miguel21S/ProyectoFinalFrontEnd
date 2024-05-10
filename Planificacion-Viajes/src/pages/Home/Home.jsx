@@ -38,18 +38,18 @@ export const Home = () => {
 
     /////////////  LISTAR ALOJAMIENTOS   ////////////////
     useEffect(() => {
-        const liastaAlojamientos = async () => {
+        const listaAlojamientos = async () => {
             try {
                 const lAlojamientos = await ListaDeAlojamientos(token);
-                setAlojamiento(lAlojamientos);
-                console.log(lAlojamientos.data)
+                setAlojamiento(lAlojamientos.data);
+                console.log("El resultado de ListaDeAlojamientos no es un array:", lAlojamientos);
 
             } catch (error) {
                 console.log("Error:", error);
             }
         }
-        liastaAlojamientos();
-    }, [])
+        listaAlojamientos();
+    }, []);
 
 
     const chunkArray = (array, size) => {
@@ -65,6 +65,7 @@ export const Home = () => {
             <div className="home-content">
 
                 <div className="porColuna1">
+                    <h5>Buscar vuelos por ciudad</h5>
                     <div className="row">
                         <div className="content1">
                             <div id="col-cards-ciudads" className="col">
@@ -74,7 +75,6 @@ export const Home = () => {
                                             <div className="d-flex justify-content-center">
                                                 {chunk.map((vueloItem) => (
                                                     <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origen}/${vueloItem.destino}`} className="mx-3">
-
                                                         <div className="text-center">
                                                             <h5 className="mt-2">{`${vueloItem.origen} - ${vueloItem.destino}`}</h5>
                                                         </div>
@@ -92,7 +92,43 @@ export const Home = () => {
                     </div>
                 </div>
 
+                <div className="porColuna2">
+                    <h5>Buscar alojamientos por ciudad</h5>
+                    <div className="row">
+                        <div className="content1">
+                            <div id="col-cards-ciudads" className="col">
+                                <Carousel nextLabel="" prevLabel="" nextIcon={<span className="carousel-control-next-icon" aria-hidden="true" />} prevIcon={<span className="carousel-control-prev-icon" aria-hidden="true" />} className="custom-carousel">
+                                    {chunkArray(alojamiento, 3).map((chunk, index) => (
+                                        <Carousel.Item key={index}>
+                                            <div className="d-flex justify-content-center">
+                                                {chunk.map((alojamientoItem) => (
+                                                    <Link key={alojamientoItem._id} to={`/alojamientos/${alojamientoItem.ciudad}`} className="mx-3">
+                                                        <div key={alojamientoItem._id} style={{ margin: '0 10px' }}>
+                                                            <div className="text-center">
+                                                                <h5 className="mt-2">{alojamientoItem.ciudad}</h5>
+                                                            </div>
+                                                            <img src="./src/img/casa.jpg" className="imge" alt={alojamientoItem.name} />
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div className="porColuna3">
+                    <div className="row">
+                        <div className="content3">
+                            <div id="col-cards-ciudads" className="col">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
