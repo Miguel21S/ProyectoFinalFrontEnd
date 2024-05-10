@@ -129,10 +129,9 @@ export const ListaDeVuelos = async () => {
     const options = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
     }
-
     try {
         const response = await fetch(`${root}auth/vuelo`, options);
         const data = await response.json();
@@ -242,8 +241,8 @@ export const ListarReservasVuelo = async (token) => {
     }
 }
 
-////////////////  RUTA HACER RESERVAS DE VUELO  /////////////////////////////  AUN NO TIENE FUNCIONALIDAD
-export const HacerReservaVuelo = async (id, data, token) => {
+////////////////  RUTA HACER RESERVAS DE VUELO  /////////////////////////////
+export const HacerReservaVuelo = async (idVuelo, data, token) => {
     const options = {
         method: 'POST',
         headers: {
@@ -254,7 +253,7 @@ export const HacerReservaVuelo = async (id, data, token) => {
     }
 
     try {
-        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
+        const response = await fetch(`${root}reserva/vuelo/${idVuelo}`, options);
         const data = await response.json();
 
         if (!data.success) {

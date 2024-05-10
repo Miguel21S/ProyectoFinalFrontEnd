@@ -17,6 +17,7 @@
     "@mui/styled-engine-sc": "^5.2.3",
     "@mui/system": "^5.2.3",
     "@mui/utils": "^5.2.3",
+    "@reduxjs/toolkit": "^2.2.4",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

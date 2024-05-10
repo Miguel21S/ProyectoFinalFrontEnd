@@ -1,0 +1,27 @@
+.design-vuelopasage{
+    background-color: rgb(253, 251, 251);
+    min-height: 90vh;
+    width: 98.9vw;
+    margin: 0 auto;
+    color: rgb(1, 1, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.design-datos{
+    background-color: red;
+    width: 60vw;
+    height: 50vh;
+}
+
+.info-vuelo{
+    width: 20vw;
+    display: flex;
+    justify-content:flex-start;
+    margin: 10px;
+    margin-left: 5px;
+}
+

@@ -35,7 +35,7 @@ export const GestionUsuario = () => {
         if (!rdxUsuario.credentials.token) {
             navigate("/")
         }
-    }, []);
+    }, [token]);
 
     const inputHandler = (e) => {
         setUsuario((prevState) => ({

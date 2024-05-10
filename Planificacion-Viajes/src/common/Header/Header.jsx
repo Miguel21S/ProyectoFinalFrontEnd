@@ -14,7 +14,7 @@ import { updateCriteria } from "../../app/slices/seachSlice";
 import { CInput } from "../CInput/CInput";
 import { CLink } from '../CLink/CLink';
 import { useNavigate } from 'react-router-dom';
-import { color } from '@mui/system';
+// import { color } from '@mui/system';
 
 // import { useNavigate } from "react-router-dom";
 
@@ -85,8 +85,8 @@ export const Header = () => {
                                                 </div>
 
                                                 <div id='col' className="col">
-                                                    <NavDropdown className='nav-drop' title="Link" id="navbarScrollingDropdown">
-                                                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                                    <NavDropdown className='nav-drop' title={<span>Menu <i className="bi bi-list"></i></span>} id="navbarScrollingDropdown">
+                                                    
                                                         <NavDropdown.Item className="item" href="#action4">
                                                             <CLink path="/gestionusaurio" title="Usuarios"></CLink>
                                                         </NavDropdown.Item>

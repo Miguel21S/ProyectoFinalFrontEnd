@@ -25,7 +25,7 @@
     width: 90vw;
     height: 35vh;
     margin-top: 10px;
-    background-color: rgb(61, 42, 165);
+    /* background-color: rgb(61, 42, 165); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,7 +73,7 @@
     transform: translateY(-50%);
     z-index: 10;
 }
-
+ 
 .custom-carousel .carousel-control-prev {
     left: 0;
 }

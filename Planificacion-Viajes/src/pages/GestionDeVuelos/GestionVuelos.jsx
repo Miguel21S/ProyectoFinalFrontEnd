@@ -102,7 +102,7 @@ export const GestionVuelos = () => {
 
             const actualizar = await ActualizarVuelo(vuelosEditando._id, vuelosEditando, token);
             setVuelosEditando(actualizar)
-           
+
             const listaVuelos = await ListaDeVuelos(token);
             setVueloSeleccionado(listaVuelos.data);
             abrirCerrarModalEditar();
@@ -259,6 +259,7 @@ export const GestionVuelos = () => {
                                                                 />
                                                             </td>
                                                             <td>
+                                                                
                                                                 <button className="btn btn-light" onClick={() => editar(vuelos)}><i className="bi bi-feather"></i></button>
                                                                 <button className="btn btn-danger" onClick={() => eliminarVueloId(vuelos._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
