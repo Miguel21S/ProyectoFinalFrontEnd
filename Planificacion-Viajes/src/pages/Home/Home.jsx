@@ -42,8 +42,6 @@ export const Home = () => {
             try {
                 const lAlojamientos = await ListaDeAlojamientos(token);
                 setAlojamiento(lAlojamientos.data);
-                console.log("El resultado de ListaDeAlojamientos no es un array:", lAlojamientos);
-
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -115,16 +113,6 @@ export const Home = () => {
                                         </Carousel.Item>
                                     ))}
                                 </Carousel>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="porColuna3">
-                    <div className="row">
-                        <div className="content3">
-                            <div id="col-cards-ciudads" className="col">
-
                             </div>
                         </div>
                     </div>

@@ -122,6 +122,30 @@ export const EliminarUsuario = async (id, token) => {
 }
 
 //________________________________________________________________________________________________________________________________//
+// -------------------------  RUTAS PERFIL DE USUARIO  -----------------------------//
+////////////////  RUTA MI PERFIL  /////////////////////////////
+export const MiPerfil = async (token) =>{
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    try {
+        const response = await fetch(`${root}perfil`, options);
+        const data = await response.json();
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
+
+//________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE VUELO  -----------------------------//
 ////////////////  RUTA LISTAR VUELO  /////////////////////////////
 export const ListaDeVuelos = async (token) => {

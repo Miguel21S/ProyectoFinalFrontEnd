@@ -97,8 +97,6 @@ export const DetalleVuelo = () => {
                                                     </div>
                                                     <Button variant="outlined" >
                                                         <Link to={`/detallevuelopasage/${vuelo._id}`} style={{ textDecoration: 'none' }}>Detalle</Link>
-
-                                                        {/* Detalle */}
                                                     </Button>
                                                 </div>
                                             </div>

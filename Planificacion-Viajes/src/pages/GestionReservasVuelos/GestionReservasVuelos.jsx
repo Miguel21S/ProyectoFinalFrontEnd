@@ -104,7 +104,7 @@ export const GestionReservasVuelos = () => {
         <>
             <div className="gestioVuelos-design">
                 <div className="titulo-Vuelos">
-                    <h2>Reserva de Vuelos</h2>
+                    <h2>Vuelos Reservado</h2>
                 </div>
 
                 <div className="content-vuelos">

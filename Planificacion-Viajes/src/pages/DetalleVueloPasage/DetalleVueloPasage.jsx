@@ -22,13 +22,7 @@ export const DetalleVueloPasage = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
-
-    useEffect(() => {
-        if (!rdxUsuario.credentials.token) {
-            navigate("/login")
-        }
-    }, [rdxUsuario]);
-
+    
     const inputHandler = (e) => {
         const { name, value } = e.target;
         setVueloPagar((prevState) => ({
@@ -61,6 +55,10 @@ export const DetalleVueloPasage = () => {
                 precioPagar: "",
                 billete
             });
+
+            if (!rdxUsuario.credentials.token) {
+                navigate("/login")
+            }
         } catch (error) {
             console.log("Error:", error);
         }

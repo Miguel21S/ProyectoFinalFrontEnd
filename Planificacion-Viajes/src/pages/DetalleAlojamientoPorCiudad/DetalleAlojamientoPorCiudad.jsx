@@ -26,13 +26,7 @@ export const DetalleAlojamientoPorCiudad = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
-
-    useEffect(() => {
-        if (!rdxUsuario.credentials.token) {
-            navigate("/login");
-        }
-    }, [rdxUsuario]);
-
+    
     /////////////  LISTAR ALOJAMIENTOS   ////////////////
     useEffect(() => {
         const listaAlojamientos = async () => {
@@ -64,6 +58,11 @@ export const DetalleAlojamientoPorCiudad = () => {
                 alojamientoReservado
             });
             abrirCerrarModalInsertar()
+
+            if (!rdxUsuario.credentials.token) {
+                navigate("/login");
+            }
+
         } catch (error) {
             console.log("Error:", error);
         }
