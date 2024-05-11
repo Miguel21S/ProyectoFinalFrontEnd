@@ -87,7 +87,6 @@ export const ActualizarUsuario = async (IdUsuario, data, token) => {
 
     try {
         const response = await fetch(`${root}users/profile/${IdUsuario}`, options);
-
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -432,7 +431,7 @@ export const ListaReservaAlojamiento = async (token)=>{
 }
 
 ////////////////  RUTA HACER RESERVA DE ALOJAMIENTOS  /////////////////////////////
-export const HacerReservaAlojamiento = async (id, data, token) =>{
+export const HacerReservaAlojamiento = async (idAlojamiento, data, token) =>{
     const options = {
         method: "POST",
         headers: {
@@ -442,7 +441,7 @@ export const HacerReservaAlojamiento = async (id, data, token) =>{
         body: JSON.stringify(data),
     }
     try {
-        const response = fetch(`${root}crear/reserva/${id}`, options);
+        const response = await fetch(`${root}crear/reserva/${idAlojamiento}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -467,7 +466,7 @@ export const EditarReservaAlojamiento = async (id, data, token) =>{
     }
 
     try {
-        const response = fetch(`${root}actualizar/reserva/${id}`, options);
+        const response = await fetch(`${root}actualizar/reserva/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -490,7 +489,7 @@ export const EliminarReservaAlojamiento = async (id, token) => {
     }
 
     try {
-        const response = fetch(`${root}eliminar/reserva/${id}`, options);
+        const response = await fetch(`${root}eliminar/reserva/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
