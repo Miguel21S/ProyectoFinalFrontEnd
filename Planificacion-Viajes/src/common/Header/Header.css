@@ -41,7 +41,10 @@ body{
 
 .header-secundario-top-resistLogin{
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    
 
 }
 
@@ -67,7 +70,6 @@ body{
 }
 
 .col {
-    /* width: 98.9vw; */
     width: 100%;
     min-height: 12vh;
     display: flex;
@@ -93,7 +95,6 @@ body{
     justify-content: center;
     align-items: center;
     height: 50px;
-    /* width: 400px; */
     width: 90%;
     margin-bottom: 0;
 }

@@ -1,6 +1,6 @@
 
 .home-design {
-    background-color: rgb(255, 255, 245);
+    background-color: rgb(255, 245, 245);
     min-height: 90vh;
     width: 98.9vw;
     margin: 0 auto;
@@ -42,6 +42,7 @@ h5{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 .content1 {

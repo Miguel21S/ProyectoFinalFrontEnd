@@ -4,7 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import "./DetalleVuelo.css"
 import { useEffect, useState } from "react";
 import { ListaDeVuelos } from "../../services/rootss";
-import { Button } from "@mui/material";
+import { Button, Stack, Paper } from "@mui/material";
+import EventSeatIcon from '@mui/icons-material/EventSeat';
 
 export const DetalleVuelo = () => {
     // const navigate = useNavigate();
@@ -46,61 +47,71 @@ export const DetalleVuelo = () => {
                             <div key={vuelo._id} className="col">
                                 <div className="card">
                                     <div className="container text-center">
-                                        <img src="..." className="card-img-top" alt="..." />
-                                        <hr />
-                                        <div className="card-body">
-                                            <div className="row">
+                                        <Stack spacing={2}>
+                                            <Paper> <img src="..." className="card-img-top" alt="..." /></Paper>
+                                            <Paper>
                                                 <h5 className="card-title">{vuelo.name}</h5>
-                                                <hr />
-                                                <div className="col-sm-9">
-                                                    <div className="row  origeDestino">
-                                                        <div className="col-8 col-sm-6 origen">
-                                                            <div>
-                                                                <p>Aerolínea</p>
-                                                                <p>{vuelo.aerolinea}</p>
-                                                            </div>
-                                                            <div>
-                                                                <p>Capacidad</p>
-                                                                <p>{vuelo.capacidadAsiento}</p>
-                                                            </div>
-                                                            <div>
-                                                                <p>{vuelo.origen}</p>
-                                                                <p>{vuelo.horaIda}</p>
-                                                                <p>{vuelo.fechaIda}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-4 col-sm-6 destino">
-                                                            <div>
-                                                                <p>Aerolínea</p>
-                                                                <p>{vuelo.aerolinea}</p>
-                                                            </div>
-                                                            <div>
-                                                                <p>Capacidad</p>
-                                                                <p>{vuelo.capacidadAsiento}</p>
-                                                            </div>
-                                                            {vuelo.horaRegreso && vuelo.fechaRegreso &&
-                                                                <div>
-                                                                    <p>{vuelo.destino}</p>
-                                                                    <p>{vuelo.horaRegreso}</p>
-                                                                    <p>{vuelo.fechaRegreso}</p>
+                                            </Paper>
+                                            <Paper>
+                                                <Stack direction="row" spacing={0.1}>
+                                                    <Paper>
+                                                        <Stack spacing={2} className="origeDestino">
+                                                            <Paper>
+                                                                <div className="detalle-origen">
+                                                                    <div>
+                                                                        <p>Aerolínea</p>
+                                                                        <p>{vuelo.aerolinea}</p>
+                                                                    </div>
+                                                                    <div>
+                                                                    <div>Capacidad  <EventSeatIcon /></div>
+                                                                        <p>{vuelo.capacidadAsiento}</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p>{vuelo.origen}</p>
+                                                                        <p>{vuelo.horaIda}</p>
+                                                                        <p>{vuelo.fechaIda}</p>
+                                                                    </div>
                                                                 </div>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-3 precio">
-                                                    <p>Pasagen / <i className="bi bi-person-standing"></i></p>
-                                                    <p>{vuelo.precio} <i className="bi bi-currency-euro"></i></p>
+                                                            </Paper>
+                                                            <Paper>
+                                                                <div className="detalle-destino">
+                                                                    <div>
+                                                                        <p>Aerolínea</p>
+                                                                        <p>{vuelo.aerolinea}</p>
+                                                                    </div>
+                                                                    <div>
+                                                                    <div>Capacidad  <EventSeatIcon /></div>
+                                                                        <p>{vuelo.capacidadAsiento}</p>
+                                                                    </div>
+                                                                    {vuelo.horaRegreso && vuelo.fechaRegreso &&
+                                                                        <div>
+                                                                            <p>{vuelo.destino}</p>
+                                                                            <p>{vuelo.horaRegreso}</p>
+                                                                            <p>{vuelo.fechaRegreso}</p>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            </Paper>
+                                                        </Stack>
+                                                    </Paper>
+                                                    <Paper>
+                                                        <div className="detalle-precio">
+                                                            <p>Pasagen / <i className="bi bi-person-standing"></i></p>
+                                                            <p>{vuelo.precio} <i className="bi bi-currency-euro"></i></p>
 
-                                                    <div className="linea-horizontal">
-                                                        <p> Precio del pasagen no incluye niños y equipaje</p>
-                                                    </div>
-                                                    <Button variant="outlined" >
-                                                        <Link to={`/detallevuelopasage/${vuelo._id}`} style={{ textDecoration: 'none' }}>Detalle</Link>
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                            <p className="linea-horizontal info-pasage">
+                                                                Precio del pasagen no incluye niños y equipaje
+                                                            </p>
+                                                            <div className="btn-detalleVuelo">
+                                                            <Button variant="outlined">
+                                                                <Link to={`/detallevuelopasage/${vuelo._id}`} style={{ textDecoration: 'none' }}>Detalle</Link>
+                                                            </Button>
+                                                            </div>
+                                                        </div>
+                                                    </Paper>
+                                                </Stack>
+                                            </Paper>
+                                        </Stack>
                                     </div>
                                 </div>
                             </div>
