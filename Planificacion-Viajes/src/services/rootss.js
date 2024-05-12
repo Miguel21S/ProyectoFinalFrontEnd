@@ -300,7 +300,6 @@ export const ActualizarVuelo = async (idVuelo, data, token) => {
     try {
         const response = await fetch(`${root}auth/vuelo/${idVuelo}`, options);
         const data = await response.json();
-        console.log("DELA RUTA", data)
         if (!data.success) {
             throw new Error(data.message);
         }

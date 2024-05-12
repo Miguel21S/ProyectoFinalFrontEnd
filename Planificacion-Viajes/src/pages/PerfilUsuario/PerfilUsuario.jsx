@@ -56,7 +56,6 @@ export const PerfilUsuario = () => {
             try {
                 const rAlojamientos = await MisReservaAlojamientos(token);
                 setDatosReservaAlojamientos(rAlojamientos.data);
-                console.log(rAlojamientos)
             } catch (error) {
                 console.log("Error:", error);
             }

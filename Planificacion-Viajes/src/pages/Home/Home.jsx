@@ -42,7 +42,6 @@ export const Home = () => {
             try {
                 const lAlojamientos = await ListaDeAlojamientos(token);
                 setAlojamiento(lAlojamientos.data);
-                console.log("El resultado de ListaDeAlojamientos no es un array:", lAlojamientos);
 
             } catch (error) {
                 console.log("Error:", error);
