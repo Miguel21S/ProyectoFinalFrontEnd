@@ -1,6 +1,57 @@
 
 .registrar-design{
-    min-height: 90vh;
-    width: 98.9vw;
-    background-color: rgb(231, 32, 32);
+    min-height: 85vh;
+    width: 100vw;
+    background-color: rgb(249, 246, 246);
+    color: black; 
+    display: flex;
+    align-items: center;
+    justify-content: center;  
+}
+
+.card-registrar{
+    width: 22vw;
+    height: 70vh;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(33, 205, 24, 0.236);
+}
+
+.container-registrar{
+    width: 20vw;
+    height: 65vh;
+    margin: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fcfcfc;
+}
+.h2-registrar{
+    margin-top: 10px;
+}
+.h1-registrar{
+    width: 10vw;
+    height: 10vh;
+    }
+
+.textfield-nombre, .textfield-apellido, .textfield-email{
+    width: 15vw;
+}
+
+#btn-registrar{
+    width: 15vw;
+    margin-bottom: 10px;
+    }
+
+.info-reg{
+    width: 15vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #220fcb;
 }

@@ -66,7 +66,7 @@ export const Login = () => {
             <div className="card-login">
                 <div className="container-login">
                     <h2>Feliz planes</h2>
-                    <h1 className="h1-Badge">
+                    <h1 className="h1-login">
                         <Badge
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
