@@ -30,7 +30,7 @@ export const Registrar = () => {
                 }
             }
             const fetched = await RegitrarUser(usuario);
-            
+            setUsuario(fetched)
             setTimeout(() => {
                 navigate("/");
             }, 1200);
