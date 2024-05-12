@@ -9,7 +9,7 @@ body{
     position: sticky;
     top: 0;
     left: 0;
-    background-color: rgba(23, 180, 102, 0.981);
+    background-color: rgb(23, 180, 102);
     z-index: 999;
     display: flex;
     justify-content: center;

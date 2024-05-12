@@ -1,4 +1,4 @@
-.design-vuelopasage{
+.design-vuelopasage {
     background-color: rgb(253, 251, 251);
     min-height: 90vh;
     width: 98.9vw;
@@ -11,25 +11,53 @@
     overflow-x: hidden;
 }
 
-.design-datos{
-    background-color: rgb(133, 130, 130);
-    width: 60vw;
-    height: 50vh;
+
+
+.h2-DVueloPasage {
+    margin-top: 10px;
 }
 
-.info-vuelo{
-    width: 20vw;
+.info-genera-vuelo {
     display: flex;
-    justify-content:flex-start;
+    flex-direction: row;
+}
+
+.info-vuelo {
+    width: 16vw;
+    display: flex;
+    justify-content: flex-start;
     margin: 10px;
     margin-left: 5px;
 }
 
-.btn-info-vuelo{
-    width: 20vw;
-    display: flex;
-    justify-content:flex-start;
+.input-info-DPasage{
     margin: 10px;
-    margin-left: 9px;
+    height: 25vh;
 }
 
+.info-vuelo-textfield {
+    width: 23vw;
+    margin-top: 10px;
+    
+}
+
+.btn-info-DPasage {
+    width: 31vw;
+    height: 23vh;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: self-start;
+}
+
+.btn-info-Pagar,
+.btn-info-pdf {
+    margin-left: 5px;
+    height: 5vh;
+    margin-top: 10px;
+}
+
+.btn-info-Pagar {
+    height: 5vh;
+}
