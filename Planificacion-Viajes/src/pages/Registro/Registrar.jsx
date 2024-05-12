@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom"
 import "./Registrar.css"
 import { useState } from "react";
 import { RegitrarUser } from "../../services/rootss";
-import { CInput } from "../../common/CInput/CInput";
+import Badge from '@mui/material/Badge';
+import Avatar from '@mui/material/Avatar';
+import { CLink } from "../../common/CLink/CLink";
+import { FormControl, IconButton, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const Registrar = () => {
     const navigate = useNavigate();
@@ -15,12 +19,21 @@ export const Registrar = () => {
         password: "",
     });
 
+    const [showPassword, setShowPassword] = useState(false);
     const inputHandler = (e) => {
         setUsuario((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }))
     }
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
 
     const registrar = async () => {
         try {
@@ -32,7 +45,7 @@ export const Registrar = () => {
             const fetched = await RegitrarUser(usuario);
             setUsuario(fetched)
             setTimeout(() => {
-                navigate("/");
+                navigate("/login");
             }, 1200);
         } catch (error) {
             console.log(error);
@@ -41,39 +54,80 @@ export const Registrar = () => {
     return (
         <>
             <div className="registrar-design">
-                <CInput
-                    type="name"
-                    name="name"
-                    placeholder=" Nombre.."
-                    value={usuario.name || ""}
-                    changeEmit={inputHandler}
-                />
-                <CInput
-                    type="apellido"
-                    name="apellido"
-                    placeholder=" Apellido.."
-                    value={usuario.apellido || ""}
-                    changeEmit={inputHandler}
-                />
 
-                <CInput
-                    type="email"
-                    name="email"
-                    placeholder=" email.."
-                    value={usuario.email || ""}
-                    changeEmit={inputHandler}
-                />
 
-                <CInput
-                    type="password"
-                    name="password"
-                    placeholder=" password.."
-                    value={usuario.password || ""}
-                    changeEmit={inputHandler}
-                />
+                <div className="card-registrar">
+                    <div className="container-registrar">
+                        <h2 className="h2-registrar">Feliz planes</h2>
+                        <h1 className="h1-registrar">
+                            <Badge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                variant="dot"
+                            >
+                                <Avatar alt="Remy Sharp" src="./src/img/p.JPG" />
+                            </Badge>
+                        </h1>
+                        <TextField
+                            className="textfield-nombre"
+                            id="standard-search"
+                            label="Nombre"
+                            variant="standard"
+                            type="name"
+                            name="name"
+                            placeholder="Nombre..."
+                            value={usuario.name || ""}
+                            onChange={inputHandler}
+                        />
+                        <TextField
+                            className="textfield-apellido"
+                            id="standard-search"
+                            label="Apellido"
+                            variant="standard"
+                            type="apellido"
+                            name="apellido"
+                            placeholder="Apellido"
+                            value={usuario.apellido || ""}
+                            onChange={inputHandler}
+                        />
+                        <TextField
+                            className="textfield-email"
+                            id="standard-search"
+                            label="Email"
+                            variant="standard"
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={usuario.email || ""}
+                            onChange={inputHandler}
+                        />
 
-                <button type='button' className="btn btn-success" onClick={registrar}>Registrarse</button>
-
+                        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                            <Input
+                                id="standard-adornment-password"
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                value={usuario.password}
+                                onChange={inputHandler}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <button type='button' id="btn-registrar" className="btn btn-success" onClick={registrar}>registrar</button>
+                        <div className="info-log">¿Aún no tienes cuenta?</div>
+                        <label className="info-reg"> <CLink path="/login" title="Registrarse" /></label>
+                    </div>
+                </div>
             </div>
         </>
     )
