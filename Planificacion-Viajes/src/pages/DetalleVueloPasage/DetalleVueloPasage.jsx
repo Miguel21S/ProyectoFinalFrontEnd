@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import CTextField from "../../common/CTextField/CTextField";
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import EventSeatIcon from '@mui/icons-material/EventSeat';
 import { Stack } from "react-bootstrap";
 
@@ -157,7 +157,7 @@ export const DetalleVueloPasage = () => {
                                                                     changeEmit={inputHandler}
                                                                 />
                                                             </div>
-                                                            
+
                                                             <div className="btn-info-DPasage">
                                                             <div className="btn-info-Pagar">
                                                                 <button type="button" onClick={() => comprarBillete(_id)} className="btn btn-outline-success">Pagar</button>

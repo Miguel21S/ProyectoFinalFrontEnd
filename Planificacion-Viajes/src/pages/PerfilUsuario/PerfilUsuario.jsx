@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { useEffect, useState } from "react";
 import { EliminarMiReservaVuelos, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
+import Badge from '@mui/material/Badge';
+import Avatar from '@mui/material/Avatar';
+
 
 export const PerfilUsuario = () => {
     const navigate = useNavigate();
@@ -83,7 +86,15 @@ export const PerfilUsuario = () => {
                         <div className="coluna1">
                             {datosPerfil.length > 0 ? (
                                 <div>
-                                    <h1 id="h1">Perfil</h1>
+                                    <h1 id="h1">
+                                    <Badge
+                                        overlap="circular"
+                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                        variant="dot"
+                                    >
+                                        <Avatar alt="Remy Sharp" src="./src/img/p.JPG" />
+                                    </Badge>
+                                    </h1>
                                     {datosPerfil.map((datos) => (
                                         <div key={datos._id}>
                                             <div>{datos.name} {datos.apellido}</div>
@@ -252,7 +263,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="nameUsuario"
-                                                                value={alojaminetos.nameUsuario +" "+ alojaminetos.apellidoUsuario}
+                                                                value={alojaminetos.nameUsuario + " " + alojaminetos.apellidoUsuario}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -311,7 +322,7 @@ export const PerfilUsuario = () => {
                                 )}
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

@@ -116,13 +116,13 @@ export const Header = () => {
 
                                                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                                                     <Grid xs={15}>
-                                                                    <Grid xs={15}>
-                                                                        <div className="header-secundario-navegate">
-                                                                            <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
-                                                                            <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
-                                                                            <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
-                                                                        </div>
-                                                                    </Grid>
+                                                                        <Grid xs={15}>
+                                                                            <div className="header-secundario-navegate">
+                                                                                <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
+                                                                                <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
+                                                                                <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
+                                                                            </div>
+                                                                        </Grid>
                                                                         <div className="buscador">
                                                                             <div id='col-center' className="col col-header">
                                                                                 <div className="header-center">
@@ -224,7 +224,6 @@ export const Header = () => {
                                         <div className="content-logaut">
                                             <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                                 <Grid xs={15}>
-
                                                     <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                                         <Grid xs={6}>
                                                             <div className="col col-header">
@@ -236,42 +235,40 @@ export const Header = () => {
                                                         <Grid xs={6}>
                                                             <div className="col col-header">
                                                                 <div className="header-secundario-top-resistLogin">
-                                                                    <CLink path="/login" title={<span>Iniciar Sensión <i className="bi bi-person-plus"></i></span>} />
+                                                                    <CLink path="/login" title={<span>Iniciar Sesión <i className="bi bi-person-plus"></i></span>} />
                                                                     <CLink path="/registrar" title={<span>Registrarse <i className="bi bi-person"></i></span>} />
                                                                 </div>
                                                             </div>
                                                         </Grid>
-                                                        
                                                     </Grid>
-
                                                 </Grid>
                                                 <Grid xs={15}>
-
-                                                    <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                        <Grid xs={15}>
-                                                        <Grid xs={15}>
-                                                            <div className="header-secundario-navegate">
-                                                                <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
-                                                                <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
-                                                                <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
-                                                            </div>
-                                                        </Grid>
-                                                            <div className="buscador">
-                                                                <div id='col-center' className="col">
-                                                                    <div className="header-center">
-                                                                        <CInput
-                                                                            type="text"
-                                                                            name="criteria"
-                                                                            placeholder="Buscar usuario..."
-                                                                            value={criteria || ""}
-                                                                            changeEmit={searchHandler}
-                                                                        />
+                                                    {!window.location.pathname.includes("/login") && !window.location.pathname.includes("/registrar") && ( // Condición para no mostrar el buscador en la página de inicio de sesión
+                                                        <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                                            <Grid xs={15}>
+                                                                <Grid xs={15}>
+                                                                    <div className="header-secundario-navegate">
+                                                                        <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
+                                                                        <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
+                                                                        <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
+                                                                    </div>
+                                                                </Grid>
+                                                                <div className="buscador">
+                                                                    <div id='col-center' className="col">
+                                                                        <div className="header-center">
+                                                                            <CInput
+                                                                                type="text"
+                                                                                name="criteria"
+                                                                                placeholder="Buscar usuario..."
+                                                                                value={criteria || ""}
+                                                                                changeEmit={searchHandler}
+                                                                            />
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </Grid>
                                                         </Grid>
-                                                    </Grid>
-
+                                                    )}
                                                 </Grid>
                                             </Grid>
                                         </div>
