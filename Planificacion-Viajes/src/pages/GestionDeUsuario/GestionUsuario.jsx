@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegitrarUser } from "../../services/rootss";
 import { Modal } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
 
 export const GestionUsuario = () => {

@@ -122,7 +122,8 @@ export const GestionReservasVuelos = () => {
                                                     <th>Email</th>
                                                     <th>Nombre</th>
                                                     <th>Id Vuelo</th>
-                                                    <th>Nombre Vuelo</th>
+                                                    <th>Vuelo</th>
+                                                    <th>Aerolinea</th>
                                                     <th>Fecha</th>
                                                     <th>Hora</th>
                                                     <th>Asientos</th>
@@ -163,6 +164,14 @@ export const GestionReservasVuelos = () => {
                                                                     type="text"
                                                                     name="nameVuelo"
                                                                     value={reservaVuelos.nameVuelo}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="aerolineaVuelo"
+                                                                    value={reservaVuelos.aerolineaVuelo}
                                                                     readOnly
                                                                 />
                                                             </td>

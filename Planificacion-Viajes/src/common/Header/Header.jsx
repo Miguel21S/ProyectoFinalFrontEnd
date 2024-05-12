@@ -114,12 +114,10 @@ export const Header = () => {
                                             <>
                                                 <div className="col">
                                                     <div className="header-left">
-                                                        {
                                                             <CLink path="/" title="Home" />
-                                                        }
                                                     </div>
                                                 </div>
-                                                <div id='col' className="col">
+
                                                 <div id='col' className="col">
                                                     <NavDropdown className='nav-drop' title={rdxUsuario.credentials.usuario.name} id="navbarScrollingDropdown">
                                                         <NavDropdown.Item className="item">
@@ -127,10 +125,10 @@ export const Header = () => {
                                                         </NavDropdown.Item>
                                                         <NavDropdown.Divider />
                                                         <NavDropdown.Item className="item">
-                                                            <CLink path="/" title="Pienso"></CLink>
+                                                            <CLink path="/" title="Vo pensar"></CLink>
                                                         </NavDropdown.Item>
                                                         <NavDropdown.Item className="item">
-                                                            <CLink path="/" title="Planes"></CLink>
+                                                            <CLink path="/" title="Planos"></CLink>
                                                         </NavDropdown.Item>
                                                         <NavDropdown.Divider />
                                                         <NavDropdown.Item className="salir">
@@ -141,7 +139,6 @@ export const Header = () => {
                                                             </div>
                                                         </NavDropdown.Item>
                                                     </NavDropdown>
-                                                </div>
                                                 </div>
 
                                                 <div className="buscador">
@@ -157,6 +154,7 @@ export const Header = () => {
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </>
                                     }
                                 </>

@@ -1,44 +1,100 @@
 
 .usuarioPerfil-design{
-    background-color: rgb(255, 255, 245);
+    background-color: rgb(255, 255, 255);
     min-height: 90vh;
     width: 98.9vw;
     margin: 0 auto;
     color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: row;
 }
 
-.home-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-}
 h5{
     color: #000;
 }
-.porTabla1 {
+.porfilColuna1 {
     color: #000;
     border-radius: 0.6cap;;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    margin-top: 25px;
-    width: 95vw;
-    height: 70vh;
+    margin-top: 5px;
+    width: 20vw;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
-.content1 {
+.coluna1 {
     box-shadow: 0px -4px 6px rgb(225, 225, 224);
-    width: 90vw;
-    height: 65vh;
-    margin-top: 10px;
+    width: 15vw;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.datosPerfil{
+display: flex;
+justify-content: start;
+}
+
+.perfil-body {
+    color: #000;
+    border-radius: 0.6cap;;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    width: 78vw;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+}
+#h1{
+    margin-top: 15px;
+}
+.row-content{
+    width: 77vw;
+    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.perfil-body-content1 {
+    box-shadow: 0px -4px 6px rgb(225, 225, 224);
+    width: 75vw;
+    height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil-body-content2 {
+    box-shadow: 0px -4px 6px rgb(225, 225, 224);
+    width: 75vw;
+    height: 45vh;
+    margin-top: 9px;
+    margin-bottom: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tabla-reserva-vuelo{
+    color: #000000;
+    width: 95%;
+    height: 40vh;
+    overflow: auto;
+}
+
+#h4{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.th-design {
+    background-color: #2f2c2c;
+    text-align: left;
+    padding: 8px;
 }

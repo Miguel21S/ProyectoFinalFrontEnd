@@ -138,12 +138,104 @@ export const MiPerfil = async (token) =>{
         if (!data.success) {
             throw new Error(data.message);
         }
-
         return data;
     } catch (error) {
         return error;
     }
 }
+
+////////////////  RUTA LISTAR MI RESERVAS DE VUELO  /////////////////////////////
+export const MisReservaVuelos = async (token)=>{
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+
+    try {
+        const response = await fetch(`${root}lista/mis/reserva/vuelo`, options);
+        const data = await response.json();
+        if(!data.success){
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+        
+    }
+}
+
+////////////////  RUTA LISTAR MI RESERVAS DE VUELO  /////////////////////////////
+export const MisReservaAlojamientos = async (token)=>{
+    const options = {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+
+    try {
+        const response = await fetch(`${root}mis/reserva`, options);
+        const data = await response.json();
+        if(!data.success){
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+        
+    }
+}
+
+////////////////  RUTA MI RESERVAS DE VUELO  /////////////////////////////
+export const EliminarMiReservaVuelos = async (id, token)=>{
+    const options = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+
+    try {
+        const response = await fetch(`${root}mireserva/vuelo/${id}`, options);
+        const data = await response.json();
+        if(!data.success){
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+        
+    }
+}
+
+////////////////  RUTA MI RESERVAS DE VUELO  /////////////////////////////
+// export const EliminarMiReservaVuelos = async (id, token)=>{
+//     const options = {
+//         method: 'DELETE',
+//         headers: {
+//             "Content-Type": "application/json",
+//             "Authorization": `Bearer ${token}`,
+//         }
+//     }
+
+//     try {
+//         const response = await fetch(`${root}mis/reserva/${id}`, options);
+//         const data = await response.json();
+//         if(!data.success){
+//             throw new Error(data.message);
+//         }
+//         return data;
+//     } catch (error) {
+//         return error;
+        
+//     }
+// }
+
 
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE VUELO  -----------------------------//
