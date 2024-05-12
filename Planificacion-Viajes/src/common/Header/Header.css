@@ -1,3 +1,6 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+}
 .header-design {
     min-height: 12vh;
     width: 100%;
@@ -6,12 +9,45 @@
     position: sticky;
     top: 0;
     left: 0;
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(23, 180, 102, 0.981);
     z-index: 999;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
+}
+
+.content-logaut{
+    color: white;
+}
+
+.content-usuario{
+    color: white;
+}
+
+.col-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-principal-top-home{
+    font-size: 2.5cap;
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+}
+
+.header-secundario-top-resistLogin{
+    display: flex;
+    justify-content: center;
+
+}
+
+.header-secundario-navegate{
+    display: flex;
+    justify-content: center;
 }
 
 .nav-drop > .nav-link::after {
@@ -50,6 +86,7 @@
 #col-center{
     display: flex;
     justify-content: center;
+    box-shadow:  0px 4px 16px rgba(0, 0, 0, 0.2); 
 }
 .header-center {
     display: flex;
@@ -57,11 +94,8 @@
     align-items: center;
     height: 50px;
     /* width: 400px; */
-    width: 100%;
-    border: 1px solid rgb(12, 12, 12);
-    border-radius: 2cap;
+    width: 90%;
     margin-bottom: 0;
-    background-color: rgb(22, 22, 22);
 }
 
 .item{
@@ -71,8 +105,9 @@
 }
 
 .header-center>input {
+    width: 30%;
     border-radius: 0.8cap;
-    background-color: rgb(19, 19, 19);
+    background-color: rgba(255, 255, 255, 0.981)
 
 }
 #col{
