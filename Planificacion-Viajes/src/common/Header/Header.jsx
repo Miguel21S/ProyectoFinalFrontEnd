@@ -55,17 +55,17 @@ export const Header = () => {
                                                 <>
                                                     <div className="content-usuario">
                                                         <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                            <Grid xs={15}>
+                                                            <Grid item xs={15}>
 
                                                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                                    <Grid xs={6}>
+                                                                    <Grid item xs={6}>
                                                                         <div className="col col-header">
                                                                             <div className="header-principal-top-home">
                                                                                 <CLink path="/" title={<span>Home <i className="bi bi-house"></i></span>} />
                                                                             </div>
                                                                         </div>
                                                                     </Grid>
-                                                                    <Grid xs={6}>
+                                                                    <Grid item xs={6}>
                                                                         <div className="col col-header">
 
                                                                             <NavDropdown className='nav-drop' title={<span>Administración <i className="bi bi-gear-wide-connected"></i></span>} id="navbarScrollingDropdown">
@@ -112,14 +112,14 @@ export const Header = () => {
                                                                 </Grid>
 
                                                             </Grid>
-                                                            <Grid xs={15}>
+                                                            <Grid item xs={15}>
 
                                                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                                    <Grid xs={15}>
-                                                                        <Grid xs={15}>
+                                                                    <Grid item xs={15}>
+                                                                        <Grid item xs={15}>
                                                                             <div className="header-secundario-navegate">
-                                                                                <CLink path="/todosvuelos" title={<span>Vuelos <i className="bi bi-airplane"></i></span>} />
-                                                                                <CLink path="/todosalojamiento" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
+                                                                                <CLink path="/todosvuelos/destino" title={<span>Vuelos <i className="bi bi-airplane"></i></span>} />
+                                                                                <CLink path="/todosalojamientos" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
                                                                                 <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
                                                                             </div>
                                                                         </Grid>
@@ -147,17 +147,17 @@ export const Header = () => {
                                                 <>
                                                     <div className="content-usuario">
                                                         <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                            <Grid xs={15}>
+                                                            <Grid item xs={15}>
 
                                                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                                    <Grid xs={6}>
+                                                                    <Grid item xs={6}>
                                                                         <div className="col col-header">
                                                                             <div className="header-principal-top-home">
                                                                                 <CLink path="/" title={<span>Home <i className="bi bi-house"></i></span>} />
                                                                             </div>
                                                                         </div>
                                                                     </Grid>
-                                                                    <Grid xs={6}>
+                                                                    <Grid item xs={6}>
                                                                         <div className="col col-header">
                                                                             <NavDropdown className='nav-drop' title={rdxUsuario.credentials.usuario.name} id="navbarScrollingDropdown">
                                                                                 <NavDropdown.Item className="item">
@@ -181,7 +181,7 @@ export const Header = () => {
                                                                             </NavDropdown>
                                                                         </div>
                                                                     </Grid>
-                                                                    <Grid xs={15}>
+                                                                    <Grid item xs={15}>
                                                                         <div className="header-secundario-navegate">
                                                                             <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
                                                                             <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
@@ -191,10 +191,10 @@ export const Header = () => {
                                                                 </Grid>
 
                                                             </Grid>
-                                                            <Grid xs={15}>
+                                                            <Grid item xs={15}>
 
                                                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                                    <Grid xs={15}>
+                                                                    <Grid item xs={15}>
                                                                         <div className="buscador">
                                                                             <div id='col-center' className="col">
                                                                                 <div className="header-center">
@@ -223,16 +223,16 @@ export const Header = () => {
                                     <>
                                         <div className="content-logaut">
                                             <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                <Grid xs={15}>
+                                                <Grid item xs={15}>
                                                     <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                        <Grid xs={6}>
+                                                        <Grid item xs={6}>
                                                             <div className="col col-header">
                                                                 <div className="header-principal-top-home">
                                                                     <CLink path="/" title={<span>Home <i className="bi bi-house"></i></span>} />
                                                                 </div>
                                                             </div>
                                                         </Grid>
-                                                        <Grid xs={6}>
+                                                        <Grid item xs={6}>
                                                             <div className="col col-header">
                                                                 <div className="header-secundario-top-resistLogin">
                                                                     <CLink path="/login" title={<span>Iniciar Sesión <i className="bi bi-person-plus"></i></span>} />
@@ -242,14 +242,14 @@ export const Header = () => {
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
-                                                <Grid xs={15}>
+                                                <Grid item xs={15}>
                                                     {!window.location.pathname.includes("/login") && !window.location.pathname.includes("/registrar") && ( // Condición para no mostrar el buscador en la página de inicio de sesión
                                                         <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                                            <Grid xs={15}>
-                                                                <Grid xs={15}>
+                                                            <Grid item xs={15}>
+                                                                <Grid item xs={15}>
                                                                     <div className="header-secundario-navegate">
-                                                                        <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
-                                                                        <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
+                                                                        <CLink path="/todosvuelos/destino" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
+                                                                        <CLink path="/todosalojamientos" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
                                                                         <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
                                                                     </div>
                                                                 </Grid>

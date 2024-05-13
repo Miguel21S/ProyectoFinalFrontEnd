@@ -34,6 +34,7 @@ export const Home = () => {
             try {
                 const listaVuelos = await ListaDeVuelos(token);
                 setVuelo(listaVuelos.data);
+                console.log("listaVuelos: ", listaVuelos)
 
             } catch (error) {
                 console.log("Error:", error);

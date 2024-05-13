@@ -1,124 +1,96 @@
 
-
-import { Link, useParams } from "react-router-dom";
 import "./Vuelos.css"
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { userData } from "../../app/slices/userSlice";
+// import { Modal } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { ListaDeVuelos } from "../../services/rootss";
-import { Button, Stack, Paper } from "@mui/material";
-import EventSeatIcon from '@mui/icons-material/EventSeat';
+import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+// import CTextField from "../../common/CTextField/CTextField";
+// import { TextField } from "@mui/material";
 
 export const Vuelos = () => {
-    // const navigate = useNavigate();
-    const { origen } = useParams();
-
-    const [reservaVuelo, setReservaVuelo] = useState([]);
+    const navigate = useNavigate();
+    const [vuelos, setVuelo] = useState({});
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
-    // const rdxUsuario = useSelector(userData);
-    // const token = rdxUsuario.credentials.token;
+    const rdxUsuario = useSelector(userData);
+    const token = rdxUsuario.credentials.token;
 
-    // useEffect(() => {
-    //     if (!rdxUsuario.credentials.token) {
-    //         navigate("/vuelos/:origen/:destino")
-    //     }
-    // }, [rdxUsuario]);
-
-    /////////////  MÉTODO LISTAR VUELOS   ////////////////
     useEffect(() => {
-        const listaDeVuelos = async () => {
+        if (!rdxUsuario.credentials.token) {
+            navigate("/todosvuelos/destino")
+        }
+    }, [rdxUsuario]);
+
+    useEffect(() => {
+        const listaDeVuelosDestino = async () => {
             try {
-                const listaVuelos = await ListaDeVuelos();
-                const vuelosFiltrados = listaVuelos.data.filter(reservaVuelo => reservaVuelo.origen === origen);
-                setReservaVuelo(vuelosFiltrados);
+                const listaVuelos = await ListaDeVuelos(token);
+                const agruparVuelos = {};
+
+                listaVuelos.data.forEach(vuelos => {
+                    if (!agruparVuelos[vuelos.destino]) {
+                        agruparVuelos[vuelos.destino] = [];
+                    }
+                    agruparVuelos[vuelos.destino].push(vuelos);
+
+                });
+                setVuelo(agruparVuelos);
+                console.log("agruparVuelos", agruparVuelos)
             } catch (error) {
                 console.log("Error:", error);
             }
         }
-        listaDeVuelos();
-    }, [origen])
+        listaDeVuelosDestino();
+    }, [token])
 
     return (
         <>
-            <div className="detalle-vuelo">
-                <div className="content-detalle">
-                    <h2>Vuelos disponibles desde {origen}</h2>
-                    {
-                        reservaVuelo.map((vuelo) => (
-                            <div key={vuelo._id} className="col">
-                                <div className="card">
-                                    <div className="container text-center">
-                                        <Stack spacing={2}>
-                                            <Paper> <img src="..." className="card-img-top" alt="..." /></Paper>
-                                            <Paper>
-                                                <h5 className="card-title">{vuelo.name}</h5>
-                                            </Paper>
-                                            <Paper>
-                                                <Stack direction="row" spacing={0.1}>
-                                                    <Paper>
-                                                        <Stack spacing={2} className="origeDestino">
-                                                            <Paper>
-                                                                <div className="detalle-origen">
-                                                                    <div>
-                                                                        <p>Aerolínea</p>
-                                                                        <p>{vuelo.aerolinea}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                    <div>Capacidad  <EventSeatIcon /></div>
-                                                                        <p>{vuelo.capacidadAsiento}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p>{vuelo.origen}</p>
-                                                                        <p>{vuelo.horaIda}</p>
-                                                                        <p>{vuelo.fechaIda}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </Paper>
-                                                            <Paper>
-                                                                <div className="detalle-destino">
-                                                                    <div>
-                                                                        <p>Aerolínea</p>
-                                                                        <p>{vuelo.aerolinea}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                    <div>Capacidad  <EventSeatIcon /></div>
-                                                                        <p>{vuelo.capacidadAsiento}</p>
-                                                                    </div>
-                                                                    {vuelo.horaRegreso && vuelo.fechaRegreso &&
-                                                                        <div>
-                                                                            <p>{vuelo.destino}</p>
-                                                                            <p>{vuelo.horaRegreso}</p>
-                                                                            <p>{vuelo.fechaRegreso}</p>
-                                                                        </div>
-                                                                    }
-                                                                </div>
-                                                            </Paper>
-                                                        </Stack>
-                                                    </Paper>
-                                                    <Paper>
-                                                        <div className="detalle-precio">
-                                                            <p>Pasagen / <i className="bi bi-person-standing"></i></p>
-                                                            <p>{vuelo.precio} <i className="bi bi-currency-euro"></i></p>
-
-                                                            <p className="linea-horizontal info-pasage">
-                                                                Precio del pasagen no incluye niños y equipaje
-                                                            </p>
-                                                            <div className="btn-detalleVuelo">
-                                                            <Button variant="outlined">
-                                                                <Link to={`/detallevuelopasage/${vuelo._id}`} style={{ textDecoration: 'none' }}>Detalle</Link>
-                                                            </Button>
-                                                            </div>
-                                                        </div>
-                                                    </Paper>
-                                                </Stack>
-                                            </Paper>
-                                        </Stack>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    }
+            <div className="gestioVuelos-destino">
+                <div className="titulo-Vuelo">
+                    <h2>Destinos de vuelos</h2>
                 </div>
 
+                <div className="content-Vuelo">
+
+                    <div className="card-principal">
+                        <div className="row">
+                            <div className="card-hijo">
+                                <Grid container spacing={2}> {/* Espacio entre los elementos */}
+                                    {Object.keys(vuelos).map(destino => (
+                                        <Grid item xs={12} sm={6} lg={3} key={destino}> {/* Tamaño de las columnas */}
+                                            <div className="custom-column mb-3">
+                                                <Card sx={{ maxWidth: 345 }} className="content-vuelo">
+                                                    <CardActionArea>
+                                                        <CardContent>
+                                                            <Typography gutterBottom variant="h5" component="div">
+                                                                {destino}
+                                                            </Typography>
+                                                        </CardContent>
+                                                         {/* <CardMedia
+                                                        component="img"
+                                                        height="140"
+                                                        image="/static/images/cards/contemplative-reptile.jpg"
+                                                        alt="green iguana" 
+                                                    /> */}
+                                                        {vuelos[destino].map(vueloItem => (
+                                                            <div key={vueloItem._id}>
+                                                                
+                                                            </div>
+                                                        ))}
+                                                    </CardActionArea>
+                                                </Card>
+                                            </div>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )

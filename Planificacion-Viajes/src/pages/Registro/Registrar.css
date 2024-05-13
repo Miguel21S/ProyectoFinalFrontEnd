@@ -11,7 +11,7 @@
 
 .card-registrar{
     width: 22vw;
-    height: 70vh;
+    height: 80vh;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@
 
 .container-registrar{
     width: 20vw;
-    height: 65vh;
+    height: 75vh;
     margin: 15px;
     border-radius: 5px;
     display: flex;
@@ -54,4 +54,10 @@
     justify-content: center;
     align-items: center;
     color: #220fcb;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
 }

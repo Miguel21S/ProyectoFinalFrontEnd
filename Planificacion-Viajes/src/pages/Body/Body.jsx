@@ -28,7 +28,7 @@ export const Body = () => {
             <Route path="/gestionalojamiento" element={<GestionDeAlojamientos />} />
             <Route path="/gestionreservavuelo" element={<GestionReservasVuelos />} />
             <Route path="/gestionDeReservaAlojamientos" element={<GestionDeReservaAlojamientos />} />
-            <Route path="/vuelos" element={<Vuelos />} />
+            <Route path="/todosvuelos/destino" element={<Vuelos />} />
             <Route path="/todosalojamientos" element={<Alojamientos />} />
             {/* Agrega una ruta para mostrar detalles del vuelo */}
             <Route path="/vuelos/:origen/:destino" element={<DetalleVuelo />} />
