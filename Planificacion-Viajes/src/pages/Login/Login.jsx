@@ -65,7 +65,7 @@ export const Login = () => {
         <div className="login-design">
             <div className="card-login">
                 <div className="container-login">
-                    <h2>Feliz planes</h2>
+                    <h2>Empienza a planificar</h2>
                     <h1 className="h1-login">
                         <Badge
                             overlap="circular"

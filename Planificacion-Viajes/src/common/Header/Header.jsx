@@ -92,13 +92,13 @@ export const Header = () => {
                                                                                     <CLink path="/perfilusuario" className="item" title="Perfil" />
                                                                                 </NavDropdown.Item>
                                                                                 <NavDropdown.Divider />
-                                                                                <NavDropdown.Item className="item">
+                                                                                {/* <NavDropdown.Item className="item">
                                                                                     <CLink path="/" title="Re"></CLink>
                                                                                 </NavDropdown.Item>
                                                                                 <NavDropdown.Item className="item">
                                                                                     <CLink path="/" title="Vuelos"></CLink>
                                                                                 </NavDropdown.Item>
-                                                                                <NavDropdown.Divider />
+                                                                                <NavDropdown.Divider /> */}
                                                                                 <NavDropdown.Item className="salir">
                                                                                     <div className="header-rigth" onClick={() => dispatch(logout({ credentials: "" }))}>
                                                                                         <div onClick={() => navigate("/login")}>
@@ -118,8 +118,8 @@ export const Header = () => {
                                                                     <Grid xs={15}>
                                                                         <Grid xs={15}>
                                                                             <div className="header-secundario-navegate">
-                                                                                <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
-                                                                                <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
+                                                                                <CLink path="/todosvuelos" title={<span>Vuelos <i className="bi bi-airplane"></i></span>} />
+                                                                                <CLink path="/todosalojamiento" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
                                                                                 <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
                                                                             </div>
                                                                         </Grid>
@@ -163,14 +163,14 @@ export const Header = () => {
                                                                                 <NavDropdown.Item className="item">
                                                                                     <CLink path="/perfilusuario" className="item" title="Perfil" />
                                                                                 </NavDropdown.Item>
-                                                                                <NavDropdown.Divider />
+                                                                                {/* <NavDropdown.Divider />
                                                                                 <NavDropdown.Item className="item">
                                                                                     <CLink path="/" title="Vo pensar"></CLink>
                                                                                 </NavDropdown.Item>
                                                                                 <NavDropdown.Item className="item">
                                                                                     <CLink path="/" title="Planos"></CLink>
                                                                                 </NavDropdown.Item>
-                                                                                <NavDropdown.Divider />
+                                                                                <NavDropdown.Divider /> */}
                                                                                 <NavDropdown.Item className="salir">
                                                                                     <div className="header-rigth" onClick={() => dispatch(logout({ credentials: "" }))}>
                                                                                         <div onClick={() => navigate("/login")}>

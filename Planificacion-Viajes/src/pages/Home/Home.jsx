@@ -126,7 +126,7 @@ export const Home = () => {
                 </div>
 
                 <div className="porColuna3">
-                    <h5>Buscar alojamientos por ciudad</h5>
+                    <h5>Planificador de actividades de viajes rápido y sencillo</h5>
                     <div className="row">
                         <div className="content1">
                             <div id="col-cards-ciudads" className="col">
@@ -190,7 +190,7 @@ export const Home = () => {
                 </div>
 
                 <div className="porColuna4">
-                    <h5>Buscar alojamientos por ciudad</h5>
+                    {/* <h5>Buscar alojamientos por ciudad</h5> */}
 
                 </div>
             </div>

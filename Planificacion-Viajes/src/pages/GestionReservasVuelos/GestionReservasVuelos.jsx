@@ -9,6 +9,7 @@ import { CLink } from "../../common/CLink/CLink";
 import { Modal } from "react-bootstrap";
 import CTextField from "../../common/CTextField/CTextField";
 import { TextField } from "@mui/material";
+import Swal from "sweetalert2";
 
 export const GestionReservasVuelos = () => {
     const navigate = useNavigate();
@@ -69,29 +70,73 @@ export const GestionReservasVuelos = () => {
 
     /////////////  MÉTODO ACTUALIZAR RESERVA DE VUELO   ////////////////
     const actualizarAlojamiento = async () => {
-        try {
-            const actualizar = await EditarReservaVuelo(editandoReservaVuelo._id, editandoReservaVuelo, token);
-            setEditandoReservaVuelo(actualizar)
-
-            const listaReservaVuelos = await ListarReservasVuelo(token);
-            setVueloSeleccionado(listaReservaVuelos.data);
-            abrirCerrarModalEditar();
-        } catch (error) {
-            console.log(error);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres actualizar este reserva de vuelo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, actualizar',
+            cancelButtonText: 'Cancelar'
+        });
+        
+        if (result.isConfirmed) {
+            try {
+                const actualizar = await EditarReservaVuelo(editandoReservaVuelo._id, editandoReservaVuelo, token);
+                setEditandoReservaVuelo(actualizar)
+    
+                const listaReservaVuelos = await ListarReservasVuelo(token);
+                setVueloSeleccionado(listaReservaVuelos.data);
+                abrirCerrarModalEditar();
+    
+                // Mostrar un mensaje de éxito
+                Swal.fire(
+                    '¡Actualizado!',
+                    'La reserva de vuelo ha sido actualizado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                // Mostrar un mensaje de error si ocurre un problema
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar actualizar la reserva de vuelo.',
+                    'error'
+                );
+            }
         }
-    }
+    };
 
     /////////////  MÉTODO ELIMINAR RESERVA DE VUELO   ////////////////
     const eliminarReservaVuelo = async (_id) => {
-        try {
-            const eliminarRe = await EliminarReservaVuelo(_id, token);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Deseas eliminar reserva de vuelo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const eliminarRe = await EliminarReservaVuelo(_id, token);
             setEditandoReservaVuelo(eliminarRe);
 
             const listaReservaVuelos = await ListarReservasVuelo(token);
             setVueloSeleccionado(listaReservaVuelos.data);
-        } catch (error) {
-            console.log("Error:", error);
-
+                Swal.fire(
+                    '¡Eliminado!',
+                    'Reserva de vuelo ha sido eliminado.',
+                    'success'
+                );
+            } catch (error) {
+                console.log("Error:", error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar eliminar reserva de vuelo.',
+                    'error'
+                );
+            }
         }
     }
 

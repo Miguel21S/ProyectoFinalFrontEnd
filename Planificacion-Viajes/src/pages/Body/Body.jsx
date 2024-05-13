@@ -12,6 +12,8 @@ import { GestionDeReservaAlojamientos } from "../GestionDeReservaAlojamientos/Ge
 import { DetalleVueloPasage } from "../DetalleVueloPasage/DetalleVueloPasage";
 import { DetalleAlojamientoPorCiudad } from "../DetalleAlojamientoPorCiudad/DetalleAlojamientoPorCiudad";
 import { PerfilUsuario } from "../PerfilUsuario/PerfilUsuario";
+import { Vuelos } from "../Vuelos/Vuelos";
+import { Alojamientos } from "../Alojamientos/Alojamientos";
 
 export const Body = () => {
     return (
@@ -26,6 +28,8 @@ export const Body = () => {
             <Route path="/gestionalojamiento" element={<GestionDeAlojamientos />} />
             <Route path="/gestionreservavuelo" element={<GestionReservasVuelos />} />
             <Route path="/gestionDeReservaAlojamientos" element={<GestionDeReservaAlojamientos />} />
+            <Route path="/vuelos" element={<Vuelos />} />
+            <Route path="/todosalojamientos" element={<Alojamientos />} />
             {/* Agrega una ruta para mostrar detalles del vuelo */}
             <Route path="/vuelos/:origen/:destino" element={<DetalleVuelo />} />
             <Route path="/detallevuelopasage/:_id" element={<DetalleVueloPasage />} />

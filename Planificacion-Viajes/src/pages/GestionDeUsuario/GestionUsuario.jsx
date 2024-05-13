@@ -8,6 +8,7 @@ import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegitrarUser } from
 import { Modal } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
+import Swal from "sweetalert2";
 
 export const GestionUsuario = () => {
     const navigate = useNavigate();
@@ -86,17 +87,41 @@ export const GestionUsuario = () => {
 
     /////////////  MÉTODO ACTUALIZAR USUARIO   ////////////////
     const actualizarDatosUsuario = async () => {
-        try {
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres actualizar este usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, actualizar',
+            cancelButtonText: 'Cancelar'
+        });
+        
+        if (result.isConfirmed) {
+            try {
             const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
             setUsuarioEditando(actualizar)
             
             const listaUsuarios = await ListarUsuarios(token);
             setUsuarioSeleccionado(listaUsuarios.data);
             abrirCerrarModalEditar();
-        } catch (error) {
-            console.log(error);
+    
+                // Mostrar un mensaje de éxito
+                Swal.fire(
+                    '¡Actualizado!',
+                    'El usuario ha sido actualizado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                // Mostrar un mensaje de error si ocurre un problema
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar actualizar el usuario.',
+                    'error'
+                );
+            }
         }
-    }
+    };
 
     const editar = (valor) => {
         setUsuarioEditando({
@@ -107,13 +132,34 @@ export const GestionUsuario = () => {
 
     /////////////  MÉTODO ELIMINAR USUARIO   ////////////////
     const eliminarUsuarioId = async (_id) => {
-        try {
-            const eliminarUsuario = await EliminarUsuario(_id, token);
-            setUsuarioEditando(eliminarUsuario);
-            const listaUsuarios = await ListarUsuarios(token);
-            setUsuarioSeleccionado(listaUsuarios.data);
-        } catch (error) {
-            console.log(error);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Deseas eliminar esté Usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+    
+        if (result.isConfirmed) {
+            try {
+                const eliminarUsuario = await EliminarUsuario(_id, token);
+                setUsuarioEditando(eliminarUsuario);
+                const listaUsuarios = await ListarUsuarios(token);
+                setUsuarioSeleccionado(listaUsuarios.data);
+                Swal.fire(
+                    '¡Eliminado!',
+                    'Usuario ha sido eliminado.',
+                    'success'
+                );
+            } catch (error) {
+                console.log("Error:", error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar eliminar Usuario.',
+                    'error'
+                );
+            }
         }
     }
 

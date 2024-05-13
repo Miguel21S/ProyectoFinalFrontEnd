@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import { CLink } from "../../common/CLink/CLink";
 import { FormControl, IconButton, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 export const Registrar = () => {
     const navigate = useNavigate();
@@ -39,18 +40,25 @@ export const Registrar = () => {
         try {
             for (let elemento in usuario) {
                 if (usuario[elemento] === "") {
-                    throw new Error("Todos los campos tienen que estar rellenos");
+                    throw new Error("Todos los campos deben ser completados");
                 }
             }
             const fetched = await RegitrarUser(usuario);
-            setUsuario(fetched)
+            setUsuario(fetched);
+            Swal.fire({
+                icon: 'success',
+                title: '¡Registro exitoso!',
+                text: `¡Bienvenido y Feliz planes, ${usuario.name}! Tu cuenta ha sido creada exito.`,
+                showConfirmButton: false,
+                timer: 3000 
+            });
             setTimeout(() => {
                 navigate("/login");
-            }, 1200);
+            }, 3000);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
     return (
         <>
             <div className="registrar-design">

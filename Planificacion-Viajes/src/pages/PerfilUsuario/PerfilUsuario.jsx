@@ -8,6 +8,7 @@ import { EliminarMiReservaVuelos, MiPerfil, MisReservaAlojamientos, MisReservaVu
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import jsPDF from "jspdf";
+import Swal from 'sweetalert2';
 
 
 export const PerfilUsuario = () => {
@@ -69,22 +70,41 @@ export const PerfilUsuario = () => {
 
     ////////////////////////    ELIMINAR MI RESERVA DE VUELO    //////////////////////////////
     const eliminarResVuelo = async (id) => {
-        try {
-            const eliminarR = await EliminarMiReservaVuelos(id, token);
-            setDatosReservaVuelo(eliminarR);
-
-            const rVuelos = await MisReservaVuelos(token);
-            setDatosReservaVuelo(rVuelos.data);
-        } catch (error) {
-            console.log("Error:", error);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres eliminar esta reserva de vuelo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+    
+        if (result.isConfirmed) {
+            try {
+                const eliminarR = await EliminarMiReservaVuelos(id, token);
+                setDatosReservaVuelo(eliminarR);
+    
+                const rVuelos = await MisReservaVuelos(token);
+                setDatosReservaVuelo(rVuelos.data);
+                Swal.fire(
+                    '¡Eliminado!',
+                    'La reserva de vuelo ha sido eliminada.',
+                    'success'
+                );
+            } catch (error) {
+                console.log("Error:", error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar eliminar la reserva de vuelo.',
+                    'error'
+                );
+            }
         }
-    }
+    };
 
     const generarPDFVuelo = (id) => {
         const doc = new jsPDF();
-    
         const vuelo = datosReservaVuelo.find(v => v._id === id);
-    
         if (!vuelo) {
             console.error(`No se encontró ninguna reserva con el ID: ${id}`);
             return;
@@ -98,7 +118,7 @@ export const PerfilUsuario = () => {
         doc.text(`Origen: ${vuelo.origenVuelo}`, 10, 60);
         doc.text(`Destino: ${vuelo.destinoVuelo}`, 10, 70);
         doc.text(`Hora de ida: ${vuelo.horaVuelo}`, 10, 80);
-        doc.text(`Precio total a pagar: ${vuelo.precioPagar}`, 10, 90);
+        doc.text(`Total a pagar: ${vuelo.precioPagar}`, 10, 90);
     
         doc.save(`reserva_de_vuelo_${vuelo._id}.pdf`);
     };
@@ -234,7 +254,7 @@ export const PerfilUsuario = () => {
                                                             />
                                                         </td>
                                                         <td>
-                                                        <button className="btn btn-danger" onClick={() => generarPDF(vuelos._id)} ><i className="bi bi-file-earmark-pdf"></i></button>
+                                                        <button className="btn btn-outline-dark" onClick={() => generarPDF(vuelos._id)} ><i className="bi bi-file-earmark-pdf"></i></button>
                                                             <button className="btn btn-danger" onClick={() => eliminarResVuelo(vuelos._id)} ><i className="bi bi-trash3"></i></button>
                                                         </td>
                                                     </tr>

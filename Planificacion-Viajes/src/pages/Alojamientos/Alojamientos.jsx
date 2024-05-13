@@ -1,6 +1,6 @@
 
 import { useNavigate } from "react-router-dom"
-import "./GestionDeAlojamientos.css"
+import "./Alojamientos.css"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
@@ -9,9 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaDeAlojamientos } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { TextField } from "@mui/material";
-import Swal from "sweetalert2";
 
-export const GestionDeAlojamientos = () => {
+export const Alojamientos = () => {
     const navigate = useNavigate();
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
@@ -85,57 +84,19 @@ export const GestionDeAlojamientos = () => {
     }
 
     /////////////  MÉTODO ACTUALIZAR ALOJAMIENTO   ////////////////
-    // const actualizarAlojamiento = async () => {
-    //     try {
-    //         const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
-    //         setEditandoAlojamiento(actualizar)
-
-    //         const listaVuelos = await ListaDeAlojamientos(token);
-    //         setAlojamientoSeleccionado(listaVuelos.data);
-    //         abrirCerrarModalEditar();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     const actualizarAlojamiento = async () => {
-        const result = await Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Quieres actualizar este alojamiento?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, actualizar',
-            cancelButtonText: 'Cancelar'
-        });
-        
-        if (result.isConfirmed) {
-            try {
-                const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
-                setEditandoAlojamiento(actualizar);
-    
-                const listaVuelos = await ListaDeAlojamientos(token);
-                setAlojamientoSeleccionado(listaVuelos.data);
+        try {
+            const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
+            setEditandoAlojamiento(actualizar)
 
-                abrirCerrarModalEditar();
-    
-                // Mostrar un mensaje de éxito
-                Swal.fire(
-                    '¡Actualizado!',
-                    'El alojamiento ha sido actualizado correctamente.',
-                    'success'
-                );
-            } catch (error) {
-                // Mostrar un mensaje de error si ocurre un problema
-                console.log(error);
-                Swal.fire(
-                    'Error',
-                    'Ha ocurrido un error al intentar actualizar el alojamiento.',
-                    'error'
-                );
-            }
+            const listaVuelos = await ListaDeAlojamientos(token);
+            setAlojamientoSeleccionado(listaVuelos.data);
+            abrirCerrarModalEditar();
+        } catch (error) {
+            console.log(error);
         }
-    };
-    
+    }
+
     const editar = (alojamiento) => {
         setEditandoAlojamiento({
             ...alojamiento
@@ -145,35 +106,14 @@ export const GestionDeAlojamientos = () => {
 
     /////////////  MÉTODO ELIMINAR ALOJAMIENTO   ////////////////
     const eliminarAlojamiento = async (_id) => {
-        const result = await Swal.fire({
-            title: '¿Estás seguro?',
-            text: 'Deseas eliminar esté Alojamiento?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        });
+        try {
+            const eliminarUsuario = await EliminarAjamiento(_id, token);
+            setEditandoAlojamiento(eliminarUsuario);
 
-        if (result.isConfirmed) {
-            try {
-                const eliminarUsuario = await EliminarAjamiento(_id, token);
-                setEditandoAlojamiento(eliminarUsuario);
-
-                const listaVuelos = await ListaDeAlojamientos(token);
-                setAlojamientoSeleccionado(listaVuelos.data);
-                Swal.fire(
-                    '¡Eliminado!',
-                    'Alojamiento ha sido eliminado.',
-                    'success'
-                );
-            } catch (error) {
-                console.log("Error:", error);
-                Swal.fire(
-                    'Error',
-                    'Ha ocurrido un error al intentar eliminar Alojamiento.',
-                    'error'
-                );
-            }
+            const listaVuelos = await ListaDeAlojamientos(token);
+            setAlojamientoSeleccionado(listaVuelos.data);
+        } catch (error) {
+            console.log(error);
         }
     }
 

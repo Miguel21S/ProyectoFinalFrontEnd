@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAlojamiento } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { TextField } from "@mui/material";
+import Swal from "sweetalert2";
 
 export const GestionDeReservaAlojamientos = () => {
     const navigate = useNavigate();
@@ -84,20 +85,44 @@ export const GestionDeReservaAlojamientos = () => {
     //     }
     // }
 
-  
+
     /////////////  MÉTODO ACTUALIZAR ALOJAMIENTO   ////////////////
     const actualizarAlojamiento = async () => {
-        try {
-            const actualizar = await EditarReservaAlojamiento(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres actualizar reserva de alojamiento?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, actualizar',
+            cancelButtonText: 'Cancelar'
+        });
+        
+        if (result.isConfirmed) {
+            try {
+                const actualizar = await EditarReservaAlojamiento(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
             setModalEditandoReservaAlojamiento(actualizar)
 
             const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
             setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             abrirCerrarModalEditar();
-        } catch (error) {
-            console.log(error);
+    
+                // Mostrar un mensaje de éxito
+                Swal.fire(
+                    '¡Actualizado!',
+                    'La reserva de alojamiento ha sido actualizado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                // Mostrar un mensaje de error si ocurre un problema
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar actualizar la reserva de alojamiento.',
+                    'error'
+                );
+            }
         }
-    }
+    };
 
     const editar = (rAlojamiento) => {
         setEditandoReservaAlojamiento({
@@ -108,14 +133,35 @@ export const GestionDeReservaAlojamientos = () => {
 
     /////////////  MÉTODO ELIMINAR ALOJAMIENTO   ////////////////
     const eliminarReservaAlojamiento = async (_id) => {
-        try {
-            const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
-            setEditandoReservaAlojamiento(eReservaUsuario);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Deseas eliminar reserva de alojamiento?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
 
-            const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
-            setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
-        } catch (error) {
-            console.log(error);
+        if (result.isConfirmed) {
+            try {
+                const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
+                setEditandoReservaAlojamiento(eReservaUsuario);
+
+                const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
+                Swal.fire(
+                    '¡Eliminado!',
+                    'Reserva de alojamiento ha sido eliminado.',
+                    'success'
+                );
+            } catch (error) {
+                console.log("Error:", error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar eliminar reserva de alojamiento.',
+                    'error'
+                );
+            }
         }
     }
 
@@ -316,7 +362,7 @@ export const GestionDeReservaAlojamientos = () => {
                                             type="horaEntrada"
                                             name="horaEntrada"
                                             placeholder="Hora entrada..."
-                                            value={editandoReservaAlojamiento.horaEntrada  || ""}
+                                            value={editandoReservaAlojamiento.horaEntrada || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField

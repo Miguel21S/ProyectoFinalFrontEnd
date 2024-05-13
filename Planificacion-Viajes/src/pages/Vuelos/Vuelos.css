@@ -1,0 +1,75 @@
+
+.detalle-vuelo{
+    background-color: rgb(253, 251, 251);
+    min-height: 90vh;
+    width: 98.9vw;
+    margin: 0 auto;
+    color: rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+.card{
+    width: 45vw;
+    margin: 8px;
+    background-color: rgb(255, 255, 255);
+    color: #020202;
+}
+
+p{
+    width:100px;
+    margin-left: 10%;
+}
+
+.linea-horizontal {
+    border-top: 1px solid black;
+    margin-right: 10px;
+
+}
+
+.origeDestino{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.detalle-origen, .detalle-destino{
+    margin-top: 5px;
+    width: 30vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+
+.detalle-precio{
+    margin-top: 5px;
+    width: 12.6vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.btn-detalleVuelo{
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: flex-end;
+}
+@media (max-width: 768px) {
+    .home-top {
+        flex-direction: column;
+    }
+
+    .home-top-left,
+    .home-top-right {
+        width: 100%;
+    }
+
+    .todosPostes {
+        width: 100%;
+        margin: 10px auto;
+    }
+}

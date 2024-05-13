@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
 import { ActualizarVuelo, AdicionarVuelo, EliminarVuelo, ListaDeVuelos } from "../../services/rootss";
 import { TextField } from "@mui/material";
+import Swal from "sweetalert2";
 
 export const GestionVuelos = () => {
     const navigate = useNavigate();
@@ -97,30 +98,75 @@ export const GestionVuelos = () => {
     }
     /////////////  MÉTODO ACTUALIZAR VUELO   ////////////////
     const actualizarVuelo = async () => {
-        try {
-            console.log("QUE SE ENVIA", ActualizarVuelo(vuelosEditando._id, vuelosEditando, token))
-
-            const actualizar = await ActualizarVuelo(vuelosEditando._id, vuelosEditando, token);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Quieres actualizar este vuelo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, actualizar',
+            cancelButtonText: 'Cancelar'
+        });
+        
+        if (result.isConfirmed) {
+            try {
+                const actualizar = await ActualizarVuelo(vuelosEditando._id, vuelosEditando, token);
             setVuelosEditando(actualizar)
 
             const listaVuelos = await ListaDeVuelos(token);
             setVueloSeleccionado(listaVuelos.data);
             abrirCerrarModalEditar();
-        } catch (error) {
-            console.log(error);
+
+                abrirCerrarModalEditar();
+    
+                // Mostrar un mensaje de éxito
+                Swal.fire(
+                    '¡Actualizado!',
+                    'El vuelo ha sido actualizado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                // Mostrar un mensaje de error si ocurre un problema
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar actualizar el vuelo.',
+                    'error'
+                );
+            }
         }
-    }
+    };
 
     /////////////  MÉTODO ELIMINAR VUELO   ////////////////
     const eliminarVueloId = async (_id) => {
-        try {
-            const eliminarUsuario = await EliminarVuelo(_id, token);
-            setVuelosEditando(eliminarUsuario);
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Deseas eliminar esté Vuelo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+    
+        if (result.isConfirmed) {
+            try {
+                const eliminarVuelo = await EliminarVuelo(_id, token);
+            setVuelosEditando(eliminarVuelo);
 
             const listaVuelos = await ListaDeVuelos(token);
             setVueloSeleccionado(listaVuelos.data);
-        } catch (error) {
-            console.log(error);
+                Swal.fire(
+                    '¡Eliminado!',
+                    'Vuelo ha sido eliminado.',
+                    'success'
+                );
+            } catch (error) {
+                console.log("Error:", error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar eliminar Vuelo.',
+                    'error'
+                );
+            }
         }
     }
 
