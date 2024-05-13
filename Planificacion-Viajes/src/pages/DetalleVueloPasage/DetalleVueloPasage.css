@@ -53,11 +53,13 @@
 
 .btn-info-Pagar,
 .btn-info-pdf {
-    margin-left: 5px;
+    margin-left: 41px;
     height: 5vh;
     margin-top: 10px;
+    
 }
 
-.btn-info-Pagar {
+.btn-size {
+    width: 10vw;
     height: 5vh;
 }

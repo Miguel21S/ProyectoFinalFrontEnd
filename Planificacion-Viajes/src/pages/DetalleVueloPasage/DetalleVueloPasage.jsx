@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-import jsPDF from 'jspdf';
 import "./DetalleVueloPasage.css";
 import { HacerReservaVuelo, ListaDeVuelos } from "../../services/rootss";
 import { useNavigate, useParams } from "react-router-dom";
@@ -131,10 +130,7 @@ export const DetalleVueloPasage = () => {
 
                                                             <div className="btn-info-DPasage">
                                                             <div className="btn-info-Pagar">
-                                                                <button type="button" onClick={() => comprarBillete(_id)} className="btn btn-outline-success">Pagar</button>
-                                                            </div>
-                                                            <div className="btn-info-pdf">
-                                                                <button type="button" onClick={generarPDF} className="btn btn-outline-dark">Generar PDF</button>
+                                                                <button type="button" onClick={() => comprarBillete(_id)} className="btn btn-outline-success btn-size">Pagar</button>
                                                             </div>
                                                         </div>
                                                         </div>
