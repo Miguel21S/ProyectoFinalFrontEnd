@@ -124,8 +124,8 @@ export const Registrar = () => {
                             />
                         </FormControl>
                         <button type='button' id="btn-registrar" className="btn btn-success" onClick={registrar}>registrar</button>
-                        <div className="info-log">¿Aún no tienes cuenta?</div>
-                        <label className="info-reg"> <CLink path="/login" title="Registrarse" /></label>
+                        <div className="info-log">¿Ya tienes cuenta?</div>
+                        <label className="info-reg"> <CLink path="/login" title="Login" /></label>
                     </div>
                 </div>
             </div>

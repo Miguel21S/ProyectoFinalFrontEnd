@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { EliminarMiReservaVuelos, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
+import jsPDF from "jspdf";
 
 
 export const PerfilUsuario = () => {
@@ -78,6 +79,41 @@ export const PerfilUsuario = () => {
             console.log("Error:", error);
         }
     }
+
+    const generarPDFVuelo = (id) => {
+        const doc = new jsPDF();
+    
+        const vuelo = datosReservaVuelo.find(v => v._id === id);
+    
+        if (!vuelo) {
+            console.error(`No se encontró ninguna reserva con el ID: ${id}`);
+            return;
+        }
+    
+        doc.text(`Detalles del ID ${vuelo._id}`, 10, 10);
+        doc.text(`Nombre del vuelo: ${vuelo.nameVuelo}`, 10, 20);
+        doc.text(`Aerolínea: ${vuelo.aerolineaVuelo}`, 10, 30);
+        doc.text(`Pasageiro: ${vuelo.nameUsuario} ${vuelo.nameApellido}`, 10, 40);
+        doc.text(`Email: ${vuelo.emailUsuario}`, 10, 50);
+        doc.text(`Origen: ${vuelo.origenVuelo}`, 10, 60);
+        doc.text(`Destino: ${vuelo.destinoVuelo}`, 10, 70);
+        doc.text(`Hora de ida: ${vuelo.horaVuelo}`, 10, 80);
+        doc.text(`Precio total a pagar: ${vuelo.precioPagar}`, 10, 90);
+    
+        doc.save(`reserva_de_vuelo_${vuelo._id}.pdf`);
+    };
+
+    const generarPDF = (id) => {
+        generarPDFVuelo(id);
+    
+        const newWindow = window.open('', '_blank');
+        if (newWindow !== null) {
+            newWindow.document.write('<html><head><title>PDF</title></head><body>');
+            newWindow.document.write('<p>Abriendo PDF en una nueva ventana...</p>');
+            newWindow.document.write('</body></html>');
+        }
+    };
+    
     return (
         <>
             <div className="usuarioPerfil-design">
@@ -198,8 +234,8 @@ export const PerfilUsuario = () => {
                                                             />
                                                         </td>
                                                         <td>
+                                                        <button className="btn btn-danger" onClick={() => generarPDF(vuelos._id)} ><i className="bi bi-file-earmark-pdf"></i></button>
                                                             <button className="btn btn-danger" onClick={() => eliminarResVuelo(vuelos._id)} ><i className="bi bi-trash3"></i></button>
-
                                                         </td>
                                                     </tr>
                                                 ))}

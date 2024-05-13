@@ -68,35 +68,6 @@ export const DetalleVueloPasage = () => {
         }
     }
 
-    const generarPDF = () => {
-        const doc = new jsPDF();
-
-        reservaVuelo.forEach((vuelo, index) => {
-            const PosicionVertical_Y = index * 200 + 10;
-
-            doc.text(`Detalles del vuelo ${vuelo.name}`, 10, PosicionVertical_Y);
-            doc.text(`Aerolínea: ${vuelo.aerolinea}`, 10, PosicionVertical_Y + 20);
-            doc.text(`Cantidad de personas: ${vuelo.capacidadAsiento}`, 10, PosicionVertical_Y + 40);
-            doc.text(`Origen: ${vuelo.origen}`, 10, PosicionVertical_Y + 50);
-            doc.text(`Destino: ${vuelo.destino}`, 10, PosicionVertical_Y + 60);
-            doc.text(`Fecha de ida: ${vuelo.fechaIda}`, 10, PosicionVertical_Y + 70);
-            doc.text(`Hora de ida: ${vuelo.horaIda}`, 10, PosicionVertical_Y + 80);
-            doc.text(`Precio total a pagar: ${vuelo.precio}`, 10, PosicionVertical_Y + 90);
-
-            doc.line(10, PosicionVertical_Y + 100, 200, PosicionVertical_Y + 100);
-        });
-
-        const docDdf = doc.output('datauristring');
-
-        const newWindow = window.open('', '_blank');
-
-        if (newWindow !== null) {
-            newWindow.document.write('<html><head><title>PDF</title></head><body>');
-            newWindow.document.write(`<iframe width='100%' height='100%' src='${docDdf}'></iframe>`);
-            newWindow.document.write('</body></html>');
-        }
-    };
-
     return (
         <>
             <div className="design-vuelopasage">

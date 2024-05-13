@@ -12,6 +12,12 @@ export const Home = () => {
     const [vuelo, setVuelo] = useState([]);
     const [alojamiento, setAlojamiento] = useState([]);
 
+    const [activeTab, setActiveTab] = useState('home');
+
+    const handleTabChange = (tabKey) => {
+        setActiveTab(tabKey);
+    };
+
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
@@ -120,13 +126,72 @@ export const Home = () => {
                 </div>
 
                 <div className="porColuna3">
+                    <h5>Buscar alojamientos por ciudad</h5>
                     <div className="row">
-                        <div className="content3">
+                        <div className="content1">
                             <div id="col-cards-ciudads" className="col">
+                                <div>
+                                    <div className="tabs">
+                                        <button
+                                            className={`tab ${activeTab === 'Ciudad' ? 'active' : ''}`}
+                                            onClick={() => handleTabChange('Ciudad')}
+                                        >
+                                            Ciudad <span> <i className="bi bi-buildings"></i></span>
+                                        </button>
+                                        <button
+                                            className={`tab ${activeTab === 'Playa' ? 'active' : ''}`}
+                                            onClick={() => handleTabChange('Playa')}
+                                        >
+                                            Playa <i className="bi bi-umbrella"></i>
+                                        </button>
+                                        <button
+                                            className={`tab ${activeTab === 'Monumentos' ? 'active' : ''}`}
+                                            onClick={() => handleTabChange('Monumentos')}
+                                        >
+                                            Monumentos
+                                        </button>
+                                        <button
+                                            className={`tab ${activeTab === 'Aire Libre' ? 'active' : ''}`}
+                                            onClick={() => handleTabChange('Aire Libre')}
+                                        >
+                                            Aire Libre <i className="bi bi-bicycle"></i>
+                                        </button>
+                                        <button
+                                            className={`tab ${activeTab === 'Compras' ? 'active' : ''}`}
+                                            onClick={() => handleTabChange('Compras')}
+                                        >
+                                            Compras <i className="bi bi-shop"></i>
+                                        </button>
+                                    </div>
+
+                                    <div className="tab-content">
+                                        <div className={`tab-pane ${activeTab === 'Ciudad' ? 'active' : ''}`}>
+                                            Tab content for Ciudad
+                                        </div>
+                                        <div className={`tab-pane ${activeTab === 'Playa' ? 'active' : ''}`}>
+                                            Tab content for Playa
+                                        </div>
+                                        <div className={`tab-pane ${activeTab === 'Monumentos' ? 'active' : ''}`}>
+                                            Tab content for Monumentos
+                                        </div>
+                                        <div className={`tab-pane ${activeTab === 'Aire Libre' ? 'active' : ''}`}>
+                                            Tab content for Aire Libre
+                                        </div>
+                                        <div className={`tab-pane ${activeTab === 'Compras' ? 'active' : ''}`}>
+                                            Tab content for Compras
+                                        </div>
+                                    </div>
+                                </div>
+
 
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="porColuna4">
+                    <h5>Buscar alojamientos por ciudad</h5>
+
                 </div>
             </div>
         </div>
