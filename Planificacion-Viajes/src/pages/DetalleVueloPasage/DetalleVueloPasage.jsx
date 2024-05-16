@@ -9,6 +9,7 @@ import CTextField from "../../common/CTextField/CTextField";
 import { Paper } from "@mui/material";
 import EventSeatIcon from '@mui/icons-material/EventSeat';
 import { Stack } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export const DetalleVueloPasage = () => {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ export const DetalleVueloPasage = () => {
         }));
     };
 
+    ////////////////////////////////   LISTA DE VUELOS   ///////////////////////////////////
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
@@ -49,21 +51,44 @@ export const DetalleVueloPasage = () => {
         listaDeVuelos();
     }, [_id])
 
+    //////////////////////////  MÉTODO COMPRAR BILLETE  /////////////////////////
     const comprarBillete = async () => {
-        try {
-            const billete = await HacerReservaVuelo(_id, vueloPagar, token);
-            setVueloPagar({
-                _id: "",
-                cantidadAsiento: "",
-                precioPagar: "",
-                billete
-            });
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Pretendes comprar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar'
+        });
 
-            if (!rdxUsuario.credentials.token) {
-                navigate("/login")
+        if (result.isConfirmed) {
+            try {
+                const billete = await HacerReservaVuelo(_id, vueloPagar, token);
+                setVueloPagar({
+                    _id: "",
+                    cantidadAsiento: "",
+                    precioPagar: "",
+                    billete
+                });
+                
+                if (!rdxUsuario.credentials.token) {
+                    navigate("/login")
+                }
+                Swal.fire(
+                    '¡Pago!',
+                    'Se ha pagado correctamente.',
+                    'success',
+                );
+    
+            } catch (error) {
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar comprar el pasagen.',
+                    'error'
+                );
             }
-        } catch (error) {
-            console.log("Error:", error);
         }
     }
 
@@ -129,10 +154,10 @@ export const DetalleVueloPasage = () => {
                                                             </div>
 
                                                             <div className="btn-info-DPasage">
-                                                            <div className="btn-info-Pagar">
-                                                                <button type="button" onClick={() => comprarBillete(_id)} className="btn btn-outline-success btn-size">Pagar</button>
+                                                                <div className="btn-info-Pagar">
+                                                                    <button type="button" onClick={() => comprarBillete(_id)} className="btn btn-outline-success btn-size">Pagar</button>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         </div>
                                                     </Paper>
                                                     <Paper >

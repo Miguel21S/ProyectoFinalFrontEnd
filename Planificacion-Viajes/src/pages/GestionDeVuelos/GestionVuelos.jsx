@@ -117,15 +117,13 @@ export const GestionVuelos = () => {
             abrirCerrarModalEditar();
 
                 abrirCerrarModalEditar();
-    
-                // Mostrar un mensaje de éxito
+
                 Swal.fire(
                     '¡Actualizado!',
                     'El vuelo ha sido actualizado correctamente.',
                     'success'
                 );
             } catch (error) {
-                // Mostrar un mensaje de error si ocurre un problema
                 console.log(error);
                 Swal.fire(
                     'Error',

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAlojamiento } from "../../services/rootss";
+import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAlojamientoAdmin } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { TextField } from "@mui/material";
 import Swal from "sweetalert2";
@@ -57,7 +57,7 @@ export const GestionDeReservaAlojamientos = () => {
     useEffect(() => {
         const reservaAlojamientos = async () => {
             try {
-                const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
                 setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -102,7 +102,7 @@ export const GestionDeReservaAlojamientos = () => {
                 const actualizar = await EditarReservaAlojamiento(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
             setModalEditandoReservaAlojamiento(actualizar)
 
-            const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+            const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
             setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             abrirCerrarModalEditar();
     
@@ -131,7 +131,7 @@ export const GestionDeReservaAlojamientos = () => {
         abrirCerrarModalEditar();
     }
 
-    /////////////  MÉTODO ELIMINAR ALOJAMIENTO   ////////////////
+    /////////////  MÉTODO ELIMINAR RESERVA DE ALOJAMIENTO   ////////////////
     const eliminarReservaAlojamiento = async (_id) => {
         const result = await Swal.fire({
             title: '¿Estás seguro?',
@@ -147,7 +147,7 @@ export const GestionDeReservaAlojamientos = () => {
                 const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
                 setEditandoReservaAlojamiento(eReservaUsuario);
 
-                const listaReservaAlojamiento = await ListaReservaAlojamiento(token);
+                const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
                 setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -342,7 +342,7 @@ export const GestionDeReservaAlojamientos = () => {
 
                                 <Modal show={modalEditandoReservaAlojamiento} onHide={abrirCerrarModalEditar}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Editar Vuelo</Modal.Title>
+                                        <Modal.Title>Editar Alojamiento</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body className="modal">
                                         <TextField className="textFil"

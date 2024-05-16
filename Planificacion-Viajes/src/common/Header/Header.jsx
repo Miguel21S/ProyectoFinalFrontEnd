@@ -82,9 +82,9 @@ export const Header = () => {
                                                                                     <CLink path="/gestionDeReservaAlojamientos" title="Reserva de Alojamientos"></CLink>
                                                                                 </NavDropdown.Item>
                                                                                 <NavDropdown.Divider />
-                                                                                <NavDropdown.Item className="item">
+                                                                                {/* <NavDropdown.Item className="item">
                                                                                     Something else here
-                                                                                </NavDropdown.Item>
+                                                                                </NavDropdown.Item> */}
                                                                             </NavDropdown>
 
                                                                             <NavDropdown className='nav-drop' title={rdxUsuario.credentials.usuario.name} id="navbarScrollingDropdown">
@@ -183,8 +183,8 @@ export const Header = () => {
                                                                     </Grid>
                                                                     <Grid item xs={15}>
                                                                         <div className="header-secundario-navegate">
-                                                                            <CLink path="/" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
-                                                                            <CLink path="/" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
+                                                                            <CLink path="/todosvuelos/destino" title={<span>Vuelo <i className="bi bi-airplane"></i></span>} />
+                                                                            <CLink path="/todosalojamientos" title={<span>Alojamientos <i className="bi bi-cake"></i></span>} />
                                                                             <CLink path="/" title={<span>Planificador <i className="bi bi-calendar-check"></i></span>} />
                                                                         </div>
                                                                     </Grid>

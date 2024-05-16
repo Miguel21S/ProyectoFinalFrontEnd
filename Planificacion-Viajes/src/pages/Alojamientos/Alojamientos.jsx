@@ -22,6 +22,7 @@ export const Alojamientos = () => {
         }
     }, [rdxUsuario]);
 
+    /////////////////////  LISTAR ALOJAMIENTOS  /////////////////////////////
     useEffect(() => {
         const listaDeAlojamientos = async () => {
             try {

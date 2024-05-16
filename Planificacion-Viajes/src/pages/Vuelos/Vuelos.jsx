@@ -7,7 +7,7 @@ import { userData } from "../../app/slices/userSlice";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ListaDeVuelos } from "../../services/rootss";
 import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import CTextField from "../../common/CTextField/CTextField";
 // import { TextField } from "@mui/material";
 
@@ -39,7 +39,6 @@ export const Vuelos = () => {
 
                 });
                 setVuelo(agruparVuelos);
-                console.log("agruparVuelos", agruparVuelos)
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -64,24 +63,30 @@ export const Vuelos = () => {
                                         <Grid item xs={12} sm={6} lg={3} key={destino}> {/* Tamaño de las columnas */}
                                             <div className="custom-column mb-3">
                                                 <Card sx={{ maxWidth: 345 }} className="content-vuelo">
-                                                    <CardActionArea>
-                                                        <CardContent>
-                                                            <Typography gutterBottom variant="h5" component="div">
-                                                                {destino}
-                                                            </Typography>
-                                                        </CardContent>
-                                                         {/* <CardMedia
+
+                                                    {vuelos[destino].map(vueloItem => (
+                                                        <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origen}/${vueloItem.destino}`} className="mx-3">
+                                                            <CardActionArea>
+                                                                <CardContent>
+                                                                    <Typography gutterBottom variant="h5" component="div">
+                                                                        {destino}
+                                                                    </Typography>
+                                                                </CardContent>
+                                                                {/* <CardMedia
                                                         component="img"
                                                         height="140"
                                                         image="/static/images/cards/contemplative-reptile.jpg"
                                                         alt="green iguana" 
-                                                    /> */}
-                                                        {vuelos[destino].map(vueloItem => (
-                                                            <div key={vueloItem._id}>
-                                                                
-                                                            </div>
-                                                        ))}
-                                                    </CardActionArea>
+                                                         /> */}
+                                                            </CardActionArea>
+                                                            {/* <div className="text-center">
+                                                            <h5 className="mt-2">{`${vueloItem.origen} - ${vueloItem.destino}`}</h5>
+                                                        </div>
+                                                        <div className="vmb-4">
+                                                            <img src="./src/img/av1.jpg" className="imge" alt={vueloItem.name} />
+                                                        </div> */}
+                                                        </Link>
+                                                    ))}
                                                 </Card>
                                             </div>
                                         </Grid>

@@ -95,11 +95,11 @@ h5{
 
 
 .porColuna3 {
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.2);
     border-radius: 0.6cap;
     margin-top: 25px;
     width: 95vw;
-    height: 70vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -107,9 +107,9 @@ h5{
 
 }
 
-.content1 {
-    box-shadow: 0px -4px 6px rgb(225, 225, 224);
-    width: 90vw;
+.content3 {
+    box-shadow: 0px -3px 6px rgb(225, 225, 224);
+    width: 95vw;
     height: 65vh;
     margin-top: 10px;
     display: flex;
@@ -118,56 +118,78 @@ h5{
     align-items: flex-start;
 }
 
-.controla{
-    width: 100vw;
-}
 .tabs {
     display: flex;
-    justify-content: space-around;
-    background-color: transparent; /* Hace que el fondo de la barra de tabs sea transparente */
-    border: none; /* Elimina cualquier borde */
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
   }
-  
+
   .tab {
     color: #000;
     font-size: 1em;
-    background-color: transparent; /* Hace que el fondo del botón del tab sea transparente */
-    border: none; /* Elimina cualquier borde */
-    padding: 10px 20px; /* Ajusta el espaciado interno */
-    cursor: pointer; /* Cambia el cursor a una mano */
-    transition: background-color 0.3s; /* Agrega una transición suave */
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
-  
+
   .tab:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Cambia el color de fondo al pasar el ratón */
+    background-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .tab.active {
-    color: rgba(11, 219, 11, 0.833); /* Cambia el color de fondo cuando está activo */
+    color: rgba(11, 219, 11, 0.833);
   }
-  
+
   .tab-content {
-    padding: 20px; /* Ajusta el espaciado del contenido */
+    padding: 20px;
   }
-  
+
   .tab-pane {
-    display: none; /* Oculta todos los paneles de contenido por defecto */
+    display: none;
+    
   }
-  
+
   .tab-pane.active {
-    display: block; /* Muestra el panel de contenido activo */
+    display: block;
   }
-  
+
 .tab-content{
     color: #000;
+
 }
 
-.porColuna4 {
-    width: 95vw;
-    height: 70vh;
+.cardPlanificacion {
+    border-radius: 0.6cap;;
+    box-shadow: 0px -3px rgba(0, 0, 0, 0.2);
+    width: 90vw;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
 }
+
+.contentPlanificacion{
+   
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+/* .cardPlaniHijo {
+    width: 90vw;
+    height: 65vh;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #050505;
+
+} */

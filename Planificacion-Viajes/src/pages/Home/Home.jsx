@@ -6,6 +6,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import { Link, useNavigate } from "react-router-dom";
 import { userData } from "../../app/slices/userSlice";
 import { useSelector } from "react-redux";
+import { CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+import { Card } from "react-bootstrap";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -34,8 +36,6 @@ export const Home = () => {
             try {
                 const listaVuelos = await ListaDeVuelos(token);
                 setVuelo(listaVuelos.data);
-                console.log("listaVuelos: ", listaVuelos)
-
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -49,7 +49,6 @@ export const Home = () => {
             try {
                 const lAlojamientos = await ListaDeAlojamientos(token);
                 setAlojamiento(lAlojamientos.data);
-
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -129,7 +128,7 @@ export const Home = () => {
                 <div className="porColuna3">
                     <h5>Planificador de actividades de viajes rápido y sencillo</h5>
                     <div className="row">
-                        <div className="content1">
+                        <div className="content3">
                             <div id="col-cards-ciudads" className="col">
                                 <div>
                                     <div className="tabs">
@@ -167,19 +166,138 @@ export const Home = () => {
 
                                     <div className="tab-content">
                                         <div className={`tab-pane ${activeTab === 'Ciudad' ? 'active' : ''}`}>
+                                            <div className="cardPlanificacion">
+                                                <div className="row">
                                             Tab content for Ciudad
+                                                    {/* <div className="cardPlaniHijo"> */}
+                                                       
+                                                        {/* <Grid container spacing={2}>
+                                                            <Grid item xs={12} sm={6} lg={3}>
+                                                                <div className="custom-column mb-3">
+                                                                    <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
+                                                                        <CardActionArea>
+                                                                            <CardContent>
+                                                                                <Typography gutterBottom variant="h5" component="div">
+                                            Tab content for Ciudad
+                                                                                </Typography>
+                                                                            </CardContent>
+                                                                        </CardActionArea>
+                                                                    </Card>
+                                                                </div>
+                                                            </Grid>
+                                                        </Grid> */}
+                                                        
+                                                    {/* </div> */}
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div className={`tab-pane ${activeTab === 'Playa' ? 'active' : ''}`}>
+                                            <div className="cardPlanificacion">
+                                                <div className="row">
                                             Tab content for Playa
+                                                    {/* <div className="cardPlaniHijo"> */}
+                                                       
+                                                        {/* <Grid container spacing={2}>
+                                                            <Grid item xs={12} sm={6} lg={3}>
+                                                                <div className="custom-column mb-3">
+                                                                    <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
+                                                                        <CardActionArea>
+                                                                            <CardContent>
+                                                                                <Typography gutterBottom variant="h5" component="div">
+                                            Tab content for Playa
+                                                                                </Typography>
+                                                                            </CardContent>
+                                                                        </CardActionArea>
+                                                                    </Card>
+                                                                </div>
+                                                            </Grid>
+                                                        </Grid> */}
+                                                        
+                                                    {/* </div> */}
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className={`tab-pane ${activeTab === 'Monumentos' ? 'active' : ''}`}>
+                                            <div className="cardPlanificacion">
+                                                <div className="row">
                                             Tab content for Monumentos
+
+                                                    {/* <div className="cardPlaniHijo"> */}
+                                                       
+                                                        {/* <Grid container spacing={2}>
+                                                            <Grid item xs={12} sm={6} lg={3}>
+                                                                <div className="custom-column mb-3">
+                                                                    <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
+                                                                        <CardActionArea>
+                                                                            <CardContent>
+                                                                                <Typography gutterBottom variant="h5" component="div">
+                                            Tab content for Monumentos
+
+                                                                                </Typography>
+                                                                            </CardContent>
+                                                                        </CardActionArea>
+                                                                    </Card>
+                                                                </div>
+                                                            </Grid>
+                                                        </Grid> */}
+                                                        
+                                                    {/* </div> */}
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className={`tab-pane ${activeTab === 'Aire Libre' ? 'active' : ''}`}>
-                                            Tab content for Aire Libre
+                                            <div className="cardPlanificacion">
+                                                <div className="row">
+                                                    {/* <div className="ca
+                                                     Tab content for Aire LibrerdPlaniHijo"> */}
+                                                       
+                                                        {/* <Grid container spacing={2}>
+                                                            <Grid item xs={12} sm={6} lg={3}>
+                                                                <div className="custom-column mb-3">
+                                                                    <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
+                                                                        <CardActionArea>
+                                                                            <CardContent>
+                                                                                <Typography gutterBottom variant="h5" component="div">
+ Tab content for Aire Libre
+                                                                                </Typography>
+                                                                            </CardContent>
+                                                                        </CardActionArea>
+                                                                    </Card>
+                                                                </div>
+                                                            </Grid>
+                                                        </Grid> */}
+                                                        
+                                                    {/* </div> */}
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className={`tab-pane ${activeTab === 'Compras' ? 'active' : ''}`}>
-                                            Tab content for Compras
+                                           
+                                            <div className="cardPlanificacion">
+                                                <div className="row">
+                                                Tab content for Compras
+                                                    {/* <div className="cardPlaniHijo"> */}
+                                                       
+                                                        {/* <Grid container spacing={2}>
+                                                            <Grid item xs={12} sm={6} lg={3}>
+                                                                <div className="custom-column mb-3">
+                                                                    <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
+                                                                        <CardActionArea>
+                                                                            <CardContent>
+                                                                                <Typography gutterBottom variant="h5" component="div">
+ Tab content for Compras
+                                                                                </Typography>
+                                                                            </CardContent>
+                                                                        </CardActionArea>
+                                                                    </Card>
+                                                                </div>
+                                                            </Grid>
+                                                        </Grid> */}
+                                                        
+                                                    {/* </div> */}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

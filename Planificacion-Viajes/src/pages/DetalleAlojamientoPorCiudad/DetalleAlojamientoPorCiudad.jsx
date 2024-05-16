@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import CTextField from "../../common/CTextField/CTextField";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
+import Swal from "sweetalert2";
 
 export const DetalleAlojamientoPorCiudad = () => {
     const navigate = useNavigate();
@@ -47,24 +48,46 @@ export const DetalleAlojamientoPorCiudad = () => {
 
     ////////////////   MÉTODO RESERVAR ALOJAMIENTO    //////////////////////////////
     const rAlojamiento = async () => {
-        try {
-            const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
-            setAlojamientoAReservar({
-                _id: "",
-                fechaEntrada: "",
-                horaEntrada: "",
-                fechaSalida: "",
-                horaSalida: "",
-                alojamientoReservado
-            });
-            abrirCerrarModalInsertar()
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Pretendes salvar la reserva?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar'
+        });
 
-            if (!rdxUsuario.credentials.token) {
-                navigate("/login");
+        if(result.isConfirmed){
+            try {
+                const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
+                setAlojamientoAReservar({
+                    _id: "",
+                    fechaEntrada: "",
+                    horaEntrada: "",
+                    fechaSalida: "",
+                    horaSalida: "",
+                    alojamientoReservado
+                });
+                abrirCerrarModalInsertar()
+    
+                if (!rdxUsuario.credentials.token) {
+                    navigate("/login");
+                }
+
+                Swal.fire(
+                    '¡Reservado!',
+                    'Alojamiento se ha reservado correctamente.',
+                    'success'
+                );
+    
+            } catch (error) {
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar reservar alojamiento.',
+                    'error'
+                );
             }
-
-        } catch (error) {
-            console.log("Error:", error);
         }
     };
 
@@ -122,7 +145,7 @@ export const DetalleAlojamientoPorCiudad = () => {
                                                     <div className="col-4 col-sm-6">
                                                         <Modal show={modalInsertar} onHide={() => setModalInsertar(false)}>
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title>Adicionar Vuelo</Modal.Title>
+                                                                <Modal.Title>Reservar Alojamiento</Modal.Title>
                                                             </Modal.Header>
                                                             <div className="row">
                                                                 <Modal.Body className="modal-vuelo">

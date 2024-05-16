@@ -87,8 +87,6 @@ export const Registrar = () => {
     return (
         <>
             <div className="registrar-design">
-
-
                 <div className="card-registrar">
                     <div className="container-registrar">
                         <h2 className="h2-registrar">Feliz planes</h2>

@@ -7,6 +7,7 @@ export const RegitrarUser = async (user) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer ${user}"
         },
         body: JSON.stringify(user),
     }
@@ -178,7 +179,7 @@ export const MisReservaAlojamientos = async (token)=>{
     }
 
     try {
-        const response = await fetch(`${root}mis/reserva`, options);
+        const response = await fetch(`${root}mis/reserva/usuario`, options);
         const data = await response.json();
         if(!data.success){
             throw new Error(data.message);
@@ -524,7 +525,7 @@ export const EliminarAjamiento = async (id, token) => {
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
 ////////////////  RUTA LISTAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
-export const ListaReservaAlojamiento = async (token)=>{
+export const ListaReservaAlojamientoAdmin = async (token)=>{
     const options = {
         method: "GET",
         headers: {
@@ -533,7 +534,7 @@ export const ListaReservaAlojamiento = async (token)=>{
         }
     }
     try {
-        const response = await fetch(`${root}reserva`, options);
+        const response = await fetch(`${root}reserva/admin`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

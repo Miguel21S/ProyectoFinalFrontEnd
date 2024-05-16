@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { useEffect, useState } from "react";
-import { EliminarMiReservaVuelos, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
+import { EliminarMiReservaVuelos, EliminarReservaAlojamiento, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import jsPDF from "jspdf";
@@ -17,12 +17,12 @@ export const PerfilUsuario = () => {
     const [datosReservaVuelo, setDatosReservaVuelo] = useState([]);
     const [datosReservaAlojamientos, setDatosReservaAlojamientos] = useState([]);
     const [datosPerfil, setDatosPerfil] = useState([]);
+    // const [datosReservaAlojamiento, setDatosReservaAlojamiento] = useState([])
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
 
-    /////////////  TRAER DATOS DEL PERFIL DE USUARIO   ////////////////
     useEffect(() => {
         if (!rdxUsuario.credentials.token) {
             navigate("/login")
@@ -30,6 +30,7 @@ export const PerfilUsuario = () => {
     }, [rdxUsuario, navigate]);
 
 
+    /////////////  TRAER DATOS DEL PERFIL DE USUARIO   ////////////////
     useEffect(() => {
         const perfil = async () => {
             try {
@@ -101,6 +102,40 @@ export const PerfilUsuario = () => {
             }
         }
     };
+
+    /////////////  MÉTODO ELIMINAR RESERVA DE ALOJAMIENTO   ////////////////
+    const eliminarReservaAlojamiento = async (_id) => {
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Deseas eliminar reserva de alojamiento?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
+                setDatosReservaAlojamientos(eReservaUsuario);
+
+                const listaReservaAlojamiento = await MisReservaAlojamientos(token);
+                setDatosReservaAlojamientos(listaReservaAlojamiento.data);
+                Swal.fire(
+                    '¡Eliminado!',
+                    'Reserva de alojamiento ha sido eliminado.',
+                    'success'
+                );
+            } catch (error) {
+                console.log("Error:", error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar eliminar reserva de alojamiento.',
+                    'error'
+                );
+            }
+        }
+    }
 
     const generarPDFVuelo = (id) => {
         const doc = new jsPDF();
@@ -364,7 +399,7 @@ export const PerfilUsuario = () => {
                                                             />
                                                         </td>
                                                         <td>
-                                                            <button className="btn btn-danger" onClick={() => eliminarResVuelo(alojaminetos._id)} ><i className="bi bi-trash3"></i></button>
+                                                            <button className="btn btn-danger" onClick={() => eliminarReservaAlojamiento(alojaminetos._id)} ><i className="bi bi-trash3"></i></button>
 
                                                         </td>
                                                     </tr>
