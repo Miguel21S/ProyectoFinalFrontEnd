@@ -1,7 +1,7 @@
 
 import { useNavigate } from "react-router-dom"
 import "./GestionUsuario.css"
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegitrarUser } from "../../services/rootss";
@@ -9,6 +9,7 @@ import { Modal } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
 import Swal from "sweetalert2";
+import { Pagination, Stack } from "@mui/material";
 
 export const GestionUsuario = () => {
     const navigate = useNavigate();
@@ -16,6 +17,14 @@ export const GestionUsuario = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+
+    ////////////////   PAGINACIÓN   ////////////////
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage] = React.useState(6);
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
@@ -69,7 +78,7 @@ export const GestionUsuario = () => {
             }
             const fetched = await RegitrarUser(usuario);
             setUsuario(fetched)
-            
+
             const listaUsuarios = await ListarUsuarios(token);
             setUsuarioSeleccionado(listaUsuarios.data);
             abrirCerrarModalInsertar()
@@ -95,16 +104,16 @@ export const GestionUsuario = () => {
             confirmButtonText: 'Sí, actualizar',
             cancelButtonText: 'Cancelar'
         });
-        
+
         if (result.isConfirmed) {
             try {
-            const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
-            setUsuarioEditando(actualizar)
-            
-            const listaUsuarios = await ListarUsuarios(token);
-            setUsuarioSeleccionado(listaUsuarios.data);
-            abrirCerrarModalEditar();
-    
+                const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
+                setUsuarioEditando(actualizar)
+
+                const listaUsuarios = await ListarUsuarios(token);
+                setUsuarioSeleccionado(listaUsuarios.data);
+                abrirCerrarModalEditar();
+
                 // Mostrar un mensaje de éxito
                 Swal.fire(
                     '¡Actualizado!',
@@ -140,7 +149,7 @@ export const GestionUsuario = () => {
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar'
         });
-    
+
         if (result.isConfirmed) {
             try {
                 const eliminarUsuario = await EliminarUsuario(_id, token);
@@ -199,7 +208,11 @@ export const GestionUsuario = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    usuarioSeleccionado.map((usuario) => (
+                                                    (
+                                                        rowsPerPage > 0 ?
+                                                        usuarioSeleccionado.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                        : usuarioSeleccionado
+                                                    ).map((usuario) => (
                                                         <tr key={usuario._id}>
                                                             <td>
                                                                 <input
@@ -250,6 +263,7 @@ export const GestionUsuario = () => {
                                                 }
                                             </tbody>
                                         </table>
+
                                     </>
                                 )
                                 :
@@ -343,6 +357,14 @@ export const GestionUsuario = () => {
                             </>
                         }
                     </div>
+                    <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
+                        <Pagination
+                            count={Math.ceil(usuarioSeleccionado.length / rowsPerPage)}
+                            page={page}
+                            onChange={handleChangePage}
+                            size="large"
+                        />
+                    </Stack>
                 </div>
             </div >
         </>

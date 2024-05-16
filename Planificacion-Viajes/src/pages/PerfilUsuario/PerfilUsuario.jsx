@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { useEffect, useState } from "react";
-import { EliminarMiReservaVuelos, EliminarReservaAlojamiento, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
+import { EliminarReservaAlojamiento, EliminarReservaVuelo, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import jsPDF from "jspdf";
@@ -82,7 +82,7 @@ export const PerfilUsuario = () => {
     
         if (result.isConfirmed) {
             try {
-                const eliminarR = await EliminarMiReservaVuelos(id, token);
+                const eliminarR = await EliminarReservaVuelo(id, token);
                 setDatosReservaVuelo(eliminarR);
     
                 const rVuelos = await MisReservaVuelos(token);

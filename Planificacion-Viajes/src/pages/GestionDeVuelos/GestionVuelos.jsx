@@ -1,14 +1,14 @@
 
 import { useNavigate } from "react-router-dom"
 import "./GestionVuelos.css"
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
 import { ActualizarVuelo, AdicionarVuelo, EliminarVuelo, ListaDeVuelos } from "../../services/rootss";
-import { TextField } from "@mui/material";
+import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 
 export const GestionVuelos = () => {
@@ -17,6 +17,14 @@ export const GestionVuelos = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+
+     ////////////////   PAGINACIÓN   ////////////////
+     const [page, setPage] = React.useState(1);
+     const [rowsPerPage] = React.useState(6);
+ 
+     const handleChangePage = (event, value) => {
+         setPage(value);
+     };
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
@@ -212,7 +220,11 @@ export const GestionVuelos = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    vueloSeleccionado.map((vuelos) => (
+                                                    (
+                                                        rowsPerPage > 0 ?
+                                                        vueloSeleccionado.slice((page -1) * rowsPerPage, (page -1) * rowsPerPage + rowsPerPage)
+                                                        : vueloSeleccionado
+                                                    ).map((vuelos) => (
                                                         <tr key={vuelos._id}>
                                                             <td>
                                                                 <input
@@ -526,6 +538,14 @@ export const GestionVuelos = () => {
                             </>
                         }
                     </div>
+                    <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
+                        <Pagination
+                            count={Math.ceil(vueloSeleccionado.length / rowsPerPage)}
+                            page={page}
+                            onChange={handleChangePage}
+                            size="large"
+                        />
+                    </Stack>
                 </div>
             </div>
         </>

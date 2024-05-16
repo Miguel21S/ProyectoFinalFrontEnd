@@ -156,7 +156,7 @@ export const MisReservaVuelos = async (token)=>{
     }
 
     try {
-        const response = await fetch(`${root}lista/mis/reserva/vuelo`, options);
+        const response = await fetch(`${root}lista/reserva/vuelo/usuario`, options);
         const data = await response.json();
         if(!data.success){
             throw new Error(data.message);
@@ -191,28 +191,7 @@ export const MisReservaAlojamientos = async (token)=>{
     }
 }
 
-////////////////  RUTA MI RESERVAS DE VUELO  /////////////////////////////
-export const EliminarMiReservaVuelos = async (id, token)=>{
-    const options = {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-        }
-    }
-
-    try {
-        const response = await fetch(`${root}mireserva/vuelo/${id}`, options);
-        const data = await response.json();
-        if(!data.success){
-            throw new Error(data.message);
-        }
-        return data;
-    } catch (error) {
-        return error;
-        
-    }
-}
+///   _______________________   FIN RUTAS DEL PERFIL DE USUARIO   ______________________________________________   ///
 
 ////////////////  RUTA MI RESERVAS DE VUELO  /////////////////////////////
 // export const EliminarMiReservaVuelos = async (id, token)=>{
@@ -345,7 +324,7 @@ export const ListarReservasVuelo = async (token) => {
         }
     }
     try {
-        const response = await fetch(`${root}lista/reserva/vuelo`, options);
+        const response = await fetch(`${root}lista/reserva/vuelo/admin`, options);
         const data = await response.json();
 
         if (!data.success) {

@@ -20,14 +20,14 @@
     flex-direction: column;
 }
 
-.content-vuelos {
+.content-alojamiento {
     width: 100%;
     height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(238, 4, 4);
 }
 
 .btn-adicinar {

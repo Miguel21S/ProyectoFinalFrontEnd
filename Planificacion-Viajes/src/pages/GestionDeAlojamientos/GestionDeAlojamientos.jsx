@@ -1,14 +1,14 @@
 
 import { useNavigate } from "react-router-dom"
 import "./GestionDeAlojamientos.css"
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-import { Modal } from 'react-bootstrap';
+import { Modal, Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaDeAlojamientos } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
-import { TextField } from "@mui/material";
+import { Pagination, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 
 export const GestionDeAlojamientos = () => {
@@ -17,6 +17,14 @@ export const GestionDeAlojamientos = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+
+     ////////////////   PAGINACIÓN   ////////////////
+     const [page, setPage] = React.useState(1);
+     const [rowsPerPage] = React.useState(6);
+ 
+     const handleChangePage = (event, value) => {
+         setPage(value);
+     };
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
@@ -193,12 +201,11 @@ export const GestionDeAlojamientos = () => {
                     <h2>Alojamientos</h2>
                 </div>
 
-                <div className="content-vuelos">
+                <div className="content-alojamiento">
                     {<button className="btn-adicinar" onClick={() => abrirCerrarModalInsertar()}>Adicionar Alojamiento</button>}
 
                     <div className="tabla-Vuelos">
                         {
-
                             alojamientoSeleccionado?.length > 0 ?
                                 (
                                     <>
@@ -215,7 +222,11 @@ export const GestionDeAlojamientos = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    alojamientoSeleccionado.map((alojamiento) => (
+                                                    (
+                                                        rowsPerPage > 0 ?
+                                                        alojamientoSeleccionado.slice((page -1) * rowsPerPage, (page -1) * rowsPerPage + rowsPerPage)
+                                                        : alojamientoSeleccionado
+                                                    ).map((alojamiento) => (
                                                         <tr key={alojamiento._id}>
                                                             <td>
                                                                 <input
@@ -365,6 +376,14 @@ export const GestionDeAlojamientos = () => {
                             </>
                         }
                     </div>
+                    <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
+                        <Pagination
+                            count={Math.ceil(alojamientoSeleccionado.length / rowsPerPage)}
+                            page={page}
+                            onChange={handleChangePage}
+                            size="large"
+                        />
+                    </Stack>
                 </div>
             </div>
         </>
