@@ -42,7 +42,6 @@ export const DetalleVueloPasage = () => {
                 const vuelosFiltrados = listaVuelos.data.find(reservaVuelo => reservaVuelo._id === _id);
                 if (vuelosFiltrados) {
                     setReservaVuelo([vuelosFiltrados]);
-                    console.log("Aerolinea", vuelosFiltrados)
                 }
             } catch (error) {
                 console.log("Error:", error);
