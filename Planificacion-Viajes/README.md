@@ -46,8 +46,20 @@ alt="TypeScript" /></a>
 <a href="https://es.react.dev/"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"></a>
 <a href="https://mui.com/"><img src="https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white"></a>
 
-
 ---
+
+## Para la ejecución local
+```jsx
+https://github.com/Miguel21S/ProyectoFinalFrontEnd.git
+```
+```jsx
+npm install
+```
+En caso de que muestre la falta de algunas dependencias instalar 
+```jsx
+npm install redux react-redux
+npm install redux-persist
+```
 ## Descripción
 El siguiente proyecto se desarrolla un sistema web de planificación de viaje. Un sistema donde los usarios pondrán cadastrarse y hacer sus reservas, y hacer la gestión de sus datos de información.
 
