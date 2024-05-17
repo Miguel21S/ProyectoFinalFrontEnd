@@ -4,11 +4,11 @@ import "./GestionDeAlojamientos.css"
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-import { Modal, Stack } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaDeAlojamientos } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
-import { Pagination, TextField } from "@mui/material";
+import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 
 export const GestionDeAlojamientos = () => {
@@ -197,14 +197,14 @@ export const GestionDeAlojamientos = () => {
     return (
         <>
             <div className="gestioVuelos-design">
-                <div className="titulo-Vuelos">
+                <div className="titulo-alojamiento">
                     <h2>Alojamientos</h2>
                 </div>
 
                 <div className="content-alojamiento">
                     {<button className="btn-adicinar" onClick={() => abrirCerrarModalInsertar()}>Adicionar Alojamiento</button>}
 
-                    <div className="tabla-Vuelos">
+                    <div className="tabla-alojamiento">
                         {
                             alojamientoSeleccionado?.length > 0 ?
                                 (

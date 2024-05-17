@@ -1,4 +1,4 @@
-.gestioVuelos-design {
+.gestiorVuelos-design {
     min-height: 90vh;
     width: 98.9vw;
     background-color: black;
@@ -8,7 +8,7 @@
     overflow-x: hidden;
 }
 
-.titulo-Vuelos {
+.titulo-rVuelos {
     height: 10vh;
     width: 100%;
     color: white;
@@ -20,24 +20,28 @@
     flex-direction: column;
 }
 
-.content-vuelos {
+.content-rVuelos {
     width: 100%;
-    height: 70vh;
+    height: 73vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(12, 12, 12);
 }
 
-.btn-adicinar {
+.btn-adicinarRV {
+    height: 8vh;
     margin-top: 10px;
+    margin-bottom: 5px;
     background-color: none;
     color: rgb(255, 255, 255);
-    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.tabla-Vuelos {
+.tabla-rVuelos {
     width: 95%;
     height: 55vh;
     overflow: auto;
@@ -62,23 +66,6 @@ table {
     border-collapse: collapse;
     width: 95%;
     color: white;
-}
-
-.select-container {
-    max-height: 100px;
-    /* Altura máxima del contenedor */
-    overflow-y: scroll;
-    /* Agregar scroll vertical cuando sea necesario */
-}
-
-/* Estilos para cada opción del selector */
-.select-option {
-    padding: 8px;
-}
-
-/* Estilos para la opción seleccionada */
-.select-option.selected {
-    background-color: #f0f0f0;
 }
 
 th,
@@ -108,16 +95,15 @@ input:focus-visible {
     background-color: rgb(247, 249, 249);
 }
 
-.modal-footer {
+.modal-footer{
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.textFil {
+.textFil{
     width: 31vw;
 }
-
 .btn-secondary:hover {
     background-color: red;
 }

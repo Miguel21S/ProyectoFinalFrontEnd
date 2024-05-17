@@ -1,5 +1,6 @@
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import "./GestionReservasVuelos.css"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
@@ -8,7 +9,7 @@ import { EliminarReservaVuelo, ListarReservasVuelo } from "../../services/rootss
 import { CLink } from "../../common/CLink/CLink";
 import { Modal } from "react-bootstrap";
 import CTextField from "../../common/CTextField/CTextField";
-import { TextField } from "@mui/material";
+import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 
 export const GestionReservasVuelos = () => {
@@ -16,7 +17,15 @@ export const GestionReservasVuelos = () => {
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
 
-    const [vueloSeleccionado, setVueloSeleccionado] = useState({});
+    ////////////////   PAGINACIÓN   ////////////////
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage] = React.useState(6);
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
+
+    const [rVueloSeleccionado, setrVueloSeleccionado] = useState({});
     const [modalEditandoReservaVuelo, setModalEditandoReservaVuelo] = useState(false);
 
     const [editandoReservaVuelo, setEditandoReservaVuelo] = useState({
@@ -48,13 +57,13 @@ export const GestionReservasVuelos = () => {
             [e.target.name]: e.target.value,
         }));
     }
-    
+
     ////////////////////   MÉTODO LISTAR RESERVAS DE VUELO   /////////////////////////////////////
     useEffect(() => {
         const listaDeReservasVuelo = async () => {
             try {
                 const listaReservaVuelos = await ListarReservasVuelo(token);
-                setVueloSeleccionado(listaReservaVuelos.data);
+                setrVueloSeleccionado(listaReservaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -79,16 +88,16 @@ export const GestionReservasVuelos = () => {
     //         confirmButtonText: 'Sí, actualizar',
     //         cancelButtonText: 'Cancelar'
     //     });
-        
+
     //     if (result.isConfirmed) {
     //         try {
     //             const actualizar = await EditarReservaVuelo(editandoReservaVuelo._id, editandoReservaVuelo, token);
     //             setEditandoReservaVuelo(actualizar)
-    
+
     //             const listaReservaVuelos = await ListarReservasVuelo(token);
     //             setVueloSeleccionado(listaReservaVuelos.data);
     //             abrirCerrarModalEditar();
-    
+
     //             // Mostrar un mensaje de éxito
     //             Swal.fire(
     //                 '¡Actualizado!',
@@ -121,10 +130,10 @@ export const GestionReservasVuelos = () => {
         if (result.isConfirmed) {
             try {
                 const eliminarRe = await EliminarReservaVuelo(_id, token);
-            setEditandoReservaVuelo(eliminarRe);
+                setEditandoReservaVuelo(eliminarRe);
 
-            const listaReservaVuelos = await ListarReservasVuelo(token);
-            setVueloSeleccionado(listaReservaVuelos.data);
+                const listaReservaVuelos = await ListarReservasVuelo(token);
+                setrVueloSeleccionado(listaReservaVuelos.data);
                 Swal.fire(
                     '¡Eliminado!',
                     'Reserva de vuelo ha sido eliminado.',
@@ -148,18 +157,17 @@ export const GestionReservasVuelos = () => {
 
     return (
         <>
-            <div className="gestioVuelos-design">
-                <div className="titulo-Vuelos">
+            <div className="gestiorVuelos-design">
+                <div className="titulo-rVuelos">
                     <h2>Vuelos Reservado</h2>
                 </div>
 
-                <div className="content-vuelos">
+                <div className="content-rVuelos">
+                    <button className="btn-adicinarRV"> <CLink path="/vuelos/:origenDestino" title="Reservar vuelos"></CLink></button>
 
-                    <button className="btn-adicinar"> <CLink path="/vuelos/:origenDestino" title="Reservar vuelos"></CLink></button>
-
-                    <div className="tabla-Vuelos">
+                    <div className="tabla-rVuelos">
                         {
-                            vueloSeleccionado?.length > 0 ?
+                            rVueloSeleccionado?.length > 0 ?
                                 (
                                     <>
                                         <table>
@@ -179,7 +187,11 @@ export const GestionReservasVuelos = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    vueloSeleccionado.map((reservaVuelos) => (
+                                                    (
+                                                        rowsPerPage > 0 ?
+                                                        rVueloSeleccionado.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                            : rVueloSeleccionado
+                                                    ).map((reservaVuelos) => (
                                                         <tr key={reservaVuelos._id}>
                                                             <td>
                                                                 <input
@@ -306,6 +318,14 @@ export const GestionReservasVuelos = () => {
                             </>
                         }
                     </div>
+                    <Stack spacing={2} sx={{marginTop: '5px' ,justifyContent: 'center', backgroundColor: 'white'}}>
+                        <Pagination
+                            count={Math.ceil(rVueloSeleccionado.length / rowsPerPage)}
+                            page={page}
+                            onChange={handleChangePage}
+                            size="large"
+                        />
+                    </Stack>
                 </div>
             </div>
         </>

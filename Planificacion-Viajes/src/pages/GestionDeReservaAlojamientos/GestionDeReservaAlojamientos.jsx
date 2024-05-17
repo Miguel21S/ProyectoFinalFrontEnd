@@ -1,14 +1,14 @@
 
 import { useNavigate } from "react-router-dom"
 import "./GestionDeReservaAlojamientos.css"
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAlojamientoAdmin } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
-import { TextField } from "@mui/material";
+import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 
 export const GestionDeReservaAlojamientos = () => {
@@ -23,6 +23,14 @@ export const GestionDeReservaAlojamientos = () => {
     const [modalEditandoReservaAlojamiento, setModalEditandoReservaAlojamiento] = useState(false);
     const [reservaAlojamientoSeleccionado, setReservaAlojamientoSeleccionado] = useState({})
     const [alojamiento, setAlojamiento] = useState(false);
+
+    ////////////////    PAGINACIÓN    ///////////////////////////////
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage] = React.useState(5);
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
 
     const [editandoReservaAlojamiento, setEditandoReservaAlojamiento] = useState({
         _id: "",
@@ -106,14 +114,12 @@ export const GestionDeReservaAlojamientos = () => {
             setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             abrirCerrarModalEditar();
     
-                // Mostrar un mensaje de éxito
                 Swal.fire(
                     '¡Actualizado!',
                     'La reserva de alojamiento ha sido actualizado correctamente.',
                     'success'
                 );
             } catch (error) {
-                // Mostrar un mensaje de error si ocurre un problema
                 console.log(error);
                 Swal.fire(
                     'Error',
@@ -207,7 +213,11 @@ export const GestionDeReservaAlojamientos = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    reservaAlojamientoSeleccionado.map((rAlojamiento) => (
+                                                    (
+                                                        rowsPerPage > 0 ?
+                                                        reservaAlojamientoSeleccionado.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                        :reservaAlojamientoSeleccionado
+                                                        ).map((rAlojamiento) => (
                                                         <tr key={alojamiento._id}>
                                                             <td>
                                                                 <input
@@ -389,6 +399,14 @@ export const GestionDeReservaAlojamientos = () => {
                             </>
                         }
                     </div>
+                    <Stack spacing={2} sx={{marginTop: '7px', marginBottom: '5px', justifyContent: 'center', backgroundColor: 'white'}}>
+                        <Pagination
+                            count={Math.ceil(reservaAlojamientoSeleccionado.length / rowsPerPage)}
+                            page={page}
+                            onChange={handleChangePage}
+                            size="large"
+                        />
+                    </Stack>
                 </div>
             </div>
         </>

@@ -192,12 +192,11 @@ export const GestionVuelos = () => {
                     <h2>Vuelos</h2>
                 </div>
 
-                <div className="content-vuelos">
+                <div className="content-Vuelos">
                     {<button className="btn-adicinar" onClick={() => abrirCerrarModalInsertar()}>Adicionar Vuelo</button>}
 
                     <div className="tabla-Vuelos">
                         {
-
                             vueloSeleccionado?.length > 0 ?
                                 (
                                     <>
@@ -538,7 +537,7 @@ export const GestionVuelos = () => {
                             </>
                         }
                     </div>
-                    <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
+                    <Stack spacing={2} sx={{marginTop: '7px', marginBottom: '5px', justifyContent: 'center', backgroundColor: 'white'}}>
                         <Pagination
                             count={Math.ceil(vueloSeleccionado.length / rowsPerPage)}
                             page={page}

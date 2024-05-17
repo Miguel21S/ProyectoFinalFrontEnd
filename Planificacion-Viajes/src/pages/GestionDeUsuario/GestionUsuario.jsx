@@ -188,7 +188,7 @@ export const GestionUsuario = () => {
                     <h2>Usuarios</h2>
                 </div>
                 <div className="content-usuarios">
-                    {<button className="btn-Registrar" onClick={() => abrirCerrarModalInsertar()}>Registrar Usuario</button>}
+                    {<button className="btn-registrar" onClick={() => abrirCerrarModalInsertar()}>Registrar Usuario</button>}
 
                     <div className="tabla-usuarios">
                         {
@@ -357,7 +357,7 @@ export const GestionUsuario = () => {
                             </>
                         }
                     </div>
-                    <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
+                    <Stack spacing={2} sx={{marginBottom: '10px', justifyContent: 'center', backgroundColor: 'white'}}>
                         <Pagination
                             count={Math.ceil(usuarioSeleccionado.length / rowsPerPage)}
                             page={page}
