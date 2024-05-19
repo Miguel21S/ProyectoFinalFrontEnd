@@ -52,42 +52,44 @@ export const DetalleVueloPasage = () => {
 
     //////////////////////////  MÉTODO COMPRAR BILLETE  /////////////////////////
     const comprarBillete = async () => {
-        const result = await Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Pretendes comprar?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'Cancelar'
-        });
+        if (!rdxUsuario.credentials.token) {
+            navigate("/login")
+        } else {
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Pretendes comprar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'Cancelar'
+            });
 
-        if (result.isConfirmed) {
-            try {
-                const billete = await HacerReservaVuelo(_id, vueloPagar, token);
-                setVueloPagar({
-                    _id: "",
-                    cantidadAsiento: "",
-                    precioPagar: "",
-                    billete
-                });
-                
-                if (!rdxUsuario.credentials.token) {
-                    navigate("/login")
+            if (result.isConfirmed) {
+                try {
+                    const billete = await HacerReservaVuelo(_id, vueloPagar, token);
+                    setVueloPagar({
+                        _id: "",
+                        cantidadAsiento: "",
+                        precioPagar: "",
+                        billete
+                    });
+
+                    Swal.fire(
+                        '¡Pago!',
+                        'Se ha pagado correctamente.',
+                        'success',
+                    );
+
+                } catch (error) {
+                    console.log(error);
+                    Swal.fire(
+                        'Error',
+                        'Ha ocurrido un error al intentar comprar el pasagen.',
+                        'error'
+                    );
                 }
-                Swal.fire(
-                    '¡Pago!',
-                    'Se ha pagado correctamente.',
-                    'success',
-                );
-    
-            } catch (error) {
-                console.log(error);
-                Swal.fire(
-                    'Error',
-                    'Ha ocurrido un error al intentar comprar el pasagen.',
-                    'error'
-                );
             }
+
         }
     }
 

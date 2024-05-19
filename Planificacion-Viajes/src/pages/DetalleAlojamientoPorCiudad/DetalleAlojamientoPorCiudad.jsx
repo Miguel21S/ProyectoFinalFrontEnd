@@ -27,7 +27,7 @@ export const DetalleAlojamientoPorCiudad = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
-    
+
     /////////////  LISTAR ALOJAMIENTOS   ////////////////
     useEffect(() => {
         const listaAlojamientos = async () => {
@@ -48,47 +48,48 @@ export const DetalleAlojamientoPorCiudad = () => {
 
     ////////////////   MÉTODO RESERVAR ALOJAMIENTO    //////////////////////////////
     const rAlojamiento = async () => {
-        const result = await Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Pretendes salvar la reserva?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'Cancelar'
-        });
+        if (!rdxUsuario.credentials.token) {
+            navigate("/login");
+        } else {
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Pretendes salvar la reserva?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'Cancelar'
+            });
 
-        if(result.isConfirmed){
-            try {
-                const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
-                setAlojamientoAReservar({
-                    _id: "",
-                    fechaEntrada: "",
-                    horaEntrada: "",
-                    fechaSalida: "",
-                    horaSalida: "",
-                    alojamientoReservado
-                });
-                abrirCerrarModalInsertar()
-    
-                if (!rdxUsuario.credentials.token) {
-                    navigate("/login");
+            if (result.isConfirmed) {
+                try {
+                    const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
+                    setAlojamientoAReservar({
+                        _id: "",
+                        fechaEntrada: "",
+                        horaEntrada: "",
+                        fechaSalida: "",
+                        horaSalida: "",
+                        alojamientoReservado
+                    });
+                    abrirCerrarModalInsertar()
+
+                    Swal.fire(
+                        '¡Reservado!',
+                        'Alojamiento se ha reservado correctamente.',
+                        'success'
+                    );
+
+                } catch (error) {
+                    console.log(error);
+                    Swal.fire(
+                        'Error',
+                        'Ha ocurrido un error al intentar reservar alojamiento.',
+                        'error'
+                    );
                 }
-
-                Swal.fire(
-                    '¡Reservado!',
-                    'Alojamiento se ha reservado correctamente.',
-                    'success'
-                );
-    
-            } catch (error) {
-                console.log(error);
-                Swal.fire(
-                    'Error',
-                    'Ha ocurrido un error al intentar reservar alojamiento.',
-                    'error'
-                );
             }
         }
+
     };
 
     const abrirCerrarModalInsertar = (id) => {
