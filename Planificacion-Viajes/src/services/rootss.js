@@ -168,6 +168,30 @@ export const MisReservaVuelos = async (token)=>{
     }
 }
 
+////////////////  RUTA ELIMINAR MI RESERVAS DE VUELO  /////////////////////////////
+export const EliminarMiReservaVuelos = async (id, token)=>{
+    const options = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+    console.log("SOLO root: ")
+
+    try {
+        const response = await fetch(`${root}rereserva/vuelo/perfil/${id}`, options);
+        const data = await response.json();
+        
+        if(!data.success){
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;        
+    }
+}
+
 ////////////////  RUTA LISTAR MI RESERVAS DE VUELO  /////////////////////////////
 export const MisReservaAlojamientos = async (token)=>{
     const options = {
@@ -191,31 +215,29 @@ export const MisReservaAlojamientos = async (token)=>{
     }
 }
 
-///   ________________________________________   FIN RUTAS DEL PERFIL DE USUARIO   ______________________________________________   ///
-
-////////////////  RUTA MI RESERVAS DE VUELO  /////////////////////////////
-// export const EliminarMiReservaVuelos = async (id, token)=>{
-//     const options = {
-//         method: 'DELETE',
-//         headers: {
-//             "Content-Type": "application/json",
-//             "Authorization": `Bearer ${token}`,
-//         }
-//     }
-
-//     try {
-//         const response = await fetch(`${root}mis/reserva/${id}`, options);
-//         const data = await response.json();
-//         if(!data.success){
-//             throw new Error(data.message);
-//         }
-//         return data;
-//     } catch (error) {
-//         return error;
+////////////////  RUTA ELIMINAR MI RESERVAS DE ALOJAMIETNO  /////////////////////////////
+export const EliminarMiReservaAjamiento = async (_id, token) =>{
+    const options = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application",
+            "Authorization": `Bearer ${token}`,
+        }
+    }
+    try {
+        const response = await fetch(`${root}/reserva/alojamiento/perfil/${_id}`, options);
+        const data = await response.json();
         
-//     }
-// }
+        if(!data.success){
+            throw new Error(data.message);
+        }
+        return data;
+    } catch (error) {
+        return error;
+    }
+}
 
+///   ________________________________________   FIN RUTAS DEL PERFIL DE USUARIO   ______________________________________________   ///
 
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE VUELO  -----------------------------//

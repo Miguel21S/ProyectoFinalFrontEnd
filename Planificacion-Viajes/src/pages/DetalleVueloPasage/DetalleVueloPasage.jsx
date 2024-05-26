@@ -55,37 +55,38 @@ export const DetalleVueloPasage = () => {
         if (!rdxUsuario.credentials.token) {
             navigate("/login")
         } else {
-            const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: '¿Pretendes comprar?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Sí',
-                cancelButtonText: 'Cancelar'
-            });
+            const vuelo = reservaVuelo[0]; // Suponiendo que hay un vuelo seleccionado
+            const cantidadAsiento = parseInt(vueloPagar.cantidadAsiento);
+            const precioIndividual = parseFloat(vuelo.precio);
+            const precioTotalEsperado = cantidadAsiento * precioIndividual;
 
-            if (result.isConfirmed) {
-                const vuelo = reservaVuelo[0]; // Suponiendo que hay un vuelo seleccionado
-                const cantidadAsiento = parseInt(vueloPagar.cantidadAsiento);
-                const precioIndividual = parseFloat(vuelo.precio);
-                const precioTotalEsperado = cantidadAsiento * precioIndividual;
+            if (!cantidadAsiento || !precioTotalEsperado) {
+                Swal.fire(
+                    'Error',
+                    'Todos los campos son obligatorios.',
+                    'error'
+                );
+                return;
+            } else {
+                const result = await Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: '¿Pretendes comprar?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí',
+                    cancelButtonText: 'Cancelar'
+                });
 
-                if (!cantidadAsiento || !precioTotalEsperado) {
-                    Swal.fire(
-                        'Error',
-                        'Todos los campos son obligatorios.',
-                        'error'
-                    );
-                    return;
-                } else if (precioTotalEsperado !== parseFloat(vueloPagar.precioPagar)) {
-                    Swal.fire(
-                        'Error',
-                        `El precio total esperado (${precioTotalEsperado}€) no coincide con el precio a pagar (${vueloPagar.precioPagar}€).`,
-                        'error'
-                    );
-                    return;
+                if (result.isConfirmed) {
+                    if (precioTotalEsperado !== parseFloat(vueloPagar.precioPagar)) {
+                        Swal.fire(
+                            'Error',
+                            `El precio total esperado (${precioTotalEsperado}€) no coincide con el precio a pagar (${vueloPagar.precioPagar}€).`,
+                            'error'
+                        );
+                        return;
+                    }
                 }
-
                 try {
                     const billete = await HacerReservaVuelo(_id, vueloPagar, token);
                     setVueloPagar({

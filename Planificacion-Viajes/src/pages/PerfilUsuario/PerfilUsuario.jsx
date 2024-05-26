@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { useEffect, useState } from "react";
-import { EliminarReservaAlojamiento, EliminarReservaVuelo, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
+import { EliminarMiReservaAjamiento, EliminarMiReservaVuelos, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import jsPDF from "jspdf";
@@ -82,9 +82,9 @@ export const PerfilUsuario = () => {
     
         if (result.isConfirmed) {
             try {
-                const eliminarR = await EliminarReservaVuelo(_id, token);
+                const eliminarR = await EliminarMiReservaVuelos(_id, token);
                 setDatosReservaVuelo(eliminarR);
-    
+                
                 const rVuelos = await MisReservaVuelos(token);
                 setDatosReservaVuelo(rVuelos.data);
                 Swal.fire(
@@ -116,7 +116,7 @@ export const PerfilUsuario = () => {
 
         if (result.isConfirmed) {
             try {
-                const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
+                const eReservaUsuario = await EliminarMiReservaAjamiento(_id, token);
                 setDatosReservaAlojamientos(eReservaUsuario);
 
                 const listaReservaAlojamiento = await MisReservaAlojamientos(token);

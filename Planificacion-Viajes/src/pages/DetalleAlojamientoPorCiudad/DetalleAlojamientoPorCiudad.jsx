@@ -51,6 +51,17 @@ export const DetalleAlojamientoPorCiudad = () => {
         if (!rdxUsuario.credentials.token) {
             navigate("/login");
         } else {
+            const { fechaEntrada, horaEntrada, fechaSalida, horaSalida } = alojamientoAReservar;
+
+            if (!fechaEntrada || !horaEntrada || !fechaSalida || !horaSalida) {
+                Swal.fire(
+                    'Error',
+                    'Todos los campos son obligatorios.',
+                    'error'
+                );
+                return;
+            }
+
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
                 text: '¿Pretendes salvar la reserva?',
@@ -61,17 +72,6 @@ export const DetalleAlojamientoPorCiudad = () => {
             });
 
             if (result.isConfirmed) {
-                const { fechaEntrada, horaEntrada, fechaSalida, horaSalida } = alojamientoAReservar;
-
-                if (!fechaEntrada || !horaEntrada || !fechaSalida || !horaSalida) {
-                    Swal.fire(
-                        'Error',
-                        'Todos los campos son obligatorios.',
-                        'error'
-                    );
-                    return;
-                }
-
                 try {
                     const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
                     setAlojamientoAReservar({

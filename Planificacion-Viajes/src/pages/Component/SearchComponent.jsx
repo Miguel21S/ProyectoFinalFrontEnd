@@ -1,12 +1,12 @@
 
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateCriteria, profileData } from '../../app/slices/profileSlice';
+import {  useDispatch } from 'react-redux';
+import { updateCriteria } from '../../app/slices/profileSlice';
 import { CInput } from '../../common/CInput/CInput';
 
 const SearchComponent = () => {
     const [criteria, setCriteria] = useState("");
-    const profile = useSelector(profileData);
+    // const profile = useSelector(profileData);
 
     const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ const SearchComponent = () => {
         }
     }, [criteria, dispatch]);
 
-    console.log("profile criteria: ", profile.criteria)
+    // console.log("profile criteria: ", profile.criteria)
     return (
         <>
             <div className="buscador">
