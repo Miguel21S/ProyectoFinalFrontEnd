@@ -9,8 +9,8 @@
 }
 
 .card-login {
-    width: 25vw;
-    height: 55vh;
+    width: 22vw;
+    height: 53vh;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -20,8 +20,8 @@
 }
 
 .container-login {
-    width: 23vw;
-    height: 55vh;
+    width: 20vw;
+    height: 50vh;
     margin: 15px;
     border-radius: 5px;
     display: flex;

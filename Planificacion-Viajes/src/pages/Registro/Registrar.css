@@ -11,7 +11,7 @@
 
 .card-registrar{
     width: 22vw;
-    height: 80vh;
+    height: 65vh;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@
 
 .container-registrar{
     width: 20vw;
-    height: 75vh;
+    height: 60vh;
     margin: 15px;
     border-radius: 5px;
     display: flex;
@@ -41,19 +41,41 @@
     width: 17vw;
 }
 
+.textfield-container {
+    margin-top: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.textfield-container .MuiSnackbar-root {
+    position: absolute;
+    top: 0;
+    right: -250px; /* Ajusta este valor según sea necesario */
+}
+
 #btn-registrar{
     width: 17vw;
     margin-top: 10px;
     margin-bottom: 10px;
     }
 
-.info-reg{
-    width: 15vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #220fcb;
-}
+    .content-linkLo {
+        font-size: smaller;
+        display: flex;
+        align-items: center;
+    }
+    
+    .info-reg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #info-reg {
+        color: blue;
+    }
+    
 
 .error-message {
     color: red;

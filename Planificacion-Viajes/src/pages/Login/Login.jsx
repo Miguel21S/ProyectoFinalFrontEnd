@@ -77,7 +77,7 @@ export const Login = () => {
                         onChange={inputHandler}
                     />
 
-                    <FormControl sx={{ m: 1, width: '17vw', marginTop: '20px' }} variant="standard">
+                    <FormControl sx={{ m: 1, width: '17vw', marginTop: '10px' }} variant="standard">
                         <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                         <Input
                             id="standard-adornment-password"

@@ -61,6 +61,17 @@ export const DetalleAlojamientoPorCiudad = () => {
             });
 
             if (result.isConfirmed) {
+                const { fechaEntrada, horaEntrada, fechaSalida, horaSalida } = alojamientoAReservar;
+
+                if (!fechaEntrada || !horaEntrada || !fechaSalida || !horaSalida) {
+                    Swal.fire(
+                        'Error',
+                        'Todos los campos son obligatorios.',
+                        'error'
+                    );
+                    return;
+                }
+
                 try {
                     const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
                     setAlojamientoAReservar({

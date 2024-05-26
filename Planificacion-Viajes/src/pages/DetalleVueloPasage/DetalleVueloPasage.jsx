@@ -65,6 +65,27 @@ export const DetalleVueloPasage = () => {
             });
 
             if (result.isConfirmed) {
+                const vuelo = reservaVuelo[0]; // Suponiendo que hay un vuelo seleccionado
+                const cantidadAsiento = parseInt(vueloPagar.cantidadAsiento);
+                const precioIndividual = parseFloat(vuelo.precio);
+                const precioTotalEsperado = cantidadAsiento * precioIndividual;
+
+                if (!cantidadAsiento || !precioTotalEsperado) {
+                    Swal.fire(
+                        'Error',
+                        'Todos los campos son obligatorios.',
+                        'error'
+                    );
+                    return;
+                } else if (precioTotalEsperado !== parseFloat(vueloPagar.precioPagar)) {
+                    Swal.fire(
+                        'Error',
+                        `El precio total esperado (${precioTotalEsperado}€) no coincide con el precio a pagar (${vueloPagar.precioPagar}€).`,
+                        'error'
+                    );
+                    return;
+                }
+
                 try {
                     const billete = await HacerReservaVuelo(_id, vueloPagar, token);
                     setVueloPagar({
@@ -84,7 +105,7 @@ export const DetalleVueloPasage = () => {
                     console.log(error);
                     Swal.fire(
                         'Error',
-                        'Ha ocurrido un error al intentar comprar el pasagen.',
+                        'Ha ocurrido un error al intentar comprar el pasaje.',
                         'error'
                     );
                 }
