@@ -191,7 +191,7 @@ export const MisReservaAlojamientos = async (token)=>{
     }
 }
 
-///   _______________________   FIN RUTAS DEL PERFIL DE USUARIO   ______________________________________________   ///
+///   ________________________________________   FIN RUTAS DEL PERFIL DE USUARIO   ______________________________________________   ///
 
 ////////////////  RUTA MI RESERVAS DE VUELO  /////////////////////////////
 // export const EliminarMiReservaVuelos = async (id, token)=>{
@@ -502,7 +502,7 @@ export const EliminarAjamiento = async (id, token) => {
 }
 
 //________________________________________________________________________________________________________________________________//
-// -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
+// -------------------------  RUTAS DE RESERVA DE ALOJAMIENTOS  -----------------------------//
 ////////////////  RUTA LISTAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
 export const ListaReservaAlojamientoAdmin = async (token)=>{
     const options = {
@@ -563,6 +563,7 @@ export const EditarReservaAlojamiento = async (id, data, token) =>{
     try {
         const response = await fetch(`${root}actualizar/reserva/${id}`, options);
         const data = await response.json();
+        console.log("root: ", data)
         if (!data.success) {
             throw new Error(data.message);
         }

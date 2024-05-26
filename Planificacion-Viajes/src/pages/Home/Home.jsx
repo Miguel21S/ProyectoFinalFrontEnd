@@ -6,11 +6,13 @@ import Carousel from 'react-bootstrap/Carousel';
 import { Link, useNavigate } from "react-router-dom";
 import { userData } from "../../app/slices/userSlice";
 import { useSelector } from "react-redux";
-import { CardActionArea, CardContent, Grid, Typography } from "@mui/material";
-import { Card } from "react-bootstrap";
+import { profileData } from "../../app/slices/profileSlice";
+// import { CardActionArea, CardContent, Grid, Typography } from "@mui/material";
+// import { Card } from "react-bootstrap";
 
 export const Home = () => {
     const navigate = useNavigate();
+    const searchCriteria = useSelector(profileData).criteria;
     const [vuelo, setVuelo] = useState([]);
     const [alojamiento, setAlojamiento] = useState([]);
 
@@ -42,6 +44,23 @@ export const Home = () => {
         }
         listaDeVuelos();
     }, []);
+
+    //////////////////////////////         MÉTODO FILTRAR VUELOS      /////////////////////////////////////////
+    const filtrarVuelos = vuelo.filter((vuelos) => {
+        const criteria = searchCriteria || '';
+        return vuelos.origen.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.destino.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.fechaIda.toLowerCase().includes(criteria.toLowerCase())
+
+    })
+
+    //////////////////////////////         MÉTODO FILTRAR ALOJAMIENTOS      /////////////////////////////////////////
+    // const filtrarAlojamientos = alojamiento.filter((alojamientos) => {
+    //     const criteria = searchCriteria || '';
+    //     return alojamientos.name.toLowerCase().includes(criteria.toLowerCase()) ||
+    //         alojamientos.ciudad.toLowerCase().includes(criteria.toLowerCase())
+
+    // })
 
     /////////////  LISTAR ALOJAMIENTOS   ////////////////
     useEffect(() => {
@@ -75,7 +94,7 @@ export const Home = () => {
                         <div className="content1">
                             <div id="col-cards-ciudads" className="col">
                                 <Carousel nextLabel="" prevLabel="" nextIcon={<span className="carousel-control-next-icon" aria-hidden="true" />} prevIcon={<span className="carousel-control-prev-icon" aria-hidden="true" />} className="custom-carousel">
-                                    {chunkArray(vuelo, 3).map((chunk, index) => (
+                                    {chunkArray(filtrarVuelos, 3).map((chunk, index) => (
                                         <Carousel.Item key={index}>
                                             <div className="d-flex justify-content-center">
                                                 {chunk.map((vueloItem) => (
@@ -168,10 +187,10 @@ export const Home = () => {
                                         <div className={`tab-pane ${activeTab === 'Ciudad' ? 'active' : ''}`}>
                                             <div className="cardPlanificacion">
                                                 <div className="row">
-                                            Tab content for Ciudad
+                                                    Tab content for Ciudad
                                                     {/* <div className="cardPlaniHijo"> */}
-                                                       
-                                                        {/* <Grid container spacing={2}>
+
+                                                    {/* <Grid container spacing={2}>
                                                             <Grid item xs={12} sm={6} lg={3}>
                                                                 <div className="custom-column mb-3">
                                                                     <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
@@ -186,7 +205,7 @@ export const Home = () => {
                                                                 </div>
                                                             </Grid>
                                                         </Grid> */}
-                                                        
+
                                                     {/* </div> */}
                                                 </div>
                                             </div>
@@ -195,10 +214,10 @@ export const Home = () => {
                                         <div className={`tab-pane ${activeTab === 'Playa' ? 'active' : ''}`}>
                                             <div className="cardPlanificacion">
                                                 <div className="row">
-                                            Tab content for Playa
+                                                    Tab content for Playa
                                                     {/* <div className="cardPlaniHijo"> */}
-                                                       
-                                                        {/* <Grid container spacing={2}>
+
+                                                    {/* <Grid container spacing={2}>
                                                             <Grid item xs={12} sm={6} lg={3}>
                                                                 <div className="custom-column mb-3">
                                                                     <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
@@ -213,7 +232,7 @@ export const Home = () => {
                                                                 </div>
                                                             </Grid>
                                                         </Grid> */}
-                                                        
+
                                                     {/* </div> */}
                                                 </div>
                                             </div>
@@ -221,11 +240,11 @@ export const Home = () => {
                                         <div className={`tab-pane ${activeTab === 'Monumentos' ? 'active' : ''}`}>
                                             <div className="cardPlanificacion">
                                                 <div className="row">
-                                            Tab content for Monumentos
+                                                    Tab content for Monumentos
 
                                                     {/* <div className="cardPlaniHijo"> */}
-                                                       
-                                                        {/* <Grid container spacing={2}>
+
+                                                    {/* <Grid container spacing={2}>
                                                             <Grid item xs={12} sm={6} lg={3}>
                                                                 <div className="custom-column mb-3">
                                                                     <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
@@ -241,7 +260,7 @@ export const Home = () => {
                                                                 </div>
                                                             </Grid>
                                                         </Grid> */}
-                                                        
+
                                                     {/* </div> */}
                                                 </div>
                                             </div>
@@ -251,8 +270,8 @@ export const Home = () => {
                                                 <div className="row">
                                                     {/* <div className="ca
                                                      Tab content for Aire LibrerdPlaniHijo"> */}
-                                                       
-                                                        {/* <Grid container spacing={2}>
+
+                                                    {/* <Grid container spacing={2}>
                                                             <Grid item xs={12} sm={6} lg={3}>
                                                                 <div className="custom-column mb-3">
                                                                     <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
@@ -267,19 +286,19 @@ export const Home = () => {
                                                                 </div>
                                                             </Grid>
                                                         </Grid> */}
-                                                        
+
                                                     {/* </div> */}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className={`tab-pane ${activeTab === 'Compras' ? 'active' : ''}`}>
-                                           
+
                                             <div className="cardPlanificacion">
                                                 <div className="row">
-                                                Tab content for Compras
+                                                    Tab content for Compras
                                                     {/* <div className="cardPlaniHijo"> */}
-                                                       
-                                                        {/* <Grid container spacing={2}>
+
+                                                    {/* <Grid container spacing={2}>
                                                             <Grid item xs={12} sm={6} lg={3}>
                                                                 <div className="custom-column mb-3">
                                                                     <Card sx={{ maxWidth: 345 }} className="contentPlanificacion">
@@ -294,7 +313,7 @@ export const Home = () => {
                                                                 </div>
                                                             </Grid>
                                                         </Grid> */}
-                                                        
+
                                                     {/* </div> */}
                                                 </div>
                                             </div>

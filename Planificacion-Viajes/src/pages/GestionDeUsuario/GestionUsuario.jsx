@@ -10,6 +10,7 @@ import { Modal } from 'react-bootstrap';
 import CTextField from "../../common/CTextField/CTextField";
 import Swal from "sweetalert2";
 import { Pagination, Stack } from "@mui/material";
+import { profileData } from "../../app/slices/profileSlice";
 
 export const GestionUsuario = () => {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ export const GestionUsuario = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+    const searchCriteria = useSelector(profileData).criteria;
 
     ////////////////   PAGINACIÓN   ////////////////
     const [page, setPage] = React.useState(1);
@@ -26,10 +28,16 @@ export const GestionUsuario = () => {
         setPage(value);
     };
 
+    useEffect(() => {
+        if (!rdxUsuario.credentials.token) {
+            navigate("/login")
+        }
+    }, [token]);
+
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
-    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({})
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState([])
     const [usuario, setUsuario] = useState(false);
 
     const [usuarioEditando, setUsuarioEditando] = useState({
@@ -40,12 +48,6 @@ export const GestionUsuario = () => {
         password: "",
         role: "",
     })
-
-    useEffect(() => {
-        if (!rdxUsuario.credentials.token) {
-            navigate("/login")
-        }
-    }, [token]);
 
     const inputHandler = (e) => {
         setUsuario((prevState) => ({
@@ -68,22 +70,53 @@ export const GestionUsuario = () => {
         setUsuario(false)
     }, [token])
 
+    /////////////  MÉTODO FILTRAR USUARIOS   ////////////////
+    const filteredUsuarios = usuarioSeleccionado.filter((usuario) => {
+        const criteria = searchCriteria || '';
+        return usuario.name.toLowerCase().includes(criteria.toLowerCase()) ||
+            usuario.apellido.toLowerCase().includes(criteria.toLowerCase()) ||
+            usuario.email.toLowerCase().includes(criteria.toLowerCase());
+    });
+
     /////////////  MÉTODO REGISTRAR USUARIO   ////////////////
     const registrar = async () => {
-        try {
-            for (let elemento in usuario) {
-                if (usuario[elemento] === "") {
-                    throw new Error("Todos los campos tienen que estar rellenos");
-                }
-            }
-            const fetched = await RegitrarUser(usuario);
-            setUsuario(fetched)
+        const result = await Swal.fire({
+            title: '¿Registrar usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, registrar',
+            cancelButtonText: 'Cancelar'
+        });
 
-            const listaUsuarios = await ListarUsuarios(token);
-            setUsuarioSeleccionado(listaUsuarios.data);
-            abrirCerrarModalInsertar()
-        } catch (error) {
-            console.log(error);
+        if (result.isConfirmed) {
+            try {
+                for (let elemento in usuario) {
+                    if (usuario[elemento] === "") {
+                        throw new Error("Todos los campos tienen que estar rellenos");
+                    }
+                }
+                const fetched = await RegitrarUser(usuario);
+                setUsuario(fetched)
+    
+                const listaUsuarios = await ListarUsuarios(token);
+                setUsuarioSeleccionado(listaUsuarios.data);
+                abrirCerrarModalInsertar()
+
+                // Mostrar un mensaje de éxito
+                Swal.fire(
+                    '¡Registrar!',
+                    'Usuario registrado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                // Mostrar un mensaje de error si ocurre un problema
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar registrar el usuario.',
+                    'error'
+                );
+            }
         }
     }
 
@@ -192,7 +225,7 @@ export const GestionUsuario = () => {
 
                     <div className="tabla-usuarios">
                         {
-                            usuarioSeleccionado?.length > 0 ?
+                            filteredUsuarios?.length > 0 ?
                                 (
                                     <>
                                         <table>
@@ -209,9 +242,9 @@ export const GestionUsuario = () => {
                                             <tbody>
                                                 {
                                                     (
-                                                        rowsPerPage > 0 ?
-                                                        usuarioSeleccionado.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
-                                                        : usuarioSeleccionado
+                                                        rowsPerPage > 0
+                                                            ? filteredUsuarios.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                            : filteredUsuarios
                                                     ).map((usuario) => (
                                                         <tr key={usuario._id}>
                                                             <td>
@@ -357,9 +390,9 @@ export const GestionUsuario = () => {
                             </>
                         }
                     </div>
-                    <Stack spacing={2} sx={{marginBottom: '10px', justifyContent: 'center', backgroundColor: 'white'}}>
+                    <Stack spacing={2} sx={{ marginBottom: '10px', justifyContent: 'center', backgroundColor: 'white' }}>
                         <Pagination
-                            count={Math.ceil(usuarioSeleccionado.length / rowsPerPage)}
+                            count={Math.ceil(filteredUsuarios.length / rowsPerPage)}
                             page={page}
                             onChange={handleChangePage}
                             size="large"

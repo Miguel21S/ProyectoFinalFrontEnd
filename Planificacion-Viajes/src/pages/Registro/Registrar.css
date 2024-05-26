@@ -27,24 +27,23 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     background-color: #fcfcfc;
 }
-.h2-registrar{
-    margin-top: 10px;
+.h2-title-registrar{
+    margin-top: 25px;
 }
-.h1-registrar{
-    width: 10vw;
-    height: 10vh;
-    }
 
 .textfield-nombre, .textfield-apellido, .textfield-email{
-    width: 15vw;
+    width: 17vw;
+}
+.textfield-error{
+    width: 17vw;
 }
 
 #btn-registrar{
-    width: 15vw;
+    width: 17vw;
+    margin-top: 10px;
     margin-bottom: 10px;
     }
 
@@ -58,6 +57,6 @@
 
 .error-message {
     color: red;
-    font-size: 12px;
+    font-size: x-small;
     margin-top: 4px;
 }

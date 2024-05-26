@@ -8,8 +8,6 @@ import { login } from "../../app/slices/userSlice";
 import "./Login.css";
 import { FormControl, IconButton, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Badge from '@mui/material/Badge';
-import Avatar from '@mui/material/Avatar';
 import { CLink } from "../../common/CLink/CLink";
 
 export const Login = () => {
@@ -65,16 +63,8 @@ export const Login = () => {
         <div className="login-design">
             <div className="card-login">
                 <div className="container-login">
-                    <h2>Feliz planes</h2>
-                    <h1 className="h1-login">
-                        <Badge
-                            overlap="circular"
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            variant="dot"
-                        >
-                            <Avatar alt="Remy Sharp" src="./src/img/p.JPG" />
-                        </Badge>
-                    </h1>
+                    <h2 className="h2-title-login">¡Feliz planes!</h2>
+                    <p className="p-login">Inicia sesión para continuar.</p>
                     <TextField
                         className="textfield-email"
                         id="standard-search"
@@ -87,7 +77,7 @@ export const Login = () => {
                         onChange={inputHandler}
                     />
 
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                    <FormControl sx={{ m: 1, width: '17vw', marginTop: '20px' }} variant="standard">
                         <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                         <Input
                             id="standard-adornment-password"
@@ -109,9 +99,12 @@ export const Login = () => {
                         />
                     </FormControl>
                     <button type='button' id="btn-login" className="btn btn-success" onClick={loginG}>Iniciar sensión</button>
-                    <div className="info-log">¿Aún no tienes cuenta?</div>
-                    
-                    <label className="info-log"> <CLink path="/registrar" title="Registrarse" /></label>
+                    <div className="content-linkRe">
+                        <div className="info-log">¿No tienes cuenta? </div>
+                        <div id="info-log">
+                            <CLink path="/registrar" title="Registrarse" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

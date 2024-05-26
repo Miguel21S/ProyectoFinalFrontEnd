@@ -10,6 +10,7 @@ import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaDeAloj
 import CTextField from "../../common/CTextField/CTextField";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
+import { profileData } from "../../app/slices/profileSlice";
 
 export const GestionDeAlojamientos = () => {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const GestionDeAlojamientos = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
-
+    const searchCriteria = useSelector(profileData).criteria;
      ////////////////   PAGINACIÓN   ////////////////
      const [page, setPage] = React.useState(1);
      const [rowsPerPage] = React.useState(6);
@@ -29,7 +30,7 @@ export const GestionDeAlojamientos = () => {
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoAlojamiento, setModalEditandoAlojamiento] = useState(false);
-    const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState({})
+    const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState([])
     const [alojamiento, setAlojamiento] = useState(false);
 
     const [editandoalojamiento, setEditandoAlojamiento] = useState({
@@ -66,22 +67,52 @@ export const GestionDeAlojamientos = () => {
         listaDeAlojamientos();
     }, [token])
 
+    /////////////  MÉTODO FILTRAR USUARIOS   ////////////////
+    const filtrarAlojamientos = alojamientoSeleccionado.filter((alojamientos) => {
+        const criteria = searchCriteria || '';
+        return alojamientos.name.toLowerCase().includes(criteria.toLowerCase()) ||
+        alojamientos.ciudad.toLowerCase().includes(criteria.toLowerCase()) ||
+        alojamientos.tipo.toLowerCase().includes(criteria.toLowerCase())
+    });
+
     /////////////  MÉTODO ADICIONAR ALOJAMIENTO  ////////////////
     const crearAlojamientos = async () => {
-        try {
-            for (let elemento in alojamiento) {
-                if (alojamiento[elemento] === "") {
-                    throw new Error("Todos los campos tienen que estar rellenos");
-                }
-            }
-            const fetched = await CrearAlojamiento(alojamiento, token);
-            setAlojamiento(fetched)
+        const result = await Swal.fire({
+            title: '¿Adicionar alojamiento?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, adicionar',
+            cancelButtonText: 'Cancelar'
+        });
 
-            const listaVuelos = await ListaDeAlojamientos(token);
-            setAlojamientoSeleccionado(listaVuelos.data);
-            abrirCerrarModalInsertar();
-        } catch (error) {
-            console.log(error);
+        if (result.isConfirmed) {
+            try {
+                for (let elemento in alojamiento) {
+                    if (alojamiento[elemento] === "") {
+                        throw new Error("Todos los campos tienen que estar rellenos");
+                    }
+                }
+                const fetched = await CrearAlojamiento(alojamiento, token);
+                setAlojamiento(fetched)
+    
+                const listaVuelos = await ListaDeAlojamientos(token);
+                setAlojamientoSeleccionado(listaVuelos.data);
+                abrirCerrarModalInsertar();
+
+                Swal.fire(
+                    '¡Adicionar!',
+                    'Alojamiento adicionado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                // Mostrar un mensaje de error si ocurre un problema
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar adicionar alojamiento.',
+                    'error'
+                );
+            }
         }
     }
 
@@ -224,8 +255,8 @@ export const GestionDeAlojamientos = () => {
                                                 {
                                                     (
                                                         rowsPerPage > 0 ?
-                                                        alojamientoSeleccionado.slice((page -1) * rowsPerPage, (page -1) * rowsPerPage + rowsPerPage)
-                                                        : alojamientoSeleccionado
+                                                        filtrarAlojamientos.slice((page -1) * rowsPerPage, (page -1) * rowsPerPage + rowsPerPage)
+                                                        : filtrarAlojamientos
                                                     ).map((alojamiento) => (
                                                         <tr key={alojamiento._id}>
                                                             <td>
@@ -378,7 +409,7 @@ export const GestionDeAlojamientos = () => {
                     </div>
                     <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
                         <Pagination
-                            count={Math.ceil(alojamientoSeleccionado.length / rowsPerPage)}
+                            count={Math.ceil(filtrarAlojamientos.length / rowsPerPage)}
                             page={page}
                             onChange={handleChangePage}
                             size="large"

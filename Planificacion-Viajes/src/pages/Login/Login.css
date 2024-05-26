@@ -1,17 +1,16 @@
-
-.login-design{
+.login-design {
     min-height: 85vh;
     width: 100vw;
     background-color: rgb(249, 246, 246);
-    color: black; 
+    color: black;
     display: flex;
     align-items: center;
-    justify-content: center;  
+    justify-content: center;
 }
 
-.card-login{
+.card-login {
     width: 25vw;
-    height: 70vh;
+    height: 55vh;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -20,36 +19,50 @@
     background-color: rgba(33, 205, 24, 0.236);
 }
 
-.container-login{
+.container-login {
     width: 23vw;
-    height: 65vh;
+    height: 55vh;
     margin: 15px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     background-color: #fcfcfc;
 }
 
-.h1-login{
-width: 10vw;
-height: 10vh;
+.h2-title-login {
+    margin-top: 25px;
 }
 
-.textfield-email{
-    width: 15vw;
+.p-login {
+    margin-left: 33px;
+    align-self: flex-start;
+    width: 12vw;
+    font-size: small;
 }
 
-#btn-login{
-width: 15vw;
-margin-bottom: 10px;
+.textfield-email {
+    width: 17vw;
 }
 
-.info-log{
-    width: 15vw;
+#btn-login {
+    margin-top: 10px;
+    width: 17vw;
+    margin-bottom: 10px;
+}
+
+.content-linkRe {
+    font-size: smaller;
+    display: flex;
+    align-items: center;
+}
+
+.info-log {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #220fcb;
+}
+
+#info-log {
+    color: blue;
 }

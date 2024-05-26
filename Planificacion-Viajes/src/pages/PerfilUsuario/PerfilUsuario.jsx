@@ -70,7 +70,7 @@ export const PerfilUsuario = () => {
     }, [token])
 
     ////////////////////////    ELIMINAR MI RESERVA DE VUELO    //////////////////////////////
-    const eliminarResVuelo = async (id) => {
+    const eliminarResVuelo = async (_id) => {
         const result = await Swal.fire({
             title: '¿Estás seguro?',
             text: '¿Quieres eliminar esta reserva de vuelo?',
@@ -82,7 +82,7 @@ export const PerfilUsuario = () => {
     
         if (result.isConfirmed) {
             try {
-                const eliminarR = await EliminarReservaVuelo(id, token);
+                const eliminarR = await EliminarReservaVuelo(_id, token);
                 setDatosReservaVuelo(eliminarR);
     
                 const rVuelos = await MisReservaVuelos(token);

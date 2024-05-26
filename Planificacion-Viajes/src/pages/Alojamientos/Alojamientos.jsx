@@ -1,5 +1,5 @@
 
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import "./Alojamientos.css"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -46,7 +46,6 @@ export const Alojamientos = () => {
     }, [token])
 
 
-
     return (
         <>
             <div className="gestioAlojamientos-ciudad">
@@ -65,24 +64,28 @@ export const Alojamientos = () => {
                                             <Grid item xs={12} sm={6} lg={3} key={localidad}>
                                                 <div key={localidad} className="custom-column mb-3">
                                                     <Card sx={{ maxWidth: 345 }} className="content-ciudad">
-                                                        <CardActionArea>
-                                                            <CardContent>
-                                                                <Typography gutterBottom variant="h5" component="div">
-                                                                    {localidad}
-                                                                </Typography>
-                                                            </CardContent>
-                                                            {/* <CardMedia
-                                                        component="img"
-                                                        height="140"
-                                                        image="/static/images/cards/contemplative-reptile.jpg"
-                                                        alt="green iguana" 
-                                                    /> */}
-                                                            {alojamiento[localidad].map(alojamientoItem => (
-                                                                <div key={alojamientoItem._id}>
 
-                                                                </div>
-                                                            ))}
-                                                        </CardActionArea>
+                                                        {alojamiento[localidad].map(alojamientoItem => (
+                                                            <Link key={alojamientoItem._id} to={`/alojamientos/${alojamientoItem.ciudad}`} className="mx-3"
+                                                                style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                                {console.log("alojamientoItem.ciudad: ", `/alojamientos/${alojamientoItem.ciudad}`)}
+
+                                                                <CardActionArea>
+                                                                    <CardContent>
+                                                                        <Typography gutterBottom variant="h5" component="div">
+                                                                            {alojamientoItem.ciudad}
+                                                                        </Typography>
+                                                                    </CardContent>
+                                                                    {/* <CardMedia
+                                                                        component="img"
+                                                                        height="140"
+                                                                        image="/static/images/cards/contemplative-reptile.jpg"
+                                                                        alt="green iguana" 
+                                                                        /> */}
+                                                                </CardActionArea>
+
+                                                            </Link>
+                                                        ))}
                                                     </Card>
                                                 </div>
                                             </Grid>
@@ -93,7 +96,7 @@ export const Alojamientos = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

@@ -10,6 +10,7 @@ import CTextField from "../../common/CTextField/CTextField";
 import { ActualizarVuelo, AdicionarVuelo, EliminarVuelo, ListaDeVuelos } from "../../services/rootss";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
+import { profileData } from "../../app/slices/profileSlice";
 
 export const GestionVuelos = () => {
     const navigate = useNavigate();
@@ -17,19 +18,20 @@ export const GestionVuelos = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+    const searchCriteria = useSelector(profileData).criteria;
 
-     ////////////////   PAGINACIÓN   ////////////////
-     const [page, setPage] = React.useState(1);
-     const [rowsPerPage] = React.useState(6);
- 
-     const handleChangePage = (event, value) => {
-         setPage(value);
-     };
+    ////////////////   PAGINACIÓN   ////////////////
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage] = React.useState(6);
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoVuelo, setModalEditandoVuelo] = useState(false);
-    const [vueloSeleccionado, setVueloSeleccionado] = useState({})
+    const [vueloSeleccionado, setVueloSeleccionado] = useState([])
     const [vuelo, setVuelo] = useState(false);
 
     const [vuelosEditando, setVuelosEditando] = useState({
@@ -72,22 +74,53 @@ export const GestionVuelos = () => {
         listaDeVuelos();
     }, [token])
 
+    /////////////  MÉTODO FILTRAR VUELOS   ////////////////
+    const filtrarVuelos = vueloSeleccionado.filter((vuelos) => {
+        const criteria = searchCriteria || '';
+        return vuelos.name.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.aerolinea.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.destino.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.fechaIda.toLowerCase().includes(criteria.toLowerCase())
+    });
+
     /////////////  MÉTODO ADICIONAR VUELO  ////////////////
     const adicionarVuelo = async () => {
-        try {
-            for (let elemento in vuelo) {
-                if (vuelo[elemento] === "") {
-                    throw new Error("Todos los campos tienen que estar rellenos");
-                }
-            }
-            const fetched = await AdicionarVuelo(vuelo, token);
-            setVuelo(fetched)
+        const result = await Swal.fire({
+            title: '¿Adicionar vuelo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, adicionar',
+            cancelButtonText: 'Cancelar'
+        });
 
-            const listaVuelos = await ListaDeVuelos(token);
-            setVueloSeleccionado(listaVuelos.data);
-            abrirCerrarModalInsertar();
-        } catch (error) {
-            console.log(error);
+        if (result.isConfirmed) {
+            try {
+                for (let elemento in vuelo) {
+                    if (vuelo[elemento] === "") {
+                        throw new Error("Todos los campos tienen que estar rellenos");
+                    }
+                }
+
+                const fetched = await AdicionarVuelo(vuelo, token);
+                setVuelo(fetched)
+
+                const listaVuelos = await ListaDeVuelos(token);
+                setVueloSeleccionado(listaVuelos.data);
+                abrirCerrarModalInsertar();
+
+                Swal.fire(
+                    '¡Adicionar!',
+                    'Vuelo adicionado correctamente.',
+                    'success'
+                );
+            } catch (error) {
+                console.log(error);
+                Swal.fire(
+                    'Error',
+                    'Ha ocurrido un error al intentar adicionar vuelo.',
+                    'error'
+                );
+            }
         }
     }
 
@@ -114,15 +147,15 @@ export const GestionVuelos = () => {
             confirmButtonText: 'Sí, actualizar',
             cancelButtonText: 'Cancelar'
         });
-        
+
         if (result.isConfirmed) {
             try {
                 const actualizar = await ActualizarVuelo(vuelosEditando._id, vuelosEditando, token);
-            setVuelosEditando(actualizar)
+                setVuelosEditando(actualizar)
 
-            const listaVuelos = await ListaDeVuelos(token);
-            setVueloSeleccionado(listaVuelos.data);
-            abrirCerrarModalEditar();
+                const listaVuelos = await ListaDeVuelos(token);
+                setVueloSeleccionado(listaVuelos.data);
+                abrirCerrarModalEditar();
 
                 abrirCerrarModalEditar();
 
@@ -152,14 +185,14 @@ export const GestionVuelos = () => {
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar'
         });
-    
+
         if (result.isConfirmed) {
             try {
                 const eliminarVuelo = await EliminarVuelo(_id, token);
-            setVuelosEditando(eliminarVuelo);
+                setVuelosEditando(eliminarVuelo);
 
-            const listaVuelos = await ListaDeVuelos(token);
-            setVueloSeleccionado(listaVuelos.data);
+                const listaVuelos = await ListaDeVuelos(token);
+                setVueloSeleccionado(listaVuelos.data);
                 Swal.fire(
                     '¡Eliminado!',
                     'Vuelo ha sido eliminado.',
@@ -197,7 +230,7 @@ export const GestionVuelos = () => {
 
                     <div className="tabla-Vuelos">
                         {
-                            vueloSeleccionado?.length > 0 ?
+                            filtrarVuelos?.length > 0 ?
                                 (
                                     <>
                                         <table>
@@ -221,8 +254,8 @@ export const GestionVuelos = () => {
                                                 {
                                                     (
                                                         rowsPerPage > 0 ?
-                                                        vueloSeleccionado.slice((page -1) * rowsPerPage, (page -1) * rowsPerPage + rowsPerPage)
-                                                        : vueloSeleccionado
+                                                            filtrarVuelos.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                            : filtrarVuelos
                                                     ).map((vuelos) => (
                                                         <tr key={vuelos._id}>
                                                             <td>
@@ -314,7 +347,7 @@ export const GestionVuelos = () => {
                                                                 />
                                                             </td>
                                                             <td>
-                                                                
+
                                                                 <button className="btn btn-light" onClick={() => editar(vuelos)}><i className="bi bi-feather"></i></button>
                                                                 <button className="btn btn-danger" onClick={() => eliminarVueloId(vuelos._id)}><i className="bi bi-trash3"></i></button>
                                                             </td>
@@ -537,9 +570,9 @@ export const GestionVuelos = () => {
                             </>
                         }
                     </div>
-                    <Stack spacing={2} sx={{marginTop: '7px', marginBottom: '5px', justifyContent: 'center', backgroundColor: 'white'}}>
+                    <Stack spacing={2} sx={{ marginTop: '7px', marginBottom: '5px', justifyContent: 'center', backgroundColor: 'white' }}>
                         <Pagination
-                            count={Math.ceil(vueloSeleccionado.length / rowsPerPage)}
+                            count={Math.ceil(filtrarVuelos.length / rowsPerPage)}
                             page={page}
                             onChange={handleChangePage}
                             size="large"

@@ -11,11 +11,13 @@ import { Modal } from "react-bootstrap";
 import CTextField from "../../common/CTextField/CTextField";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
+import { profileData } from "../../app/slices/profileSlice";
 
 export const GestionReservasVuelos = () => {
     const navigate = useNavigate();
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+    const searchCriteria = useSelector(profileData).criteria;
 
     ////////////////   PAGINACIÓN   ////////////////
     const [page, setPage] = React.useState(1);
@@ -25,7 +27,7 @@ export const GestionReservasVuelos = () => {
         setPage(value);
     };
 
-    const [rVueloSeleccionado, setrVueloSeleccionado] = useState({});
+    const [rVueloSeleccionado, setrVueloSeleccionado] = useState([]);
     const [modalEditandoReservaVuelo, setModalEditandoReservaVuelo] = useState(false);
 
     const [editandoReservaVuelo, setEditandoReservaVuelo] = useState({
@@ -70,6 +72,15 @@ export const GestionReservasVuelos = () => {
         }
         listaDeReservasVuelo();
     }, [])
+
+    /////////////  MÉTODO FILTRAR RESERVA DE VUELOS   ////////////////
+    const filtrarReservaVuelo = rVueloSeleccionado.filter((rVuelo) => {
+        const criteria = searchCriteria || '';
+        return rVuelo.emailUsuario.toLowerCase().includes(criteria.toLowerCase()) ||
+            rVuelo.nameUsuario.toLowerCase().includes(criteria.toLowerCase()) ||
+            rVuelo.nameVuelo.toLowerCase().includes(criteria.toLowerCase())
+
+    });
 
     // const editar = (reservaV) => {
     //     setEditandoReservaVuelo({
@@ -189,8 +200,8 @@ export const GestionReservasVuelos = () => {
                                                 {
                                                     (
                                                         rowsPerPage > 0 ?
-                                                        rVueloSeleccionado.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
-                                                            : rVueloSeleccionado
+                                                            filtrarReservaVuelo.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                            : filtrarReservaVuelo
                                                     ).map((reservaVuelos) => (
                                                         <tr key={reservaVuelos._id}>
                                                             <td>
@@ -318,9 +329,9 @@ export const GestionReservasVuelos = () => {
                             </>
                         }
                     </div>
-                    <Stack spacing={2} sx={{marginTop: '5px' ,justifyContent: 'center', backgroundColor: 'white'}}>
+                    <Stack spacing={2} sx={{ marginTop: '5px', justifyContent: 'center', backgroundColor: 'white' }}>
                         <Pagination
-                            count={Math.ceil(rVueloSeleccionado.length / rowsPerPage)}
+                            count={Math.ceil(filtrarReservaVuelo.length / rowsPerPage)}
                             page={page}
                             onChange={handleChangePage}
                             size="large"

@@ -10,6 +10,7 @@ import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAloja
 import CTextField from "../../common/CTextField/CTextField";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
+import { profileData } from "../../app/slices/profileSlice";
 
 export const GestionDeReservaAlojamientos = () => {
     const navigate = useNavigate();
@@ -17,11 +18,12 @@ export const GestionDeReservaAlojamientos = () => {
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
+    const searchCriteria = useSelector(profileData).criteria;
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoReservaAlojamiento, setModalEditandoReservaAlojamiento] = useState(false);
-    const [reservaAlojamientoSeleccionado, setReservaAlojamientoSeleccionado] = useState({})
+    const [reservaAlojamientoSeleccionado, setReservaAlojamientoSeleccionado] = useState([])
     const [alojamiento, setAlojamiento] = useState(false);
 
     ////////////////    PAGINACIÓN    ///////////////////////////////
@@ -61,7 +63,7 @@ export const GestionDeReservaAlojamientos = () => {
     }
 
 
-    /////////////  MÉTODO LISTAR RESERVA DE ALOJAMIENTO   ////////////////
+    /////////////  MÉTODO LISTAR RESERVA DE ALOJAMIENTOS   ////////////////
     useEffect(() => {
         const reservaAlojamientos = async () => {
             try {
@@ -104,16 +106,16 @@ export const GestionDeReservaAlojamientos = () => {
             confirmButtonText: 'Sí, actualizar',
             cancelButtonText: 'Cancelar'
         });
-        
+
         if (result.isConfirmed) {
             try {
                 const actualizar = await EditarReservaAlojamiento(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
-            setModalEditandoReservaAlojamiento(actualizar)
+                setModalEditandoReservaAlojamiento(actualizar)
 
-            const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
-            setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
-            abrirCerrarModalEditar();
-    
+                const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
+                setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
+                abrirCerrarModalEditar();
+
                 Swal.fire(
                     '¡Actualizado!',
                     'La reserva de alojamiento ha sido actualizado correctamente.',
@@ -129,6 +131,14 @@ export const GestionDeReservaAlojamientos = () => {
             }
         }
     };
+
+    /////////////  MÉTODO FILTRAR RESERVA DE ALOJAMIENTOS   ////////////////
+    const filtrarReservaAlojamiento = reservaAlojamientoSeleccionado.filter((rAlojamiento) => {
+        const criteria = searchCriteria || '';
+        return rAlojamiento.nameAlojamiento.toLowerCase().includes(criteria.toLowerCase()) ||
+            rAlojamiento.nameUsuario.toLowerCase().includes(criteria.toLowerCase()) ||
+            rAlojamiento.emailUsuario.toLowerCase().includes(criteria.toLowerCase())
+    });
 
     const editar = (rAlojamiento) => {
         setEditandoReservaAlojamiento({
@@ -215,9 +225,9 @@ export const GestionDeReservaAlojamientos = () => {
                                                 {
                                                     (
                                                         rowsPerPage > 0 ?
-                                                        reservaAlojamientoSeleccionado.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
-                                                        :reservaAlojamientoSeleccionado
-                                                        ).map((rAlojamiento) => (
+                                                            filtrarReservaAlojamiento.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                                                            : filtrarReservaAlojamiento
+                                                    ).map((rAlojamiento) => (
                                                         <tr key={alojamiento._id}>
                                                             <td>
                                                                 <input
@@ -399,9 +409,9 @@ export const GestionDeReservaAlojamientos = () => {
                             </>
                         }
                     </div>
-                    <Stack spacing={2} sx={{marginTop: '7px', marginBottom: '5px', justifyContent: 'center', backgroundColor: 'white'}}>
+                    <Stack spacing={2} sx={{ marginTop: '7px', marginBottom: '5px', justifyContent: 'center', backgroundColor: 'white' }}>
                         <Pagination
-                            count={Math.ceil(reservaAlojamientoSeleccionado.length / rowsPerPage)}
+                            count={Math.ceil(filtrarReservaAlojamiento.length / rowsPerPage)}
                             page={page}
                             onChange={handleChangePage}
                             size="large"

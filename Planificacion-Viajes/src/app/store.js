@@ -1,16 +1,18 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import { thunk } from "redux-thunk";
 
 import storage from "redux-persist/lib/storage";
-import { searchSlice } from "./slices/seachSlice";
+import { searchSlice } from "./slices/searchSlice";
+import profileReducer from "./slices/profileSlice";
 import userSlice from "./slices/userSlice";
 
-const reducers = combineReducers({
+const rootReducer = combineReducers({
   user: userSlice,
-  search: searchSlice,
+  search: searchSlice.reducer,
+  profile: profileReducer,
 });
 
 const persistConfig = {
@@ -18,12 +20,15 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export default configureStore({
+const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }).concat(thunk),
 });
+
+export const persistor = persistStore(store);
+export default store;
