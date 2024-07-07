@@ -27,7 +27,7 @@ export const RegisterUser = async (user) => {
 }
 
 ////////////////  RUTA LOGIN  /////////////////////////////
-export const LoginUsuario = async (user) => {
+export const LoginUser = async (user) => {
     const options = {
         method: "POST",
         headers: {
@@ -53,7 +53,7 @@ export const LoginUsuario = async (user) => {
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE USUARIO  -----------------------------//
 ////////////////  RUTA LISTAR TODOS LOS USUARIOS DEL SISTEMA  /////////////////////////////
-export const ListarUsuarios = async (token) => {
+export const ListUsers = async (token) => {
     const options = {
         method: "GET",
         headers: {
@@ -76,7 +76,7 @@ export const ListarUsuarios = async (token) => {
 }
 
 ////////////////  RUTA ACTUALIZAR USUARIO POR ID   /////////////////////////////
-export const ActualizarUsuario = async (IdUsuario, data, token) => {
+export const UpdateUser = async (IdUsuario, data, token) => {
     const options = {
         method: "PUT",
         headers: {
@@ -100,7 +100,7 @@ export const ActualizarUsuario = async (IdUsuario, data, token) => {
 }
 
 ////////////////  RUTA ELIMINAR USUARIO POR ID  /////////////////////////////
-export const EliminarUsuario = async (id, token) => {
+export const DeleteUser = async (id, token) => {
     const options = {
         method: "DELETE",
         headers: {

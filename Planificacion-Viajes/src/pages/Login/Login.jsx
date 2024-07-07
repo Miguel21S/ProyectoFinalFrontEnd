@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { decodeToken } from "react-jwt";
-import { LoginUsuario } from "../../services/rootss";
+import { LoginUser } from "../../services/rootss";
 import { login } from "../../app/slices/userSlice";
 import "./Login.css";
 import { FormControl, IconButton, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
@@ -38,7 +38,7 @@ export const Login = () => {
 
     const loginG = async () => {
         try {
-            const fetched = await LoginUsuario(usuario);
+            const fetched = await LoginUser(usuario);
 
             if (fetched.token) {
                 const decodificado = decodeToken(fetched.token);

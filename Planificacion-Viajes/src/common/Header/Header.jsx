@@ -76,7 +76,7 @@ export const Header = () => {
                 </div>
             </div>
             <div className="col col-header">
-                {rdxUsuario?.credentials?.usuario?.usuarioRole === "superAdmin" && renderSuperAdminLinks()}
+                {rdxUsuario?.credentials?.usuario?.userRole === "superAdmin" && renderSuperAdminLinks()}
                 {renderNavDropdown()}
             </div>
             <Grid item xs={15}>

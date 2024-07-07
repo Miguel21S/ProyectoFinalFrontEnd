@@ -4,7 +4,7 @@ import "./GestionUsuario.css"
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegisterUser } from "../../services/rootss";
+import { UpdateUser, DeleteUser, ListUsers, RegisterUser } from "../../services/rootss";
 import { Modal } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
@@ -60,7 +60,7 @@ export const GestionUsuario = () => {
     useEffect(() => {
         const todosSuarios = async () => {
             try {
-                const listaUsuarios = await ListarUsuarios(token);
+                const listaUsuarios = await ListUsers(token);
                 setUserSelect(listaUsuarios.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -98,7 +98,7 @@ export const GestionUsuario = () => {
                 const fetched = await RegisterUser(usuario);
                 setUsuario(fetched)
     
-                const listaUsuarios = await ListarUsuarios(token);
+                const listaUsuarios = await ListUsers(token);
                 setUserSelect(listaUsuarios.data);
                 abrirCerrarModalInsertar()
 
@@ -140,10 +140,10 @@ export const GestionUsuario = () => {
 
         if (result.isConfirmed) {
             try {
-                const actualizar = await ActualizarUsuario(usuarioEditando._id, usuarioEditando, token);
+                const actualizar = await UpdateUser(usuarioEditando._id, usuarioEditando, token);
                 setUsuarioEditando(actualizar)
 
-                const listaUsuarios = await ListarUsuarios(token);
+                const listaUsuarios = await ListUsers(token);
                 setUserSelect(listaUsuarios.data);
                 abrirCerrarModalEditar();
 
@@ -185,9 +185,9 @@ export const GestionUsuario = () => {
 
         if (result.isConfirmed) {
             try {
-                const eliminarUsuario = await EliminarUsuario(_id, token);
+                const eliminarUsuario = await DeleteUser(_id, token);
                 setUsuarioEditando(eliminarUsuario);
-                const listaUsuarios = await ListarUsuarios(token);
+                const listaUsuarios = await ListUsers(token);
                 setUserSelect(listaUsuarios.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -266,7 +266,7 @@ export const GestionUsuario = () => {
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="apellido"
+                                                                    name="lastName"
                                                                     value={usuario.lastName}
                                                                     readOnly
                                                                 />
@@ -320,9 +320,9 @@ export const GestionUsuario = () => {
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
-                                            type="apellido"
-                                            name="apellido"
-                                            placeholder="Apellido.."
+                                            type="lastName"
+                                            name="lastName"
+                                            placeholder="last Name.."
                                             value={usuario.lastName || ""}
                                             changeEmit={inputHandler}
                                         />
@@ -360,9 +360,9 @@ export const GestionUsuario = () => {
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="apellido"
-                                            name="apellido"
-                                            placeholder="Apellido.."
+                                            type="lastName"
+                                            name="lastName"
+                                            placeholder="last Name.."
                                             value={usuarioEditando.lastName || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
