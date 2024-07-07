@@ -23,14 +23,14 @@ export const Home = () => {
     };
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
-    const rdxUsuario = useSelector(userData);
-    const token = rdxUsuario.credentials.token;
+    const rdxUser = useSelector(userData);
+    const token = rdxUser.credentials.token;
 
     useEffect(() => {
-        if (!rdxUsuario.credentials.token) {
+        if (!rdxUser.credentials.token) {
             navigate("/")
         }
-    }, [rdxUsuario]);
+    }, [rdxUser]);
 
     /////////////  LISTAR VUELOS   ////////////////
     useEffect(() => {
@@ -48,9 +48,9 @@ export const Home = () => {
     //////////////////////////////         MÉTODO FILTRAR VUELOS      /////////////////////////////////////////
     const filtrarVuelos = vuelo.filter((vuelos) => {
         const criteria = searchCriteria || '';
-        return vuelos.origen.toLowerCase().includes(criteria.toLowerCase()) ||
-            vuelos.destino.toLowerCase().includes(criteria.toLowerCase()) ||
-            vuelos.fechaIda.toLowerCase().includes(criteria.toLowerCase())
+        return vuelos.origin.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.destination.toLowerCase().includes(criteria.toLowerCase()) ||
+            vuelos.dateDeparture.toLowerCase().includes(criteria.toLowerCase())
 
     })
 
@@ -98,9 +98,9 @@ export const Home = () => {
                                         <Carousel.Item key={index}>
                                             <div className="d-flex justify-content-center">
                                                 {chunk.map((vueloItem) => (
-                                                    <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origen}/${vueloItem.destino}`} className="mx-3">
+                                                    <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origin}/${vueloItem.destination}`} className="mx-3">
                                                         <div className="text-center">
-                                                            <h5 className="mt-2">{`${vueloItem.origen} - ${vueloItem.destino}`}</h5>
+                                                            <h5 className="mt-2">{`${vueloItem.origin} - ${vueloItem.destination}`}</h5>
                                                         </div>
                                                         <div className="vmb-4">
                                                             <img src="./src/img/av1.jpg" className="imge" alt={vueloItem.name} />

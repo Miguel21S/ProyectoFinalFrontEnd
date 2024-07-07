@@ -9,7 +9,7 @@ export const validame = (type, value) => {
       }
       return "";
 
-    case "apellido":
+    case "lastName":
       if (value.length < 3) {
         return "El apellido debe tener al menos tres caracteres.";
       }

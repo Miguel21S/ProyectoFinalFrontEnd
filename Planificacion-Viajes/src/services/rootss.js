@@ -2,7 +2,7 @@
 const root = "http://localhost:2100/api/";
 
 ////////////////  RUTA REGISTRARSE  /////////////////////////////
-export const RegitrarUser = async (user) => {
+export const RegisterUser = async (user) => {
     const options = {
         method: "POST",
         headers: {
@@ -37,7 +37,7 @@ export const LoginUsuario = async (user) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/loguear`, options);
+        const response = await fetch(`${root}auth/login`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -63,7 +63,7 @@ export const ListarUsuarios = async (token) => {
     }
 
     try {
-        const response = await fetch(`${root}users`, options);
+        const response = await fetch(`${root}list/users`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -87,7 +87,7 @@ export const ActualizarUsuario = async (IdUsuario, data, token) => {
     };
 
     try {
-        const response = await fetch(`${root}users/profile/${IdUsuario}`, options);
+        const response = await fetch(`${root}update/users/profile/${IdUsuario}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -110,7 +110,7 @@ export const EliminarUsuario = async (id, token) => {
     };
 
     try {
-        const response = await fetch(`${root}users/${id}`, options);
+        const response = await fetch(`${root}delete/users/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -134,7 +134,7 @@ export const MiPerfil = async (token) =>{
         }
     }
     try {
-        const response = await fetch(`${root}perfil`, options);
+        const response = await fetch(`${root}user/profile`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -145,7 +145,7 @@ export const MiPerfil = async (token) =>{
     }
 }
 
-////////////////  RUTA LISTAR MI RESERVAS DE VUELO  /////////////////////////////
+////////////////  RUTA LISTAR MI RESERVAS DE VUELOS  /////////////////////////////
 export const MisReservaVuelos = async (token)=>{
     const options = {
         method: 'GET',
@@ -156,7 +156,7 @@ export const MisReservaVuelos = async (token)=>{
     }
 
     try {
-        const response = await fetch(`${root}lista/reserva/vuelo/usuario`, options);
+        const response = await fetch(`${root}list/reserve/flight/user`, options);
         const data = await response.json();
         if(!data.success){
             throw new Error(data.message);
@@ -180,7 +180,7 @@ export const EliminarMiReservaVuelos = async (id, token)=>{
     console.log("SOLO root: ")
 
     try {
-        const response = await fetch(`${root}rereserva/vuelo/perfil/${id}`, options);
+        const response = await fetch(`${root}delete/reserve/flight/profile/${id}`, options);
         const data = await response.json();
         
         if(!data.success){
@@ -192,7 +192,7 @@ export const EliminarMiReservaVuelos = async (id, token)=>{
     }
 }
 
-////////////////  RUTA LISTAR MI RESERVAS DE VUELO  /////////////////////////////
+////////////////  RUTA LISTAR MI RESERVAS DE ALOJAMIENTOS  /////////////////////////////
 export const MisReservaAlojamientos = async (token)=>{
     const options = {
         method: 'GET',
@@ -203,7 +203,7 @@ export const MisReservaAlojamientos = async (token)=>{
     }
 
     try {
-        const response = await fetch(`${root}mis/reserva/usuario`, options);
+        const response = await fetch(`${root}my/list/reserve/accommodation/user`, options);
         const data = await response.json();
         if(!data.success){
             throw new Error(data.message);
@@ -225,7 +225,7 @@ export const EliminarMiReservaAjamiento = async (_id, token) =>{
         }
     }
     try {
-        const response = await fetch(`${root}/reserva/alojamiento/perfil/${_id}`, options);
+        const response = await fetch(`${root}delete/reserve/accommodation/profile/${_id}`, options);
         const data = await response.json();
         
         if(!data.success){
@@ -251,7 +251,7 @@ export const ListaDeVuelos = async (token) => {
         },
     }
     try {
-        const response = await fetch(`${root}auth/vuelo`, options);
+        const response = await fetch(`${root}list/flight`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -276,7 +276,7 @@ export const AdicionarVuelo = async (data, token) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/vuelo`, options);
+        const response = await fetch(`${root}add/flight`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -300,7 +300,7 @@ export const ActualizarVuelo = async (idVuelo, data, token) => {
     };
 
     try {
-        const response = await fetch(`${root}auth/vuelo/${idVuelo}`, options);
+        const response = await fetch(`${root}update/flight/${idVuelo}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -322,7 +322,7 @@ export const EliminarVuelo = async (id, token) => {
     };
 
     try {
-        const response = await fetch(`${root}auth/vuelo/${id}`, options);
+        const response = await fetch(`${root}delete/flight/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -346,7 +346,7 @@ export const ListarReservasVuelo = async (token) => {
         }
     }
     try {
-        const response = await fetch(`${root}lista/reserva/vuelo/admin`, options);
+        const response = await fetch(`${root}list/reserve/flight/admin`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -370,7 +370,7 @@ export const HacerReservaVuelo = async (idVuelo, data, token) => {
     }
 
     try {
-        const response = await fetch(`${root}reserva/vuelo/${idVuelo}`, options);
+        const response = await fetch(`${root}create/reserve/flight/${idVuelo}`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -383,6 +383,7 @@ export const HacerReservaVuelo = async (idVuelo, data, token) => {
 }
 
 ////////////////  RUTA EDITAR RESERVAS DE VUELO  /////////////////////////////
+/** 
 export const EditarReservaVuelo = async (id, data, token) => {
     const options = {
         method: "PUT",
@@ -405,6 +406,7 @@ export const EditarReservaVuelo = async (id, data, token) => {
     }
 
 }
+    */
 
 ////////////////  RUTA ELIMINAR RESERVAS DE VUELO  /////////////////////////////
 export const EliminarReservaVuelo = async (id, token) =>{
@@ -416,7 +418,7 @@ export const EliminarReservaVuelo = async (id, token) =>{
         }
     }
     try {
-        const response = await fetch(`${root}reserva/vuelo/${id}`, options);
+        const response = await fetch(`${root}delete/reserve/flight/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -441,7 +443,7 @@ export const ListaDeAlojamientos = async (token) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/alojamiento`, options);
+        const response = await fetch(`${root}list/accommodation`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -464,7 +466,7 @@ export const CrearAlojamiento = async (data, token) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/alojamiento`, options);
+        const response = await fetch(`${root}create/accommodation`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -488,7 +490,7 @@ export const ActualizarAlojamiento = async (id, data, token) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/alojamiento/${id}`, options);
+        const response = await fetch(`${root}update/accommodation/${id}`, options);
         const data = await response.json();
 
         if (!data.success) {
@@ -511,7 +513,7 @@ export const EliminarAjamiento = async (id, token) => {
     }
 
     try {
-        const response = await fetch(`${root}auth/alojamiento/${id}`, options);
+        const response = await fetch(`${root}delete/accommodation/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -535,7 +537,7 @@ export const ListaReservaAlojamientoAdmin = async (token)=>{
         }
     }
     try {
-        const response = await fetch(`${root}reserva/admin`, options);
+        const response = await fetch(`${root}list/reserve/accommodation/admin`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -558,7 +560,7 @@ export const HacerReservaAlojamiento = async (idAlojamiento, data, token) =>{
         body: JSON.stringify(data),
     }
     try {
-        const response = await fetch(`${root}crear/reserva/${idAlojamiento}`, options);
+        const response = await fetch(`${root}create/reserve/accommodation/${idAlojamiento}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -583,7 +585,7 @@ export const EditarReservaAlojamiento = async (id, data, token) =>{
     }
 
     try {
-        const response = await fetch(`${root}actualizar/reserva/${id}`, options);
+        const response = await fetch(`${root}update/reserve/accommodation/${id}`, options);
         const data = await response.json();
         console.log("root: ", data)
         if (!data.success) {
@@ -607,7 +609,7 @@ export const EliminarReservaAlojamiento = async (id, token) => {
     }
 
     try {
-        const response = await fetch(`${root}eliminar/reserva/${id}`, options);
+        const response = await fetch(`${root}delete/reserve/accommodation/profile/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

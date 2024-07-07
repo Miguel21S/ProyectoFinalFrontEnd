@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { Alert, FormControl, IconButton, Input, InputAdornment, InputLabel, Snackbar, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Swal from 'sweetalert2';
-import { RegitrarUser } from '../../services/rootss';
+import { RegisterUser } from '../../services/rootss';
 import { CLink } from '../../common/CLink/CLink';
 import { validame } from '../../Utils/Validaciones';
 import './Registrar.css';
 
-export const Registrar = () => {
+export const Register = () => {
     const navigate = useNavigate();
 
     const [snackbars, setSnackbars] = useState({
         name: { open: false, message: '' },
-        apellido: { open: false, message: '' },
+        lastName: { open: false, message: '' },
         email: { open: false, message: '' },
         password: { open: false, message: '' },
     });
@@ -33,16 +33,16 @@ export const Registrar = () => {
     };
 
 
-    const [usuario, setUsuario] = useState({
+    const [user, setUser] = useState({
         name: '',
-        apellido: '',
+        lastName: '',
         email: '',
         password: '',
     });
 
     const [userError, setUserError] = useState({
         nameError: '',
-        apellidoError: '',
+        lastNameError: '',
         emailError: '',
         passwordError: '',
     });
@@ -50,7 +50,7 @@ export const Registrar = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const inputHandler = (e) => {
-        setUsuario((prevState) => ({
+        setUser((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }));
@@ -74,8 +74,8 @@ export const Registrar = () => {
         try {
             let hasError = false;
 
-            for (let campo in usuario) {
-                if (usuario[campo] === '') {
+            for (let campo in user) {
+                if (user[campo] === '') {
                     setUserError(prevState => ({
                         ...prevState,
                         [campo + 'Error']: 'Este campo es obligatorio.'
@@ -83,7 +83,7 @@ export const Registrar = () => {
                     showSnackbar(campo, 'Campo obligatorio.');
                     hasError = true;
                 } else {
-                    const error = validame(campo, usuario[campo]);
+                    const error = validame(campo, user[campo]);
                     if (error) {
                         setUserError(prevState => ({
                             ...prevState,
@@ -97,13 +97,13 @@ export const Registrar = () => {
 
             if (hasError) return;
 
-            const fetched = await RegitrarUser(usuario);
-            setUsuario(fetched);
+            const fetched = await RegisterUser(user);
+            setUser(fetched);
 
             Swal.fire({
                 icon: 'success',
                 title: '¡Registro exitoso!',
-                text: `¡Bienvenido, ${usuario.name}! Tu cuenta ha sido creada con éxito.`,
+                text: `¡Bienvenido, ${user.name}! Tu cuenta ha sido creada con éxito.`,
                 showConfirmButton: false,
                 timer: 3000,
             });
@@ -126,11 +126,11 @@ export const Registrar = () => {
                         <div className="textfield-container">
                             <TextField
                                 className={userError.nameError ? 'textfield-error' : 'textfield-nombre'}
-                                label="Nombre"
+                                label="Name"
                                 variant="standard"
                                 type="name"
                                 name="name"
-                                value={usuario.name || ''}
+                                value={user.name || ''}
                                 onChange={inputHandler}
                                 onBlur={(e) => {
                                     const error = validame(e.target.name, e.target.value);
@@ -152,27 +152,27 @@ export const Registrar = () => {
 
                         <div className="textfield-container">
                             <TextField
-                                className={userError.apellidoError ? 'textfield-error' : 'textfield-apellido'}
-                                label="Apellido"
+                                className={userError.lastNameError ? 'textfield-error' : 'textfield-apellido'}
+                                label="Last Name"
                                 variant="standard"
-                                type="apellido"
-                                name="apellido"
-                                value={usuario.apellido || ''}
+                                type="lastName"
+                                name="lastName"
+                                value={user.lastName || ''}
                                 onChange={inputHandler}
                                 onBlur={(e) => {
                                     const error = validame(e.target.name, e.target.value);
-                                    setUserError({ ...userError, apellidoError: error });
+                                    setUserError({ ...userError, lastNameError: error });
                                 }}
-                                error={Boolean(userError.apellidoError)}
+                                error={Boolean(userError.lastNameError)}
                             />
                             <Snackbar
-                                open={snackbars.apellido.open}
+                                open={snackbars.lastName.open}
                                 autoHideDuration={6000}
-                                onClose={() => handleCloseSnackbar('apellido')}
+                                onClose={() => handleCloseSnackbar('lastName')}
                                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             >
-                                <Alert onClose={() => handleCloseSnackbar('apellido')} severity="error">
-                                    {snackbars.apellido.message}
+                                <Alert onClose={() => handleCloseSnackbar('lastName')} severity="error">
+                                    {snackbars.lastName.message}
                                 </Alert>
                             </Snackbar>
                         </div>
@@ -184,7 +184,7 @@ export const Registrar = () => {
                                 variant="standard"
                                 type="email"
                                 name="email"
-                                value={usuario.email || ''}
+                                value={user.email || ''}
                                 onChange={inputHandler}
                                 onBlur={(e) => {
                                     const error = validame(e.target.name, e.target.value);
@@ -212,7 +212,7 @@ export const Registrar = () => {
                                     id="standard-adornment-password"
                                     type={showPassword ? 'text' : 'password'}
                                     name="password"
-                                    value={usuario.password}
+                                    value={user.password}
                                     onChange={inputHandler}
                                     onBlur={(e) => {
                                         const error = validame(e.target.name, e.target.value);

@@ -4,7 +4,7 @@ import "./GestionUsuario.css"
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
-import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegitrarUser } from "../../services/rootss";
+import { ActualizarUsuario, EliminarUsuario, ListarUsuarios, RegisterUser } from "../../services/rootss";
 import { Modal } from 'react-bootstrap';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
@@ -16,8 +16,8 @@ export const GestionUsuario = () => {
     const navigate = useNavigate();
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
-    const rdxUsuario = useSelector(userData);
-    const token = rdxUsuario.credentials.token;
+    const rdxUser = useSelector(userData);
+    const token = rdxUser.credentials.token;
     const searchCriteria = useSelector(profileData).criteria;
 
     ////////////////   PAGINACIÓN   ////////////////
@@ -29,7 +29,7 @@ export const GestionUsuario = () => {
     };
 
     useEffect(() => {
-        if (!rdxUsuario.credentials.token) {
+        if (!rdxUser.credentials.token) {
             navigate("/login")
         }
     }, [token]);
@@ -37,13 +37,13 @@ export const GestionUsuario = () => {
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoUsuarios, setModalEditandoUsuarios] = useState(false);
-    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState([])
+    const [userSelect, setUserSelect] = useState([])
     const [usuario, setUsuario] = useState(false);
 
     const [usuarioEditando, setUsuarioEditando] = useState({
         _id: "",
         name: "",
-        apellido: "",
+        lastName: "",
         email: "",
         password: "",
         role: "",
@@ -61,7 +61,7 @@ export const GestionUsuario = () => {
         const todosSuarios = async () => {
             try {
                 const listaUsuarios = await ListarUsuarios(token);
-                setUsuarioSeleccionado(listaUsuarios.data);
+                setUserSelect(listaUsuarios.data);
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -71,7 +71,7 @@ export const GestionUsuario = () => {
     }, [token])
 
     /////////////  MÉTODO FILTRAR USUARIOS   ////////////////
-    const filteredUsuarios = usuarioSeleccionado.filter((usuario) => {
+    const filteredUsuarios = userSelect.filter((usuario) => {
         const criteria = searchCriteria || '';
         return usuario.name.toLowerCase().includes(criteria.toLowerCase()) ||
             usuario.apellido.toLowerCase().includes(criteria.toLowerCase()) ||
@@ -95,11 +95,11 @@ export const GestionUsuario = () => {
                         throw new Error("Todos los campos tienen que estar rellenos");
                     }
                 }
-                const fetched = await RegitrarUser(usuario);
+                const fetched = await RegisterUser(usuario);
                 setUsuario(fetched)
     
                 const listaUsuarios = await ListarUsuarios(token);
-                setUsuarioSeleccionado(listaUsuarios.data);
+                setUserSelect(listaUsuarios.data);
                 abrirCerrarModalInsertar()
 
                 // Mostrar un mensaje de éxito
@@ -144,7 +144,7 @@ export const GestionUsuario = () => {
                 setUsuarioEditando(actualizar)
 
                 const listaUsuarios = await ListarUsuarios(token);
-                setUsuarioSeleccionado(listaUsuarios.data);
+                setUserSelect(listaUsuarios.data);
                 abrirCerrarModalEditar();
 
                 // Mostrar un mensaje de éxito
@@ -188,7 +188,7 @@ export const GestionUsuario = () => {
                 const eliminarUsuario = await EliminarUsuario(_id, token);
                 setUsuarioEditando(eliminarUsuario);
                 const listaUsuarios = await ListarUsuarios(token);
-                setUsuarioSeleccionado(listaUsuarios.data);
+                setUserSelect(listaUsuarios.data);
                 Swal.fire(
                     '¡Eliminado!',
                     'Usuario ha sido eliminado.',
@@ -233,7 +233,7 @@ export const GestionUsuario = () => {
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Nombre</th>
-                                                    <th>Apellido</th>
+                                                    <th>Last Name</th>
                                                     <th>Email</th>
                                                     <th>Role</th>
                                                     <th>Acciones</th>
@@ -267,7 +267,7 @@ export const GestionUsuario = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="apellido"
-                                                                    value={usuario.apellido}
+                                                                    value={usuario.lastName}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -323,7 +323,7 @@ export const GestionUsuario = () => {
                                             type="apellido"
                                             name="apellido"
                                             placeholder="Apellido.."
-                                            value={usuario.apellido || ""}
+                                            value={usuario.lastName || ""}
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
@@ -363,7 +363,7 @@ export const GestionUsuario = () => {
                                             type="apellido"
                                             name="apellido"
                                             placeholder="Apellido.."
-                                            value={usuarioEditando.apellido || ""}
+                                            value={usuarioEditando.lastName || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
