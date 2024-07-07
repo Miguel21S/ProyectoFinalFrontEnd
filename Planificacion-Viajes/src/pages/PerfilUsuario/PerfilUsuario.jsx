@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { useEffect, useState } from "react";
-import { EliminarMiReservaAjamiento, EliminarMiReservaVuelos, MiPerfil, MisReservaAlojamientos, MisReservaVuelos } from "../../services/rootss";
+import { DeleteMyReserveAccommodation, DeleteMyReserveFlight, MyProfile, MyReserveAccommodation, MyReserveFlight } from "../../services/rootss";
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import jsPDF from "jspdf";
@@ -34,8 +34,8 @@ export const PerfilUsuario = () => {
     useEffect(() => {
         const perfil = async () => {
             try {
-                const datosMi = await MiPerfil(token);
-                setDatosPerfil(datosMi.data);
+                const datosProfile = await MyProfile(token);
+                setDatosPerfil(datosProfile.data);
             } catch (error) {
                 console.log("Error:", error);
             }
@@ -43,11 +43,11 @@ export const PerfilUsuario = () => {
         perfil();
     }, [token])
 
-    /////////////  TRAER DATOS DE RESERVAS DE VUELO   ////////////////
+    /////////////  TRAER DATOS DE RESERVAS DE VUELOS   ////////////////
     useEffect(() => {
         const listaMiReservasVuelo = async () => {
             try {
-                const rVuelos = await MisReservaVuelos(token);
+                const rVuelos = await MyReserveFlight(token);
                 setDatosReservaVuelo(rVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -56,11 +56,11 @@ export const PerfilUsuario = () => {
         listaMiReservasVuelo()
     }, [token])
 
-    /////////////  TRAER DATOS DE RESERVAS DE VUELO   ////////////////
+    /////////////  TRAER DATOS DE RESERVAS DE ALOJAMIENTOS   ////////////////
     useEffect(() => {
         const listaMiReservasAlojamientos = async () => {
             try {
-                const rAlojamientos = await MisReservaAlojamientos(token);
+                const rAlojamientos = await MyReserveAccommodation(token);
                 setDatosReservaAlojamientos(rAlojamientos.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -82,10 +82,10 @@ export const PerfilUsuario = () => {
     
         if (result.isConfirmed) {
             try {
-                const eliminarR = await EliminarMiReservaVuelos(_id, token);
+                const eliminarR = await DeleteMyReserveFlight(_id, token);
                 setDatosReservaVuelo(eliminarR);
                 
-                const rVuelos = await MisReservaVuelos(token);
+                const rVuelos = await MyReserveFlight(token);
                 setDatosReservaVuelo(rVuelos.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -116,10 +116,10 @@ export const PerfilUsuario = () => {
 
         if (result.isConfirmed) {
             try {
-                const eReservaUsuario = await EliminarMiReservaAjamiento(_id, token);
+                const eReservaUsuario = await DeleteMyReserveAccommodation(_id, token);
                 setDatosReservaAlojamientos(eReservaUsuario);
 
-                const listaReservaAlojamiento = await MisReservaAlojamientos(token);
+                const listaReservaAlojamiento = await MyReserveAccommodation(token);
                 setDatosReservaAlojamientos(listaReservaAlojamiento.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -188,7 +188,7 @@ export const PerfilUsuario = () => {
                                     </h1>
                                     {datosPerfil.map((datos) => (
                                         <div key={datos._id}>
-                                            <div>{datos.name} {datos.apellido}</div>
+                                            <div>{datos.name} {datos.lastName}</div>
                                             <div className="datosPerfil">{datos.email}</div>
                                         </div>
                                     ))}
@@ -236,7 +236,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.nameVuelo}
+                                                                value={vuelos.nameFlight}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -244,7 +244,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.aerolineaVuelo}
+                                                                value={vuelos.airlineFlight}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -252,7 +252,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.nameUsuario + " " + vuelos.nameApellido}
+                                                                value={vuelos.nameUser + " " + vuelos.lastNameUser}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -260,7 +260,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.horaVuelo}
+                                                                value={vuelos.timeFlight}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -268,7 +268,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.origenVuelo}
+                                                                value={vuelos.originFlight}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -276,7 +276,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.destinoVuelo}
+                                                                value={vuelos.destinationFlight}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -284,7 +284,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="id"
-                                                                value={vuelos.precioPagar}
+                                                                value={vuelos.priceOff}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -337,8 +337,8 @@ export const PerfilUsuario = () => {
                                                         <td>
                                                             <input
                                                                 type="text"
-                                                                name="nameVuelo"
-                                                                value={alojaminetos.nameAlojamiento}
+                                                                name="nameAlijamiento"
+                                                                value={alojaminetos.nameAccommodation}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -346,7 +346,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="ciudadAlojamiento"
-                                                                value={alojaminetos.ciudadAlojamiento}
+                                                                value={alojaminetos.cityAccommodation}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -354,7 +354,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="nameUsuario"
-                                                                value={alojaminetos.nameUsuario + " " + alojaminetos.apellidoUsuario}
+                                                                value={alojaminetos.nameUser + " " + alojaminetos.lastNameUser}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -362,7 +362,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="emailUsuario"
-                                                                value={alojaminetos.emailUsuario}
+                                                                value={alojaminetos.emailUser}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -370,7 +370,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="fechaEntrada"
-                                                                value={alojaminetos.fechaEntrada}
+                                                                value={alojaminetos.dateInput}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -378,7 +378,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="horaEntrada"
-                                                                value={alojaminetos.horaEntrada}
+                                                                value={alojaminetos.timeInput}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -386,7 +386,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="fechaSalida"
-                                                                value={alojaminetos.fechaSalida}
+                                                                value={alojaminetos.dateExit}
                                                                 readOnly
                                                             />
                                                         </td>
@@ -394,7 +394,7 @@ export const PerfilUsuario = () => {
                                                             <input
                                                                 type="text"
                                                                 name="horaSalida"
-                                                                value={alojaminetos.horaSalida}
+                                                                value={alojaminetos.timeExit}
                                                                 readOnly
                                                             />
                                                         </td>

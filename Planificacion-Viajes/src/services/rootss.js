@@ -125,7 +125,7 @@ export const DeleteUser = async (id, token) => {
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS PERFIL DE USUARIO  -----------------------------//
 ////////////////  RUTA MI PERFIL  /////////////////////////////
-export const MiPerfil = async (token) =>{
+export const MyProfile = async (token) =>{
     const options = {
         method: 'GET',
         headers: {
@@ -146,7 +146,7 @@ export const MiPerfil = async (token) =>{
 }
 
 ////////////////  RUTA LISTAR MI RESERVAS DE VUELOS  /////////////////////////////
-export const MisReservaVuelos = async (token)=>{
+export const MyReserveFlight = async (token)=>{
     const options = {
         method: 'GET',
         headers: {
@@ -169,7 +169,7 @@ export const MisReservaVuelos = async (token)=>{
 }
 
 ////////////////  RUTA ELIMINAR MI RESERVAS DE VUELO  /////////////////////////////
-export const EliminarMiReservaVuelos = async (id, token)=>{
+export const DeleteMyReserveFlight = async (id, token)=>{
     const options = {
         method: 'DELETE',
         headers: {
@@ -193,7 +193,7 @@ export const EliminarMiReservaVuelos = async (id, token)=>{
 }
 
 ////////////////  RUTA LISTAR MI RESERVAS DE ALOJAMIENTOS  /////////////////////////////
-export const MisReservaAlojamientos = async (token)=>{
+export const MyReserveAccommodation = async (token)=>{
     const options = {
         method: 'GET',
         headers: {
@@ -216,7 +216,7 @@ export const MisReservaAlojamientos = async (token)=>{
 }
 
 ////////////////  RUTA ELIMINAR MI RESERVAS DE ALOJAMIETNO  /////////////////////////////
-export const EliminarMiReservaAjamiento = async (_id, token) =>{
+export const DeleteMyReserveAccommodation = async (_id, token) =>{
     const options = {
         method: 'DELETE',
         headers: {
