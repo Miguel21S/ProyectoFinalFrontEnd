@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { ListaDeAlojamientos, ListaDeVuelos } from "../../services/rootss";
+import { ListAccommodations, ListFlights } from "../../services/rootss";
 import "./Home.css";
 import Carousel from 'react-bootstrap/Carousel';
 import { Link, useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ export const Home = () => {
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 setVuelo(listaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -66,7 +66,7 @@ export const Home = () => {
     useEffect(() => {
         const listaAlojamientos = async () => {
             try {
-                const lAlojamientos = await ListaDeAlojamientos(token);
+                const lAlojamientos = await ListAccommodations(token);
                 setAlojamiento(lAlojamientos.data);
             } catch (error) {
                 console.log("Error:", error);

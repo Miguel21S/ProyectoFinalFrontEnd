@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./DetalleAlojamientoPorCiudad.css";
 import { useEffect, useState } from "react";
-import { HacerReservaAlojamiento, ListaDeAlojamientos } from "../../services/rootss";
+import { MakeReservationFlight, ListAccommodations } from "../../services/rootss";
 import { Modal } from "react-bootstrap";
 import { Button } from "@mui/material";
 import CTextField from "../../common/CTextField/CTextField";
@@ -32,7 +32,7 @@ export const DetalleAlojamientoPorCiudad = () => {
     useEffect(() => {
         const listaAlojamientos = async () => {
             try {
-                const lAlojamientos = await ListaDeAlojamientos();
+                const lAlojamientos = await ListAccommodations();
                 if (lAlojamientos.success) {
                     const alojamientosFiltrados = lAlojamientos.data.filter(alojamiento => alojamiento.ciudad === ciudad);
                     setReservaAlojamiento(alojamientosFiltrados);
@@ -73,13 +73,13 @@ export const DetalleAlojamientoPorCiudad = () => {
 
             if (result.isConfirmed) {
                 try {
-                    const alojamientoReservado = await HacerReservaAlojamiento(alojamientoAReservar._id, alojamientoAReservar, token);
+                    const alojamientoReservado = await MakeReservationFlight(alojamientoAReservar._id, alojamientoAReservar, token);
                     setAlojamientoAReservar({
                         _id: "",
-                        fechaEntrada: "",
-                        horaEntrada: "",
-                        fechaSalida: "",
-                        horaSalida: "",
+                        dateInput: "",
+                        timeInput: "",
+                        dateExit: "",
+                        timeExit: "",
                         alojamientoReservado
                     });
                     abrirCerrarModalInsertar()
@@ -107,10 +107,10 @@ export const DetalleAlojamientoPorCiudad = () => {
         setAlojamientoAReservar({
             ...alojamientoAReservar,
             _id: id,
-            fechaEntrada: "",
-            horaEntrada: "",
-            fechaSalida: "",
-            horaSalida: "",
+            dateInput: "",
+            timeInput: "",
+            dateExit: "",
+            timeExit: "",
         });
         setModalInsertar(!modalInsertar);
     };
@@ -136,7 +136,7 @@ export const DetalleAlojamientoPorCiudad = () => {
                                     <hr />
                                     <div className="card-body">
                                         <div className="row">
-                                            <h5 className="card-title">{alojamiento.ciudad}</h5>
+                                            <h5 className="card-title">{alojamiento.city}</h5>
                                             <hr />
                                             <div className="col-sm-9">
                                                 <div className="row origeDestino">
@@ -147,11 +147,11 @@ export const DetalleAlojamientoPorCiudad = () => {
                                                         </div>
                                                         <div>
                                                             <p>Tipo</p>
-                                                            <p>{alojamiento.tipo}</p>
+                                                            <p>{alojamiento.kinds}</p>
                                                         </div>
                                                         <div>
                                                             <p>Precio</p>
-                                                            <p>{alojamiento.precio}</p>
+                                                            <p>{alojamiento.price}</p>
                                                         </div>
                                                     </div>
                                                     <div className="col-4 col-sm-6">
@@ -173,32 +173,32 @@ export const DetalleAlojamientoPorCiudad = () => {
                                                                     <div className="col">
                                                                         <CTextField
                                                                             type="text"
-                                                                            name="fechaEntrada"
+                                                                            name="dateInput"
                                                                             placeholder="Fecha de entrada..."
-                                                                            value={alojamientoAReservar.fechaEntrada}
+                                                                            value={alojamientoAReservar.dateInput}
                                                                             changeEmit={inputHandler}
                                                                         />
                                                                         <CTextField
                                                                             type="text"
-                                                                            name="horaEntrada"
+                                                                            name="timeInput"
                                                                             placeholder="Hora de entrada..."
-                                                                            value={alojamientoAReservar.horaEntrada}
+                                                                            value={alojamientoAReservar.timeInput}
                                                                             changeEmit={inputHandler}
                                                                         />
                                                                     </div>
                                                                     <div className="col">
                                                                         <CTextField
                                                                             type="text"
-                                                                            name="fechaSalida"
+                                                                            name="dateExit"
                                                                             placeholder="Fecha de salida..."
-                                                                            value={alojamientoAReservar.fechaSalida}
+                                                                            value={alojamientoAReservar.dateExit}
                                                                             changeEmit={inputHandler}
                                                                         />
                                                                         <CTextField
                                                                             type="text"
-                                                                            name="horaSalida"
+                                                                            name="timeExit"
                                                                             placeholder="Hora de salida..."
-                                                                            value={alojamientoAReservar.horaSalida}
+                                                                            value={alojamientoAReservar.timeExit}
                                                                             changeEmit={inputHandler}
                                                                         />
                                                                     </div>

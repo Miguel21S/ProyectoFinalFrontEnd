@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ActualizarAlojamiento, CrearAlojamiento, EliminarAjamiento, ListaDeAlojamientos } from "../../services/rootss";
+import { UpdateAccmmodation, CreateAccmmodation, DeleteAccommodation, ListAccommodations } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
@@ -36,9 +36,9 @@ export const GestionDeAlojamientos = () => {
     const [editandoalojamiento, setEditandoAlojamiento] = useState({
         _id: "",
         name: "",
-        ciudad: "",
-        tipo: "",
-        precio: "",
+        city: "",
+        kinds: "",
+        price: "",
     })
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export const GestionDeAlojamientos = () => {
     useEffect(() => {
         const listaDeAlojamientos = async () => {
             try {
-                const listaVuelos = await ListaDeAlojamientos(token);
+                const listaVuelos = await ListAccommodations(token);
                 setAlojamientoSeleccionado(listaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -71,8 +71,8 @@ export const GestionDeAlojamientos = () => {
     const filtrarAlojamientos = alojamientoSeleccionado.filter((alojamientos) => {
         const criteria = searchCriteria || '';
         return alojamientos.name.toLowerCase().includes(criteria.toLowerCase()) ||
-        alojamientos.ciudad.toLowerCase().includes(criteria.toLowerCase()) ||
-        alojamientos.tipo.toLowerCase().includes(criteria.toLowerCase())
+        alojamientos.city.toLowerCase().includes(criteria.toLowerCase()) ||
+        alojamientos.kinds.toLowerCase().includes(criteria.toLowerCase())
     });
 
     /////////////  MÉTODO ADICIONAR ALOJAMIENTO  ////////////////
@@ -92,10 +92,10 @@ export const GestionDeAlojamientos = () => {
                         throw new Error("Todos los campos tienen que estar rellenos");
                     }
                 }
-                const fetched = await CrearAlojamiento(alojamiento, token);
+                const fetched = await CreateAccmmodation(alojamiento, token);
                 setAlojamiento(fetched)
     
-                const listaVuelos = await ListaDeAlojamientos(token);
+                const listaVuelos = await ListAccommodations(token);
                 setAlojamientoSeleccionado(listaVuelos.data);
                 abrirCerrarModalInsertar();
 
@@ -149,10 +149,10 @@ export const GestionDeAlojamientos = () => {
         
         if (result.isConfirmed) {
             try {
-                const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
+                const actualizar = await UpdateAccmmodation(editandoalojamiento._id, editandoalojamiento, token);
                 setEditandoAlojamiento(actualizar);
     
-                const listaVuelos = await ListaDeAlojamientos(token);
+                const listaVuelos = await ListAccommodations(token);
                 setAlojamientoSeleccionado(listaVuelos.data);
 
                 abrirCerrarModalEditar();
@@ -195,10 +195,10 @@ export const GestionDeAlojamientos = () => {
 
         if (result.isConfirmed) {
             try {
-                const eliminarUsuario = await EliminarAjamiento(_id, token);
+                const eliminarUsuario = await DeleteAccommodation(_id, token);
                 setEditandoAlojamiento(eliminarUsuario);
 
-                const listaVuelos = await ListaDeAlojamientos(token);
+                const listaVuelos = await ListAccommodations(token);
                 setAlojamientoSeleccionado(listaVuelos.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -279,7 +279,7 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="ciudad"
-                                                                    value={alojamiento.ciudad}
+                                                                    value={alojamiento.city}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -287,7 +287,7 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="tipo"
-                                                                    value={alojamiento.tipo}
+                                                                    value={alojamiento.kinds}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -295,7 +295,7 @@ export const GestionDeAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="precio"
-                                                                    value={alojamiento.precio}
+                                                                    value={alojamiento.price}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -331,24 +331,24 @@ export const GestionDeAlojamientos = () => {
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
-                                            type="ciudad"
-                                            name="ciudad"
+                                            type="city"
+                                            name="city"
                                             placeholder="ciudad..."
-                                            value={alojamiento.ciudad || ""}
+                                            value={alojamiento.city || ""}
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
-                                            type="tipo"
-                                            name="tipo"
+                                            type="kinds"
+                                            name="kinds"
                                             placeholder="Tipo..."
-                                            value={alojamiento.tipo || ""}
+                                            value={alojamiento.kinds || ""}
                                             changeEmit={inputHandler}
                                         />
                                         <CTextField
-                                            type="precio"
-                                            name="precio"
+                                            type="price"
+                                            name="price"
                                             placeholder="precio.."
-                                            value={alojamiento.precio || ""}
+                                            value={alojamiento.price || ""}
                                             changeEmit={inputHandler}
                                         />
                                     </Modal.Body>
@@ -377,24 +377,24 @@ export const GestionDeAlojamientos = () => {
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="ciudad"
-                                            name="ciudad"
+                                            type="city"
+                                            name="city"
                                             placeholder="ciudad..."
-                                            value={editandoalojamiento.ciudad || ""}
+                                            value={editandoalojamiento.city || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="tipo"
-                                            name="tipo"
+                                            type="kinds"
+                                            name="kinds"
                                             placeholder="Tipo..."
-                                            value={editandoalojamiento.tipo || ""}
+                                            value={editandoalojamiento.kinds || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="precio"
-                                            name="precio"
+                                            type="price"
+                                            name="price"
                                             placeholder="precio.."
-                                            value={editandoalojamiento.precio || ""}
+                                            value={editandoalojamiento.price || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
 

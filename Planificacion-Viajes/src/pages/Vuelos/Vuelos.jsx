@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 // import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ListaDeVuelos } from "../../services/rootss";
+import { ListFlights } from "../../services/rootss";
 import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 // import CTextField from "../../common/CTextField/CTextField";
@@ -28,14 +28,14 @@ export const Vuelos = () => {
     useEffect(() => {
         const listaDeVuelosDestino = async () => {
             try {
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 const agruparVuelos = {};
 
                 listaVuelos.data.forEach(vuelos => {
-                    if (!agruparVuelos[vuelos.destino]) {
-                        agruparVuelos[vuelos.destino] = [];
+                    if (!agruparVuelos[vuelos.destination]) {
+                        agruparVuelos[vuelos.destination] = [];
                     }
-                    agruparVuelos[vuelos.destino].push(vuelos);
+                    agruparVuelos[vuelos.destination].push(vuelos);
 
                 });
                 setVuelo(agruparVuelos);
@@ -59,19 +59,19 @@ export const Vuelos = () => {
                         <div className="row">
                             <div className="card-hijo">
                                 <Grid container spacing={2}> {/* Espacio entre los elementos */}
-                                    {Object.keys(vuelos).map(destino => (
-                                        <Grid item xs={12} sm={6} lg={3} key={destino}> {/* Tamaño de las columnas */}
+                                    {Object.keys(vuelos).map(destination => (
+                                        <Grid item xs={12} sm={6} lg={3} key={destination}> {/* Tamaño de las columnas */}
                                             <div className="custom-column mb-3">
                                                 <Card sx={{ maxWidth: 345 }} className="content-vuelo">
 
-                                                    {vuelos[destino].map(vueloItem => (
-                                                        <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origen}/${vueloItem.destino}`} className="mx-3"
+                                                    {vuelos[destination].map(vueloItem => (
+                                                        <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origin}/${vueloItem.destination}`} className="mx-3"
                                                         style={{ textDecoration: 'none', color: 'inherit' }}                                                        
                                                         >
                                                             <CardActionArea>
                                                                 <CardContent>
                                                                     <Typography gutterBottom variant="h5" component="div">
-                                                                        {vueloItem.destino}
+                                                                        {vueloItem.destination}
                                                                     </Typography>
                                                                 </CardContent>
                                                                 {/* <CardMedia

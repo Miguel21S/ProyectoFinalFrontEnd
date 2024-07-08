@@ -242,7 +242,7 @@ export const DeleteMyReserveAccommodation = async (_id, token) =>{
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE VUELO  -----------------------------//
 ////////////////  RUTA LISTAR VUELO  /////////////////////////////
-export const ListaDeVuelos = async (token) => {
+export const ListFlights = async (token) => {
     const options = {
         method: "GET",
         headers: {
@@ -265,7 +265,7 @@ export const ListaDeVuelos = async (token) => {
 }
 
 ////////////////  RUTA ADICIONAR VUELO  /////////////////////////////
-export const AdicionarVuelo = async (data, token) => {
+export const AddFlight = async (data, token) => {
     const options = {
         method: "POST",
         headers: {
@@ -289,7 +289,7 @@ export const AdicionarVuelo = async (data, token) => {
 }
 
 ////////////////  RUTA EDITAR VUELO  /////////////////////////////
-export const ActualizarVuelo = async (idVuelo, data, token) => {
+export const Updateflight = async (idVuelo, data, token) => {
     const options = {
         method: "PUT",
         headers: {
@@ -312,7 +312,7 @@ export const ActualizarVuelo = async (idVuelo, data, token) => {
 }
 
 ////////////////  RUTA ELIMINAR VUELO POR ID  /////////////////////////////
-export const EliminarVuelo = async (id, token) => {
+export const DeleteFlight = async (id, token) => {
     const options = {
         method: "DELETE",
         headers: {
@@ -337,7 +337,7 @@ export const EliminarVuelo = async (id, token) => {
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE RESERVAS DE VUELO  -----------------------------//
 ////////////////  RUTA LISTAR RESERVAS DE VUELO  /////////////////////////////
-export const ListarReservasVuelo = async (token) => {
+export const ListReserveFlights = async (token) => {
     const options = {
         method: 'GET',
         headers: {
@@ -359,7 +359,7 @@ export const ListarReservasVuelo = async (token) => {
 }
 
 ////////////////  RUTA HACER RESERVAS DE VUELO  /////////////////////////////
-export const HacerReservaVuelo = async (idVuelo, data, token) => {
+export const MakeReservationFlight = async (idVuelo, data, token) => {
     const options = {
         method: 'POST',
         headers: {
@@ -409,7 +409,7 @@ export const EditarReservaVuelo = async (id, data, token) => {
     */
 
 ////////////////  RUTA ELIMINAR RESERVAS DE VUELO  /////////////////////////////
-export const EliminarReservaVuelo = async (id, token) =>{
+export const DeleteReservationFlight = async (id, token) =>{
     const options = {
         method: "DELETE",
         headers: {
@@ -433,7 +433,7 @@ export const EliminarReservaVuelo = async (id, token) =>{
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE ALOJAMIENTOS  -----------------------------//
 ////////////////  RUTA LISTAR ALOJAMIENTOS  /////////////////////////////
-export const ListaDeAlojamientos = async (token) => {
+export const ListAccommodations = async (token) => {
     const options = {
         method: "GET",
         headers: {
@@ -455,7 +455,7 @@ export const ListaDeAlojamientos = async (token) => {
 }
 
 ////////////////  RUTA CREAR ALOJAMIENTO  /////////////////////////////
-export const CrearAlojamiento = async (data, token) => {
+export const CreateAccmmodation = async (data, token) => {
     const options = {
         method: "POST",
         headers: {
@@ -479,7 +479,7 @@ export const CrearAlojamiento = async (data, token) => {
 }
 
 ////////////////  RUTA ACTUALIZAR ALOJAMIENTO  /////////////////////////////
-export const ActualizarAlojamiento = async (id, data, token) => {
+export const UpdateAccmmodation = async (id, data, token) => {
     const options = {
         method: "PUT",
         headers: {
@@ -503,7 +503,7 @@ export const ActualizarAlojamiento = async (id, data, token) => {
 }
 
 ////////////////  RUTA ELIMINAR ALOJAMIENTO POR ID /////////////////////////////
-export const EliminarAjamiento = async (id, token) => {
+export const DeleteAccommodation = async (id, token) => {
     const options = {
         method: "DELETE",
         headers: {
@@ -513,7 +513,7 @@ export const EliminarAjamiento = async (id, token) => {
     }
 
     try {
-        const response = await fetch(`${root}delete/accommodation/${id}`, options);
+        const response = await fetch(`${root}delete/reserve/accommodation/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);
@@ -528,7 +528,7 @@ export const EliminarAjamiento = async (id, token) => {
 //________________________________________________________________________________________________________________________________//
 // -------------------------  RUTAS DE RESERVA DE ALOJAMIENTOS  -----------------------------//
 ////////////////  RUTA LISTAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
-export const ListaReservaAlojamientoAdmin = async (token)=>{
+export const ListReservationAccommodationAdmin = async (token)=>{
     const options = {
         method: "GET",
         headers: {
@@ -550,7 +550,7 @@ export const ListaReservaAlojamientoAdmin = async (token)=>{
 }
 
 ////////////////  RUTA HACER RESERVA DE ALOJAMIENTOS  /////////////////////////////
-export const HacerReservaAlojamiento = async (idAlojamiento, data, token) =>{
+export const MakeReservationAccommodation = async (idAlojamiento, data, token) =>{
     const options = {
         method: "POST",
         headers: {
@@ -574,7 +574,7 @@ export const HacerReservaAlojamiento = async (idAlojamiento, data, token) =>{
 }
 
 ////////////////  RUTA ACTUALIZAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
-export const EditarReservaAlojamiento = async (id, data, token) =>{
+export const UpdateReservationAccommodation = async (id, data, token) =>{
     const options = {
         method: "PUT",
         headers: {
@@ -599,7 +599,7 @@ export const EditarReservaAlojamiento = async (id, data, token) =>{
 }
 
 ////////////////  RUTA ELIMINAR RESERVA DE ALOJAMIENTOS  /////////////////////////////
-export const EliminarReservaAlojamiento = async (id, token) => {
+export const DeleteReservationAccommodation = async (id, token) => {
     const options = {
         method: "DELETE",
         headers: {
@@ -609,7 +609,7 @@ export const EliminarReservaAlojamiento = async (id, token) => {
     }
 
     try {
-        const response = await fetch(`${root}delete/reserve/accommodation/profile/${id}`, options);
+        const response = await fetch(`${root}delete/reserve/accommodation/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

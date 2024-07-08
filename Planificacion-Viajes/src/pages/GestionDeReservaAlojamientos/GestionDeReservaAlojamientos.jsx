@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { EditarReservaAlojamiento, EliminarReservaAlojamiento, ListaReservaAlojamientoAdmin } from "../../services/rootss";
+import { UpdateReservationAccommodation, DeleteReservationAccommodation, ListReservationAccommodationAdmin } from "../../services/rootss";
 import CTextField from "../../common/CTextField/CTextField";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
@@ -24,7 +24,7 @@ export const GestionDeReservaAlojamientos = () => {
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoReservaAlojamiento, setModalEditandoReservaAlojamiento] = useState(false);
     const [reservaAlojamientoSeleccionado, setReservaAlojamientoSeleccionado] = useState([])
-    const [alojamiento, setAlojamiento] = useState(false);
+    //const [alojamiento, setAlojamiento] = useState(false);
 
     ////////////////    PAGINACIÓN    ///////////////////////////////
     const [page, setPage] = React.useState(1);
@@ -36,10 +36,10 @@ export const GestionDeReservaAlojamientos = () => {
 
     const [editandoReservaAlojamiento, setEditandoReservaAlojamiento] = useState({
         _id: "",
-        fechaEntrada: "",
-        horaEntrada: "",
-        fechaSalida: "",
-        horaSalida: " "
+        dateInput: "",
+        timeInput: "",
+        dateExit: "",
+        timeExit: " "
     })
 
     useEffect(() => {
@@ -48,12 +48,12 @@ export const GestionDeReservaAlojamientos = () => {
         }
     }, [rdxUsuario]);
 
-    const inputHandler = (e) => {
+   /*  const inputHandler = (e) => {
         setAlojamiento((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }))
-    }
+    } */
 
     const inputHandlerEditar = (e) => {
         setEditandoReservaAlojamiento((prevState) => ({
@@ -67,7 +67,7 @@ export const GestionDeReservaAlojamientos = () => {
     useEffect(() => {
         const reservaAlojamientos = async () => {
             try {
-                const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
+                const listaReservaAlojamiento = await ListReservationAccommodationAdmin(token);
                 setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -109,10 +109,10 @@ export const GestionDeReservaAlojamientos = () => {
 
         if (result.isConfirmed) {
             try {
-                const actualizar = await EditarReservaAlojamiento(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
+                const actualizar = await UpdateReservationAccommodation(editandoReservaAlojamiento._id, editandoReservaAlojamiento, token);
                 setModalEditandoReservaAlojamiento(actualizar)
 
-                const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
+                const listaReservaAlojamiento = await ListReservationAccommodationAdmin(token);
                 setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
                 abrirCerrarModalEditar();
 
@@ -135,9 +135,9 @@ export const GestionDeReservaAlojamientos = () => {
     /////////////  MÉTODO FILTRAR RESERVA DE ALOJAMIENTOS   ////////////////
     const filtrarReservaAlojamiento = reservaAlojamientoSeleccionado.filter((rAlojamiento) => {
         const criteria = searchCriteria || '';
-        return rAlojamiento.nameAlojamiento.toLowerCase().includes(criteria.toLowerCase()) ||
-            rAlojamiento.nameUsuario.toLowerCase().includes(criteria.toLowerCase()) ||
-            rAlojamiento.emailUsuario.toLowerCase().includes(criteria.toLowerCase())
+        return rAlojamiento.nameAccommodation.toLowerCase().includes(criteria.toLowerCase()) ||
+            rAlojamiento.nameUser.toLowerCase().includes(criteria.toLowerCase()) ||
+            rAlojamiento.emailUser.toLowerCase().includes(criteria.toLowerCase())
     });
 
     const editar = (rAlojamiento) => {
@@ -160,10 +160,10 @@ export const GestionDeReservaAlojamientos = () => {
 
         if (result.isConfirmed) {
             try {
-                const eReservaUsuario = await EliminarReservaAlojamiento(_id, token);
+                const eReservaUsuario = await DeleteReservationAccommodation(_id, token);
                 setEditandoReservaAlojamiento(eReservaUsuario);
 
-                const listaReservaAlojamiento = await ListaReservaAlojamientoAdmin(token);
+                const listaReservaAlojamiento = await ListReservationAccommodationAdmin(token);
                 setReservaAlojamientoSeleccionado(listaReservaAlojamiento.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -228,7 +228,7 @@ export const GestionDeReservaAlojamientos = () => {
                                                             filtrarReservaAlojamiento.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
                                                             : filtrarReservaAlojamiento
                                                     ).map((rAlojamiento) => (
-                                                        <tr key={alojamiento._id}>
+                                                        <tr key={rAlojamiento._id}>
                                                             <td>
                                                                 <input
                                                                     type="text"
@@ -241,63 +241,63 @@ export const GestionDeReservaAlojamientos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="name"
-                                                                    value={rAlojamiento.nameAlojamiento}
+                                                                    value={rAlojamiento.nameAccommodation}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="ciudadAlojamiento"
-                                                                    value={rAlojamiento.ciudadAlojamiento}
+                                                                    name="cityAccommodation"
+                                                                    value={rAlojamiento.cityAccommodation}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="ciudad"
-                                                                    value={rAlojamiento.nameUsuario}
+                                                                    name="nameUser"
+                                                                    value={rAlojamiento.nameUser}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="tipo"
-                                                                    value={rAlojamiento.emailUsuario}
+                                                                    name="emailUser"
+                                                                    value={rAlojamiento.emailUser}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="precio"
-                                                                    value={rAlojamiento.fechaEntrada}
+                                                                    name="dateInput"
+                                                                    value={rAlojamiento.dateInput}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="precio"
-                                                                    value={rAlojamiento.horaEntrada}
+                                                                    name="timeInput"
+                                                                    value={rAlojamiento.timeInput}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="precio"
-                                                                    value={rAlojamiento.fechaSalida}
+                                                                    name="dateExit"
+                                                                    value={rAlojamiento.dateExit}
                                                                     readOnly
                                                                 />
                                                             </td>
                                                             <td>
                                                                 <input
                                                                     type="text"
-                                                                    name="precio"
-                                                                    value={rAlojamiento.horaSalida}
+                                                                    name="timeExit"
+                                                                    value={rAlojamiento.timeExit}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -319,9 +319,9 @@ export const GestionDeReservaAlojamientos = () => {
                         }
                         {
                             <>
-                                <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
+                                {/* <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Adicionar Alojamiento</Modal.Title>
+                                        <Modal.Title>Reservar Alojamiento</Modal.Title>
                                     </Modal.Header>
 
                                     <Modal.Body className="modal-vuelo">
@@ -355,10 +355,10 @@ export const GestionDeReservaAlojamientos = () => {
                                         />
                                     </Modal.Body>
                                     <Modal.Footer className="modal-footer">
-                                        {/* <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button> */}
+                                        <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button> 
                                         <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
                                     </Modal.Footer>
-                                </Modal>
+                                </Modal> */}
 
                                 <Modal show={modalEditandoReservaAlojamiento} onHide={abrirCerrarModalEditar}>
                                     <Modal.Header closeButton>
@@ -372,31 +372,31 @@ export const GestionDeReservaAlojamientos = () => {
                                             readOnly
                                         />
                                         <CTextField
-                                            type="fechaEntrada"
-                                            name="fechaEntrada"
+                                            type="dateInput"
+                                            name="dateInput"
                                             placeholder="Fecha entrada.."
-                                            value={editandoReservaAlojamiento.fechaEntrada || ""}
+                                            value={editandoReservaAlojamiento.dateInput || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="horaEntrada"
-                                            name="horaEntrada"
+                                            type="timeInput"
+                                            name="timeInput"
                                             placeholder="Hora entrada..."
-                                            value={editandoReservaAlojamiento.horaEntrada || ""}
+                                            value={editandoReservaAlojamiento.timeInput || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="fechaSalida"
-                                            name="fechaSalida"
+                                            type="dateExit"
+                                            name="dateExit"
                                             placeholder="Fecha salida..."
-                                            value={editandoReservaAlojamiento.fechaSalida || ""}
+                                            value={editandoReservaAlojamiento.dateExit || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="horaSalida"
-                                            name="horaSalida"
+                                            type="timeExit"
+                                            name="timeExit"
                                             placeholder="hora salida.."
-                                            value={editandoReservaAlojamiento.horaSalida || ""}
+                                            value={editandoReservaAlojamiento.timeExit || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
 

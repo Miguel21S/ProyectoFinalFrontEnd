@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { EliminarReservaVuelo, ListarReservasVuelo } from "../../services/rootss";
+import { DeleteReservationFlight, ListReserveFlights } from "../../services/rootss";
 import { CLink } from "../../common/CLink/CLink";
 import { Modal } from "react-bootstrap";
 import CTextField from "../../common/CTextField/CTextField";
@@ -32,17 +32,17 @@ export const GestionReservasVuelos = () => {
 
     const [editandoReservaVuelo, setEditandoReservaVuelo] = useState({
         _id: "",
-        cantidadAsiento: "",
-        precioPagar: "",
-        idUsuario: "",
-        nameUsuario: "",
-        emailUsuario: "",
-        idVuelo: "",
-        nameVuelo: "",
-        origeVuelo: "",
-        destinoVuelo: "",
-        fechaVuelo: "",
-        horaVuelo: "",
+        seatcapacity: "",
+        priceOff: "",
+        idUser: "",
+        nameUser: "",
+        emailUser: "",
+        idFlight: "",
+        nameFlight: "",
+        originFlight: "",
+        destinationFlight: "",
+        dateFlight: "",
+        timeFlight: "",
     })
 
     // const [vuelo, setVuelo] = useState([]);
@@ -64,7 +64,7 @@ export const GestionReservasVuelos = () => {
     useEffect(() => {
         const listaDeReservasVuelo = async () => {
             try {
-                const listaReservaVuelos = await ListarReservasVuelo(token);
+                const listaReservaVuelos = await ListReserveFlights(token);
                 setrVueloSeleccionado(listaReservaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -76,9 +76,9 @@ export const GestionReservasVuelos = () => {
     /////////////  MÉTODO FILTRAR RESERVA DE VUELOS   ////////////////
     const filtrarReservaVuelo = rVueloSeleccionado.filter((rVuelo) => {
         const criteria = searchCriteria || '';
-        return rVuelo.emailUsuario.toLowerCase().includes(criteria.toLowerCase()) ||
-            rVuelo.nameUsuario.toLowerCase().includes(criteria.toLowerCase()) ||
-            rVuelo.nameVuelo.toLowerCase().includes(criteria.toLowerCase())
+        return rVuelo.emailUser.toLowerCase().includes(criteria.toLowerCase()) ||
+            rVuelo.nameUser.toLowerCase().includes(criteria.toLowerCase()) ||
+            rVuelo.nameFlight.toLowerCase().includes(criteria.toLowerCase())
 
     });
 
@@ -140,10 +140,10 @@ export const GestionReservasVuelos = () => {
 
         if (result.isConfirmed) {
             try {
-                const eliminarRe = await EliminarReservaVuelo(_id, token);
+                const eliminarRe = await DeleteReservationFlight(_id, token);
                 setEditandoReservaVuelo(eliminarRe);
 
-                const listaReservaVuelos = await ListarReservasVuelo(token);
+                const listaReservaVuelos = await ListReserveFlights(token);
                 setrVueloSeleccionado(listaReservaVuelos.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -208,7 +208,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="emailUsuario"
-                                                                    value={reservaVuelos.emailUsuario}
+                                                                    value={reservaVuelos.emailUser}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -216,7 +216,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="nameUsuario"
-                                                                    value={reservaVuelos.nameUsuario}
+                                                                    value={reservaVuelos.nameUser}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -224,7 +224,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="idVuelo"
-                                                                    value={reservaVuelos.idVuelo}
+                                                                    value={reservaVuelos.idFlight}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -232,7 +232,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="nameVuelo"
-                                                                    value={reservaVuelos.nameVuelo}
+                                                                    value={reservaVuelos.nameFlight}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -240,7 +240,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="aerolineaVuelo"
-                                                                    value={reservaVuelos.aerolineaVuelo}
+                                                                    value={reservaVuelos.airlineFlight}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -248,7 +248,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="fechaVuelo"
-                                                                    value={reservaVuelos.fechaVuelo}
+                                                                    value={reservaVuelos.dateFlight}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -256,7 +256,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="horaVuelo"
-                                                                    value={reservaVuelos.horaVuelo}
+                                                                    value={reservaVuelos.timeFlight}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -264,7 +264,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="cantidadAsiento"
-                                                                    value={reservaVuelos.cantidadAsiento}
+                                                                    value={reservaVuelos.seatcapacity}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -272,7 +272,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="precioPagar"
-                                                                    value={reservaVuelos.precioPagar}
+                                                                    value={reservaVuelos.priceOff}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -306,17 +306,17 @@ export const GestionReservasVuelos = () => {
                                             readOnly
                                         />
                                         <CTextField
-                                            type="cantidadAsiento"
-                                            name="cantidadAsiento"
+                                            type="seatcapacity"
+                                            name="seatcapacity"
                                             placeholder="Cantidad de asientos.."
-                                            value={editandoReservaVuelo.cantidadAsiento || ""}
+                                            value={editandoReservaVuelo.seatcapacity || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
                                         <CTextField
-                                            type="precioPagar"
-                                            name="precioPagar"
+                                            type="priceOff"
+                                            name="priceOff"
                                             placeholder="Precio a pagar.."
-                                            value={editandoReservaVuelo.precioPagar || ""}
+                                            value={editandoReservaVuelo.priceOff || ""}
                                             changeEmit={inputHandlerEditar}
                                         />
 

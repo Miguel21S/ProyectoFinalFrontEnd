@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import "./DetalleVueloPasage.css";
-import { HacerReservaVuelo, ListaDeVuelos } from "../../services/rootss";
+import { MakeReservationFlight, ListFlights } from "../../services/rootss";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
@@ -18,8 +18,8 @@ export const DetalleVueloPasage = () => {
     const [reservaVuelo, setReservaVuelo] = useState([]);
     const [vueloPagar, setVueloPagar] = useState({
         _id: "",
-        cantidadAsiento: "",
-        precioPagar: "",
+        seatcapacity: "",
+        priceOff: "",
     });
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
@@ -38,7 +38,7 @@ export const DetalleVueloPasage = () => {
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 const vuelosFiltrados = listaVuelos.data.find(reservaVuelo => reservaVuelo._id === _id);
                 if (vuelosFiltrados) {
                     setReservaVuelo([vuelosFiltrados]);
@@ -56,8 +56,8 @@ export const DetalleVueloPasage = () => {
             navigate("/login")
         } else {
             const vuelo = reservaVuelo[0]; // Suponiendo que hay un vuelo seleccionado
-            const cantidadAsiento = parseInt(vueloPagar.cantidadAsiento);
-            const precioIndividual = parseFloat(vuelo.precio);
+            const cantidadAsiento = parseInt(vueloPagar.seatcapacity);
+            const precioIndividual = parseFloat(vuelo.price);
             const precioTotalEsperado = cantidadAsiento * precioIndividual;
 
             if (!cantidadAsiento || !precioTotalEsperado) {
@@ -78,21 +78,21 @@ export const DetalleVueloPasage = () => {
                 });
 
                 if (result.isConfirmed) {
-                    if (precioTotalEsperado !== parseFloat(vueloPagar.precioPagar)) {
+                    if (precioTotalEsperado !== parseFloat(vueloPagar.priceOff)) {
                         Swal.fire(
                             'Error',
-                            `El precio total esperado (${precioTotalEsperado}€) no coincide con el precio a pagar (${vueloPagar.precioPagar}€).`,
+                            `El precio total esperado (${precioTotalEsperado}€) no coincide con el precio a pagar (${vueloPagar.priceOff}€).`,
                             'error'
                         );
                         return;
                     }
                 }
                 try {
-                    const billete = await HacerReservaVuelo(_id, vueloPagar, token);
+                    const billete = await MakeReservationFlight(_id, vueloPagar, token);
                     setVueloPagar({
                         _id: "",
-                        cantidadAsiento: "",
-                        precioPagar: "",
+                        seatcapacity: "",
+                        priceOff: "",
                         billete
                     });
 
@@ -143,13 +143,13 @@ export const DetalleVueloPasage = () => {
                                             <Paper>
                                                 <div className="col-3">
                                                     <div className="info-vuelo"> {vuelo.name}</div>
-                                                    <div className="info-vuelo"> {vuelo.aerolinea}</div>
-                                                    <div className="info-vuelo"> {vuelo.capacidadAsiento}</div>
-                                                    <div className="info-vuelo">{vuelo.origen}</div>
-                                                    <div className="info-vuelo"> {vuelo.destino}</div>
-                                                    <div className="info-vuelo"> {vuelo.fechaIda}</div>
-                                                    <div className="info-vuelo"> {vuelo.horaIda}</div>
-                                                    <div className="info-vuelo"> {vuelo.precio} <i className="bi bi-currency-euro"></i></div>
+                                                    <div className="info-vuelo"> {vuelo.airline}</div>
+                                                    <div className="info-vuelo"> {vuelo.seatcapacity}</div>
+                                                    <div className="info-vuelo"> {vuelo.origin}</div>
+                                                    <div className="info-vuelo"> {vuelo.destination}</div>
+                                                    <div className="info-vuelo"> {vuelo.dateDeparture}</div>
+                                                    <div className="info-vuelo"> {vuelo.timeGoTime}</div>
+                                                    <div className="info-vuelo"> {vuelo.price} <i className="bi bi-currency-euro"></i></div>
                                                 </div>
                                             </Paper>
                                             <Paper >
@@ -159,9 +159,9 @@ export const DetalleVueloPasage = () => {
                                                             <div className="info-vuelo-textfield">
                                                                 <CTextField
                                                                     type="number"
-                                                                    name="cantidadAsiento"
+                                                                    name="seatcapacity"
                                                                     placeholder="Cantidad de personas..."
-                                                                    value={vueloPagar.cantidadAsiento}
+                                                                    value={vueloPagar.seatcapacity}
                                                                     changeEmit={inputHandler}
                                                                 />
                                                             </div>
@@ -169,9 +169,9 @@ export const DetalleVueloPasage = () => {
                                                             <div className="info-vuelo-textfield">
                                                                 <CTextField
                                                                     type="number"
-                                                                    name="precioPagar"
+                                                                    name="priceOff"
                                                                     placeholder="Valor a pagar..."
-                                                                    value={vueloPagar.precioPagar}
+                                                                    value={vueloPagar.priceOff}
                                                                     changeEmit={inputHandler}
                                                                 />
                                                             </div>

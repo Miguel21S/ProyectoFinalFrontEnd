@@ -7,7 +7,7 @@ import { userData } from "../../app/slices/userSlice";
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CTextField from "../../common/CTextField/CTextField";
-import { ActualizarVuelo, AdicionarVuelo, EliminarVuelo, ListaDeVuelos } from "../../services/rootss";
+import { Updateflight, AddFlight, DeleteFlight, ListFlights } from "../../services/rootss";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import { profileData } from "../../app/slices/profileSlice";
@@ -37,15 +37,15 @@ export const GestionVuelos = () => {
     const [vuelosEditando, setVuelosEditando] = useState({
         _id: "",
         name: "",
-        aerolinea: "",
-        capacidadAsiento: "",
-        origen: "",
-        destino: "",
-        precio: "",
-        fechaIda: "",
-        horaIda: "",
-        fechaRegreso: "",
-        horaRegreso: "",
+        airline: "",
+        seatcapacity: "",
+        origin: "",
+        destination: "",
+        price: "",
+        dateDeparture: "",
+        timeGoTime: "",
+        dateReturn: "",
+        timeReturn: "",
     })
 
     useEffect(() => {
@@ -65,7 +65,7 @@ export const GestionVuelos = () => {
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 setVueloSeleccionado(listaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
@@ -101,10 +101,10 @@ export const GestionVuelos = () => {
                     }
                 }
 
-                const fetched = await AdicionarVuelo(vuelo, token);
+                const fetched = await AddFlight(vuelo, token);
                 setVuelo(fetched)
 
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 setVueloSeleccionado(listaVuelos.data);
                 abrirCerrarModalInsertar();
 
@@ -150,10 +150,10 @@ export const GestionVuelos = () => {
 
         if (result.isConfirmed) {
             try {
-                const actualizar = await ActualizarVuelo(vuelosEditando._id, vuelosEditando, token);
+                const actualizar = await Updateflight(vuelosEditando._id, vuelosEditando, token);
                 setVuelosEditando(actualizar)
 
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 setVueloSeleccionado(listaVuelos.data);
                 abrirCerrarModalEditar();
 
@@ -188,10 +188,10 @@ export const GestionVuelos = () => {
 
         if (result.isConfirmed) {
             try {
-                const eliminarVuelo = await EliminarVuelo(_id, token);
+                const eliminarVuelo = await DeleteFlight(_id, token);
                 setVuelosEditando(eliminarVuelo);
 
-                const listaVuelos = await ListaDeVuelos(token);
+                const listaVuelos = await ListFlights(token);
                 setVueloSeleccionado(listaVuelos.data);
                 Swal.fire(
                     '¡Eliminado!',
@@ -278,7 +278,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="aerolinea"
-                                                                    value={vuelos.aerolinea}
+                                                                    value={vuelos.airline}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -286,7 +286,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="aerolinea"
-                                                                    value={vuelos.capacidadAsiento}
+                                                                    value={vuelos.seatcapacity}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -294,7 +294,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="origen"
-                                                                    value={vuelos.origen}
+                                                                    value={vuelos.origin}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -302,7 +302,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="destino"
-                                                                    value={vuelos.destino}
+                                                                    value={vuelos.destination}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -310,7 +310,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="fechaIda"
-                                                                    value={vuelos.fechaIda}
+                                                                    value={vuelos.dateDeparture}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -318,7 +318,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="horaIda"
-                                                                    value={vuelos.horaIda}
+                                                                    value={vuelos.timeGoTime}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -326,7 +326,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="fechaRegreso"
-                                                                    value={vuelos.fechaRegreso}
+                                                                    value={vuelos.dateReturn}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -334,7 +334,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="horaRegreso"
-                                                                    value={vuelos.horaRegreso}
+                                                                    value={vuelos.timeReturn}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -342,7 +342,7 @@ export const GestionVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="precio"
-                                                                    value={vuelos.precio}
+                                                                    value={vuelos.price}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -381,75 +381,75 @@ export const GestionVuelos = () => {
                                                     changeEmit={inputHandler}
                                                 />
                                                 <CTextField
-                                                    type="aerolinea"
-                                                    name="aerolinea"
+                                                    type="airline"
+                                                    name="airline"
                                                     placeholder="Aerolinea.."
-                                                    value={vuelo.aerolinea || ""}
+                                                    value={vuelo.airline || ""}
                                                     changeEmit={inputHandler}
                                                 />
 
                                             </div>
                                             <div className="col">
                                                 <CTextField
-                                                    type="capacidadAsiento"
-                                                    name="capacidadAsiento"
+                                                    type="seatcapacity"
+                                                    name="seatcapacity"
                                                     placeholder="Capacidad de asientos..."
-                                                    value={vuelo.capacidadAsiento || ""}
+                                                    value={vuelo.seatcapacity || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                                 <CTextField
-                                                    type="origen"
-                                                    name="origen"
+                                                    type="origin"
+                                                    name="origin"
                                                     placeholder="Origen..."
-                                                    value={vuelo.origen || ""}
+                                                    value={vuelo.origin || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                             </div>
                                             <div className="col">
                                                 <CTextField
-                                                    type="destino"
-                                                    name="destino"
+                                                    type="destination"
+                                                    name="destination"
                                                     placeholder="Destino..."
-                                                    value={vuelo.destino || ""}
+                                                    value={vuelo.destination || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                                 <CTextField
-                                                    type="fechaIda"
-                                                    name="fechaIda"
+                                                    type="dateDeparture"
+                                                    name="dateDeparture"
                                                     placeholder="Fecha de Ida..."
-                                                    value={vuelo.fechaIda || ""}
+                                                    value={vuelo.dateDeparture || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                             </div>
                                             <div className="col">
                                                 <CTextField
-                                                    type="horaIda"
-                                                    name="horaIda"
+                                                    type="timeGoTime"
+                                                    name="timeGoTime"
                                                     placeholder="Hora de Ida.."
-                                                    value={vuelo.horaIda || ""}
+                                                    value={vuelo.timeGoTime || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                                 <CTextField
-                                                    type="fechaRegreso"
-                                                    name="fechaRegreso"
+                                                    type="dateReturn"
+                                                    name="dateReturn"
                                                     placeholder="Fecha de Regreso.."
-                                                    value={vuelo.fechaRegreso || ""}
+                                                    value={vuelo.dateReturn || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                             </div>
                                             <div className="col">
                                                 <CTextField
-                                                    type="horaRegreso"
-                                                    name="horaRegreso"
+                                                    type="timeReturn"
+                                                    name="timeReturn"
                                                     placeholder="hora de Regreso.."
-                                                    value={vuelo.horaRegreso || ""}
+                                                    value={vuelo.timeReturn || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                                 <CTextField
-                                                    type="precio"
-                                                    name="precio"
+                                                    type="price"
+                                                    name="price"
                                                     placeholder="precio.."
-                                                    value={vuelo.precio || ""}
+                                                    value={vuelo.price || ""}
                                                     changeEmit={inputHandler}
                                                 />
                                             </div>
@@ -483,44 +483,44 @@ export const GestionVuelos = () => {
                                                 changeEmit={inputHandlerEditar}
                                             />
                                             <CTextField
-                                                type="aerolinea"
-                                                name="aerolinea"
+                                                type="airline"
+                                                name="airline"
                                                 placeholder="Aerolinea.."
-                                                value={vuelosEditando.aerolinea || ""}
+                                                value={vuelosEditando.airline || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                         </div>
 
                                         <div className="col">
                                             <CTextField
-                                                type="capacidadAsiento"
-                                                name="capacidadAsiento"
+                                                type="seatcapacity"
+                                                name="seatcapacity"
                                                 placeholder="Capacidad de asientos..."
-                                                value={vuelosEditando.capacidadAsiento || ""}
+                                                value={vuelosEditando.seatcapacity || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                             <CTextField
-                                                type="origen"
-                                                name="origen"
+                                                type="origin"
+                                                name="origin"
                                                 placeholder="Origen..."
-                                                value={vuelosEditando.origen || ""}
+                                                value={vuelosEditando.origin || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                         </div>
 
                                         <div className="col">
                                             <CTextField
-                                                type="destino"
-                                                name="destino"
+                                                type="destination"
+                                                name="destination"
                                                 placeholder="Destino..."
-                                                value={vuelosEditando.destino || ""}
+                                                value={vuelosEditando.destination || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                             <CTextField
-                                                type="fechaIda"
-                                                name="fechaIda"
+                                                type="dateDeparture"
+                                                name="dateDeparture"
                                                 placeholder="Fecha de Ida..."
-                                                value={vuelosEditando.fechaIda || ""}
+                                                value={vuelosEditando.dateDeparture || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
 
@@ -528,17 +528,17 @@ export const GestionVuelos = () => {
 
                                         <div className="col">
                                             <CTextField
-                                                type="horaIda"
-                                                name="horaIda"
+                                                type="timeGoTime"
+                                                name="timeGoTime"
                                                 placeholder="Hora de Ida.."
-                                                value={vuelosEditando.horaIda || ""}
+                                                value={vuelosEditando.timeGoTime || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                             <CTextField
-                                                type="fechaRegreso"
-                                                name="fechaRegreso"
+                                                type="dateReturn"
+                                                name="dateReturn"
                                                 placeholder="Fecha de Regreso.."
-                                                value={vuelosEditando.fechaRegreso || ""}
+                                                value={vuelosEditando.dateReturn || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
 
@@ -546,17 +546,17 @@ export const GestionVuelos = () => {
 
                                         <div className="col">
                                             <CTextField
-                                                type="horaRegreso"
-                                                name="horaRegreso"
+                                                type="timeReturn"
+                                                name="timeReturn"
                                                 placeholder="hora de Regreso.."
-                                                value={vuelosEditando.horaRegreso || ""}
+                                                value={vuelosEditando.timeReturn || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                             <CTextField
-                                                type="precio"
-                                                name="precio"
+                                                type="price"
+                                                name="price"
                                                 placeholder="precio.."
-                                                value={vuelosEditando.precio || ""}
+                                                value={vuelosEditando.price || ""}
                                                 changeEmit={inputHandlerEditar}
                                             />
                                         </div>

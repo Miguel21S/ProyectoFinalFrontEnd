@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userData } from "../../app/slices/userSlice";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ListaDeAlojamientos } from "../../services/rootss";
+import { ListAccommodations } from "../../services/rootss";
 import { Card, CardActionArea, CardContent, Grid, Typography } from "@mui/material";
 
 export const Alojamientos = () => {
@@ -26,7 +26,7 @@ export const Alojamientos = () => {
     useEffect(() => {
         const listaDeAlojamientos = async () => {
             try {
-                const listaAlojamientos = await ListaDeAlojamientos(token);
+                const listaAlojamientos = await ListAccommodations(token);
                 const agruparAlojamientos = {};
 
                 listaAlojamientos.data.forEach(alojamiento => {
@@ -66,9 +66,9 @@ export const Alojamientos = () => {
                                                     <Card sx={{ maxWidth: 345 }} className="content-ciudad">
 
                                                         {alojamiento[localidad].map(alojamientoItem => (
-                                                            <Link key={alojamientoItem._id} to={`/alojamientos/${alojamientoItem.ciudad}`} className="mx-3"
+                                                            <Link key={alojamientoItem._id} to={`/alojamientos/${alojamientoItem.city}`} className="mx-3"
                                                                 style={{ textDecoration: 'none', color: 'inherit' }}>
-                                                                {console.log("alojamientoItem.ciudad: ", `/alojamientos/${alojamientoItem.ciudad}`)}
+                                                                {console.log("alojamientoItem.ciudad: ", `/alojamientos/${alojamientoItem.city}`)}
 
                                                                 <CardActionArea>
                                                                     <CardContent>
