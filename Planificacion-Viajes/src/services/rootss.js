@@ -513,7 +513,7 @@ export const DeleteAccommodation = async (id, token) => {
     }
 
     try {
-        const response = await fetch(`${root}delete/reserve/accommodation/${id}`, options);
+        const response = await fetch(`${root}deletee/accommodation/${id}`, options);
         const data = await response.json();
         if (!data.success) {
             throw new Error(data.message);

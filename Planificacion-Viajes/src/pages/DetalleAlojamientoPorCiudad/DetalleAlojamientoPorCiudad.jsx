@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./DetalleAlojamientoPorCiudad.css";
 import { useEffect, useState } from "react";
-import { MakeReservationFlight, ListAccommodations } from "../../services/rootss";
+import { MakeReservationAccommodation, ListAccommodations } from "../../services/rootss";
 import { Modal } from "react-bootstrap";
 import { Button } from "@mui/material";
 import CTextField from "../../common/CTextField/CTextField";
@@ -12,16 +12,16 @@ import Swal from "sweetalert2";
 
 export const DetalleAlojamientoPorCiudad = () => {
     const navigate = useNavigate();
-    const { ciudad } = useParams();
+    const { city } = useParams();
 
     const [modalInsertar, setModalInsertar] = useState(false);
     const [reservaAlojamiento, setReservaAlojamiento] = useState([]);
     const [alojamientoAReservar, setAlojamientoAReservar] = useState({
         _id: "",
-        fechaEntrada: "",
-        horaEntrada: "",
-        fechaSalida: "",
-        horaSalida: "",
+        dateInput: "",
+        timeInput: "",
+        dateExit: "",
+        timeExit: "",
     });
 
     /////////////  INSTACIA DE CONEXIÓN A MODO LECTURA   ////////////////
@@ -34,7 +34,7 @@ export const DetalleAlojamientoPorCiudad = () => {
             try {
                 const lAlojamientos = await ListAccommodations();
                 if (lAlojamientos.success) {
-                    const alojamientosFiltrados = lAlojamientos.data.filter(alojamiento => alojamiento.ciudad === ciudad);
+                    const alojamientosFiltrados = lAlojamientos.data.filter(reservaAlojamiento => reservaAlojamiento.city === city);
                     setReservaAlojamiento(alojamientosFiltrados);
                 } else {
                     console.log("Error:", lAlojamientos.message);
@@ -44,16 +44,16 @@ export const DetalleAlojamientoPorCiudad = () => {
             }
         };
         listaAlojamientos();
-    }, [ciudad]);
+    }, [city]);
 
     ////////////////   MÉTODO RESERVAR ALOJAMIENTO    //////////////////////////////
     const rAlojamiento = async () => {
         if (!rdxUsuario.credentials.token) {
             navigate("/login");
         } else {
-            const { fechaEntrada, horaEntrada, fechaSalida, horaSalida } = alojamientoAReservar;
+            const { dateInput, timeInput, dateExit, timeExit } = alojamientoAReservar;
 
-            if (!fechaEntrada || !horaEntrada || !fechaSalida || !horaSalida) {
+            if (!dateInput || !timeInput || !dateExit || !timeExit) {
                 Swal.fire(
                     'Error',
                     'Todos los campos son obligatorios.',
@@ -73,7 +73,7 @@ export const DetalleAlojamientoPorCiudad = () => {
 
             if (result.isConfirmed) {
                 try {
-                    const alojamientoReservado = await MakeReservationFlight(alojamientoAReservar._id, alojamientoAReservar, token);
+                    const alojamientoReservado = await MakeReservationAccommodation(alojamientoAReservar._id, alojamientoAReservar, token);
                     setAlojamientoAReservar({
                         _id: "",
                         dateInput: "",
@@ -127,7 +127,7 @@ export const DetalleAlojamientoPorCiudad = () => {
         <>
             <div className="detalle-alojamiento">
                 <div className="content-detalle">
-                    <h2>Alojamientos disponibles desde {ciudad}</h2>
+                    <h2>Alojamientos disponibles desde {city}</h2>
                     {reservaAlojamiento.map((alojamiento) => (
                         <div key={alojamiento._id} className="col">
                             <div className="card">

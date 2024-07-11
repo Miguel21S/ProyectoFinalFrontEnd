@@ -126,10 +126,10 @@ export const Home = () => {
                                         <Carousel.Item key={index}>
                                             <div className="d-flex justify-content-center">
                                                 {chunk.map((alojamientoItem) => (
-                                                    <Link key={alojamientoItem._id} to={`/alojamientos/${alojamientoItem.ciudad}`} className="mx-3">
+                                                    <Link key={alojamientoItem._id} to={`/alojamientos/${alojamientoItem.city}`} className="mx-3">
                                                         <div key={alojamientoItem._id} style={{ margin: '0 10px' }}>
                                                             <div className="text-center">
-                                                                <h5 className="mt-2">{alojamientoItem.ciudad}</h5>
+                                                                <h5 className="mt-2">{alojamientoItem.city}</h5>
                                                             </div>
                                                             <img src="./src/img/casa.jpg" className="imge" alt={alojamientoItem.name} />
                                                         </div>

@@ -33,7 +33,7 @@ export const Body = () => {
             
             <Route path="/vuelos/:origin/:destination" element={<DetalleVuelo />} />
             <Route path="/detallevuelopasage/:_id" element={<DetalleVueloPasage />} />
-            <Route path="/alojamientos/:ciudad" element={<DetalleAlojamientoPorCiudad />} />
+            <Route path="/alojamientos/:city" element={<DetalleAlojamientoPorCiudad />} />
       {/* <Route path="/vuelos/:origenDestino" element={<DetalleVuelo />} /> */}
         </Routes>
     )
