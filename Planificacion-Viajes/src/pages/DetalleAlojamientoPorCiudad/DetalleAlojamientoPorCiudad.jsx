@@ -28,7 +28,7 @@ export const DetalleAlojamientoPorCiudad = () => {
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
 
-    /////////////  LISTAR ALOJAMIENTOS   ////////////////
+    /////////////  LISTAR ALOJAMIENTOS DESDE UNA CIUDAD   ////////////////
     useEffect(() => {
         const listaAlojamientos = async () => {
             try {

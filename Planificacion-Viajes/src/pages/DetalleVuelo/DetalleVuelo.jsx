@@ -23,7 +23,7 @@ export const DetalleVuelo = () => {
     //     }
     // }, [rdxUsuario]);
 
-    /////////////  MÉTODO LISTAR VUELOS   ////////////////
+    /////////////  MÉTODO LISTAR VUELOS DESDE UNA CIUDAD   ////////////////
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
