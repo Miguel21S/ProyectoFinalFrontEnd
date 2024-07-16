@@ -57,25 +57,8 @@ export const DetalleVuelo = () => {
                                                     <Paper>
                                                         <Stack spacing={2} className="origeDestino">
                                                             <Paper>
-                                                                <div className="detalle-origen">
-                                                                    <div>
-                                                                        <p>Aerolínea</p>
-                                                                        <p>{vuelo.airline}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                    <div>Capacidad  <EventSeatIcon /></div>
-                                                                        <p>{vuelo.seatcapacity}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p>{vuelo.origin}</p>
-                                                                        <p>{vuelo.timeGoTime}</p>
-                                                                        <p>{vuelo.dateDeparture}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </Paper>
-                                                            <Paper>
                                                                 <div className="detalle-destino">
-                                                                    <div>
+                                                                <div>
                                                                         <p>Aerolínea</p>
                                                                         <p>{vuelo.airline}</p>
                                                                     </div>
@@ -90,6 +73,23 @@ export const DetalleVuelo = () => {
                                                                             <p>{vuelo.dateReturn}</p>
                                                                         </div>
                                                                     }
+                                                                </div>
+                                                            </Paper>
+                                                            <Paper>
+                                                                <div className="detalle-origen">
+                                                                <div>
+                                                                        <p>Aerolínea</p>
+                                                                        <p>{vuelo.airline}</p>
+                                                                    </div>
+                                                                    <div>
+                                                                    <div>Capacidad  <EventSeatIcon /></div>
+                                                                        <p>{vuelo.seatcapacity}</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p>{vuelo.origin}</p>
+                                                                        <p>{vuelo.timeGoTime}</p>
+                                                                        <p>{vuelo.dateDeparture}</p>
+                                                                    </div>
                                                                 </div>
                                                             </Paper>
                                                         </Stack>

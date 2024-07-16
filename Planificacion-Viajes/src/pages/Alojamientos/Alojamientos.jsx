@@ -30,10 +30,10 @@ export const Alojamientos = () => {
                 const agruparAlojamientos = {};
 
                 listaAlojamientos.data.forEach(alojamiento => {
-                    if (!agruparAlojamientos[alojamiento.ciudad]) {
-                        agruparAlojamientos[alojamiento.ciudad] = [];
+                    if (!agruparAlojamientos[alojamiento.city]) {
+                        agruparAlojamientos[alojamiento.city] = [];
                     }
-                    agruparAlojamientos[alojamiento.ciudad].push(alojamiento);
+                    agruparAlojamientos[alojamiento.city].push(alojamiento);
 
                 });
                 setAlojamiento(agruparAlojamientos);
@@ -73,7 +73,7 @@ export const Alojamientos = () => {
                                                                 <CardActionArea>
                                                                     <CardContent>
                                                                         <Typography gutterBottom variant="h5" component="div">
-                                                                            {alojamientoItem.ciudad}
+                                                                            {alojamientoItem.city}
                                                                         </Typography>
                                                                     </CardContent>
                                                                     {/* <CardMedia
