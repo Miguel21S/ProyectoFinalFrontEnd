@@ -65,7 +65,7 @@ export const Vuelos = () => {
                                                 <Card sx={{ maxWidth: 345 }} className="content-vuelo">
 
                                                     {vuelos[destination].map(vueloItem => (
-                                                        <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origin}/${vueloItem.destination}`} className="mx-3"
+                                                        <Link key={vueloItem._id} to={`/vuelos/${vueloItem.country}/${vueloItem.origin}/${vueloItem.destination}`} className="mx-3"
                                                         style={{ textDecoration: 'none', color: 'inherit' }}                                                        
                                                         >
                                                             <CardActionArea>

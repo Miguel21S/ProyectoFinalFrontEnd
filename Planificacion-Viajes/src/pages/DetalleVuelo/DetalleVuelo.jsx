@@ -9,7 +9,7 @@ import EventSeatIcon from '@mui/icons-material/EventSeat';
 
 export const DetalleVuelo = () => {
     // const navigate = useNavigate();
-    const { origin } = useParams();
+    const { country, origin } = useParams();
 
     const [reservaVuelo, setReservaVuelo] = useState([]);
 
@@ -23,19 +23,19 @@ export const DetalleVuelo = () => {
     //     }
     // }, [rdxUsuario]);
 
-    /////////////  MÉTODO LISTAR VUELOS DESDE UNA CIUDAD   ////////////////
+    /////////////  MÉTODO LISTAR VUELOS DE UNA CIUDAD A VARIOS DESTINOS   ////////////////
     useEffect(() => {
         const listaDeVuelos = async () => {
             try {
                 const listaVuelos = await ListFlights();
-                const vuelosFiltrados = listaVuelos.data.filter(reservaVuelo => reservaVuelo.origin === origin);
+                const vuelosFiltrados = listaVuelos.data.filter(reservaVuelo => (reservaVuelo.country === country && reservaVuelo.origin === origin));
                 setReservaVuelo(vuelosFiltrados);
             } catch (error) {
                 console.log("Error:", error);
             }
         }
         listaDeVuelos();
-    }, [origin])
+    }, [country, origin])
 
     return (
         <>
@@ -58,17 +58,17 @@ export const DetalleVuelo = () => {
                                                         <Stack spacing={2} className="origeDestino">
                                                             <Paper>
                                                                 <div className="detalle-destino">
-                                                                <div>
+                                                                    <div>
                                                                         <p>Aerolínea</p>
                                                                         <p>{vuelo.airline}</p>
                                                                     </div>
                                                                     <div>
-                                                                    <div>Capacidad  <EventSeatIcon /></div>
+                                                                        <div>Capacidad  <EventSeatIcon /></div>
                                                                         <p>{vuelo.seatcapacity}</p>
                                                                     </div>
                                                                     {vuelo.timeReturn && vuelo.dateReturn &&
                                                                         <div>
-                                                                            <p>{vuelo.destination}</p>
+                                                                            {vuelo.destination}
                                                                             <p>{vuelo.timeReturn}</p>
                                                                             <p>{vuelo.dateReturn}</p>
                                                                         </div>
@@ -77,16 +77,16 @@ export const DetalleVuelo = () => {
                                                             </Paper>
                                                             <Paper>
                                                                 <div className="detalle-origen">
-                                                                <div>
+                                                                    <div>
                                                                         <p>Aerolínea</p>
                                                                         <p>{vuelo.airline}</p>
                                                                     </div>
                                                                     <div>
-                                                                    <div>Capacidad  <EventSeatIcon /></div>
+                                                                        <div>Capacidad  <EventSeatIcon /></div>
                                                                         <p>{vuelo.seatcapacity}</p>
                                                                     </div>
-                                                                    <div>
-                                                                        <p>{vuelo.origin}</p>
+                                                                    <div >
+                                                                        {vuelo.origin}
                                                                         <p>{vuelo.timeGoTime}</p>
                                                                         <p>{vuelo.dateDeparture}</p>
                                                                     </div>
@@ -103,9 +103,9 @@ export const DetalleVuelo = () => {
                                                                 Precio del pasagen no incluye niños y equipaje
                                                             </p>
                                                             <div className="btn-detalleVuelo">
-                                                            <Button variant="outlined">
-                                                                <Link to={`/detallevuelopasage/${vuelo._id}`} style={{ textDecoration: 'none' }}>Detalle</Link>
-                                                            </Button>
+                                                                <Button variant="outlined">
+                                                                    <Link to={`/detallevuelopasage/${vuelo._id}`} style={{ textDecoration: 'none' }}>Detalle</Link>
+                                                                </Button>
                                                             </div>
                                                         </div>
                                                     </Paper>

@@ -98,7 +98,7 @@ export const Home = () => {
                                         <Carousel.Item key={index}>
                                             <div className="d-flex justify-content-center">
                                                 {chunk.map((vueloItem) => (
-                                                    <Link key={vueloItem._id} to={`/vuelos/${vueloItem.origin}/${vueloItem.destination}`} className="mx-3">
+                                                    <Link key={vueloItem._id} to={`/vuelos/${vueloItem.country}/${vueloItem.origin}/${vueloItem.destination}`} className="mx-3">
                                                         <div className="text-center">
                                                             <h5 className="mt-2">{`${vueloItem.origin} - ${vueloItem.destination}`}</h5>
                                                         </div>
