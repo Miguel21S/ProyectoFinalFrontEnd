@@ -1,0 +1,21 @@
+
+.designText {
+    width: 100%;
+    margin: 1%;
+}
+
+.textfiel-design {
+    width: 100%;
+}
+/* 
+.textfiel-design .MuiTextField-root {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.textfiel-design .MuiTextField-root:focus-within {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+} */

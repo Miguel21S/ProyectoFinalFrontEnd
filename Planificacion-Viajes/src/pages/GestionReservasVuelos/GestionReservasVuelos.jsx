@@ -36,6 +36,7 @@ export const GestionReservasVuelos = () => {
         priceOff: "",
         idUser: "",
         nameUser: "",
+        lastNameUser: "",
         emailUser: "",
         idFlight: "",
         nameFlight: "",
@@ -184,15 +185,18 @@ export const GestionReservasVuelos = () => {
                                         <table>
                                             <thead>
                                                 <tr>
+                                                    <th>Id Vuelo</th>
                                                     <th>Email</th>
                                                     <th>Nombre</th>
-                                                    <th>Id Vuelo</th>
                                                     <th>Vuelo</th>
                                                     <th>Aerolinea</th>
+                                                    <th>Origen</th>
+                                                    <th>Destino</th>
                                                     <th>Fecha</th>
                                                     <th>Hora</th>
                                                     <th>Asientos</th>
                                                     <th>Pago</th>
+                                                    <th>Estado Reserva</th>
                                                     <th>Acciones</th>
                                                 </tr>
                                             </thead>
@@ -207,6 +211,14 @@ export const GestionReservasVuelos = () => {
                                                             <td>
                                                                 <input
                                                                     type="text"
+                                                                    name="idVuelo"
+                                                                    value={reservaVuelos.idFlight}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
                                                                     name="emailUsuario"
                                                                     value={reservaVuelos.emailUser}
                                                                     readOnly
@@ -216,15 +228,7 @@ export const GestionReservasVuelos = () => {
                                                                 <input
                                                                     type="text"
                                                                     name="nameUsuario"
-                                                                    value={reservaVuelos.nameUser}
-                                                                    readOnly
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <input
-                                                                    type="text"
-                                                                    name="idVuelo"
-                                                                    value={reservaVuelos.idFlight}
+                                                                    value={reservaVuelos.nameUser +" "+ reservaVuelos.lastNameUser}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -241,6 +245,22 @@ export const GestionReservasVuelos = () => {
                                                                     type="text"
                                                                     name="aerolineaVuelo"
                                                                     value={reservaVuelos.airlineFlight}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="originFlight"
+                                                                    value={reservaVuelos.originFlight}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="destinationFlight"
+                                                                    value={reservaVuelos.destinationFlight}
                                                                     readOnly
                                                                 />
                                                             </td>
@@ -273,6 +293,14 @@ export const GestionReservasVuelos = () => {
                                                                     type="text"
                                                                     name="precioPagar"
                                                                     value={reservaVuelos.priceOff}
+                                                                    readOnly
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    name="isDeleted"
+                                                                    value={reservaVuelos.isDeleted}
                                                                     readOnly
                                                                 />
                                                             </td>
