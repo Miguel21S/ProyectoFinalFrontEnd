@@ -11,6 +11,7 @@ import CTextField from "../../common/CTextField/CTextField";
 import { Pagination, Stack, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import { profileData } from "../../app/slices/profileSlice";
+import { CTable } from "../../common/CTable/CTable";
 
 export const GestionDeAlojamientos = () => {
     const navigate = useNavigate();
@@ -19,19 +20,22 @@ export const GestionDeAlojamientos = () => {
     const rdxUsuario = useSelector(userData);
     const token = rdxUsuario.credentials.token;
     const searchCriteria = useSelector(profileData).criteria;
-     ////////////////   PAGINACIÓN   ////////////////
-     const [page, setPage] = React.useState(1);
-     const [rowsPerPage] = React.useState(6);
- 
-     const handleChangePage = (event, value) => {
-         setPage(value);
-     };
+    ////////////////   PAGINACIÓN   ////////////////
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage] = React.useState(5);
+
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
 
     /////////////  CREANDO LOS HOOKS   ////////////////
     const [modalInsertar, setModalInsertar] = useState(false);
     const [modalEditandoAlojamiento, setModalEditandoAlojamiento] = useState(false);
     const [alojamientoSeleccionado, setAlojamientoSeleccionado] = useState([])
     const [alojamiento, setAlojamiento] = useState(false);
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const [editandoalojamiento, setEditandoAlojamiento] = useState({
         _id: "",
@@ -62,17 +66,23 @@ export const GestionDeAlojamientos = () => {
                 setAlojamientoSeleccionado(listaVuelos.data);
             } catch (error) {
                 console.log("Error:", error);
+                setError("Hubo un problema al cargar los datos");
+            } finally {
+                setLoading(false); // Finaliza la carga
             }
         }
         listaDeAlojamientos();
     }, [token])
 
+    if (loading) return <p>Cargando datos...</p>;
+    if (error) return <p>{error}</p>;
+
     /////////////  MÉTODO FILTRAR USUARIOS   ////////////////
     const filtrarAlojamientos = alojamientoSeleccionado.filter((alojamientos) => {
         const criteria = searchCriteria || '';
         return alojamientos.name.toLowerCase().includes(criteria.toLowerCase()) ||
-        alojamientos.city.toLowerCase().includes(criteria.toLowerCase()) ||
-        alojamientos.kinds.toLowerCase().includes(criteria.toLowerCase())
+            alojamientos.city.toLowerCase().includes(criteria.toLowerCase()) ||
+            alojamientos.kinds.toLowerCase().includes(criteria.toLowerCase())
     });
 
     /////////////  MÉTODO ADICIONAR ALOJAMIENTO  ////////////////
@@ -94,7 +104,7 @@ export const GestionDeAlojamientos = () => {
                 }
                 const fetched = await CreateAccmmodation(alojamiento, token);
                 setAlojamiento(fetched)
-    
+
                 const listaVuelos = await ListAccommodations(token);
                 setAlojamientoSeleccionado(listaVuelos.data);
                 abrirCerrarModalInsertar();
@@ -124,19 +134,6 @@ export const GestionDeAlojamientos = () => {
     }
 
     /////////////  MÉTODO ACTUALIZAR ALOJAMIENTO   ////////////////
-    // const actualizarAlojamiento = async () => {
-    //     try {
-    //         const actualizar = await ActualizarAlojamiento(editandoalojamiento._id, editandoalojamiento, token);
-    //         setEditandoAlojamiento(actualizar)
-
-    //         const listaVuelos = await ListaDeAlojamientos(token);
-    //         setAlojamientoSeleccionado(listaVuelos.data);
-    //         abrirCerrarModalEditar();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     const actualizarAlojamiento = async () => {
         const result = await Swal.fire({
             title: '¿Estás seguro?',
@@ -146,17 +143,17 @@ export const GestionDeAlojamientos = () => {
             confirmButtonText: 'Sí, actualizar',
             cancelButtonText: 'Cancelar'
         });
-        
+
         if (result.isConfirmed) {
             try {
                 const actualizar = await UpdateAccmmodation(editandoalojamiento._id, editandoalojamiento, token);
                 setEditandoAlojamiento(actualizar);
-    
+
                 const listaVuelos = await ListAccommodations(token);
                 setAlojamientoSeleccionado(listaVuelos.data);
 
                 abrirCerrarModalEditar();
-    
+
                 // Mostrar un mensaje de éxito
                 Swal.fire(
                     '¡Actualizado!',
@@ -174,7 +171,7 @@ export const GestionDeAlojamientos = () => {
             }
         }
     };
-    
+
     const editar = (alojamiento) => {
         setEditandoAlojamiento({
             ...alojamiento
@@ -225,6 +222,49 @@ export const GestionDeAlojamientos = () => {
         setModalEditandoAlojamiento(!modalEditandoAlojamiento);
     }
 
+    ///////////  TRANSFORMACIÓN Y MAPEO DE LOS DATOS PARA SER AJUSTADO EN LAS COLUMNAS
+    const mappedData = filtrarAlojamientos.map(item => ({
+        id: item._id,
+        nombre: item.name,
+        ciudad: item.city,
+        tipo: item.kinds,
+        precio: item.price,
+        acciones: "Acciones disponibles", // O CUALQUIER VALOR PARA ESTA COLUMNA
+    }));
+
+    ///////////  PAGINACIÓN Y FILTRO DE DATOS
+    const paginatedData = mappedData.slice(
+        (page - 1) * rowsPerPage,
+        (page - 1) * rowsPerPage + rowsPerPage
+    );
+
+    ///////////////   EN CABEZADOS Y BOTTONES DE ACCIONES
+    const columns = [
+        { header: "ID", accessor: "id" },
+        { header: "Nombre", accessor: "nombre" },
+        { header: "Ciudad", accessor: "ciudad" },
+        { header: "Tipo", accessor: "tipo" },
+        { header: "Precio", accessor: "precio" },
+        { header: "Acciones", accessor: "acciones" },
+        {
+            header: "Acciones",
+            accessor: "acciones",
+            render: (row) => (
+                <div>
+                    <button className="btn btn-light" onClick={() => editar(row)}>
+                        <i className="bi bi-feather"></i>
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => eliminarAlojamiento(row._id)}
+                    >
+                        <i className="bi bi-trash3"></i>
+                    </button>
+                </div>
+            ),
+        },
+    ];
+
     return (
         <>
             <div className="gestioVuelos-design">
@@ -236,185 +276,107 @@ export const GestionDeAlojamientos = () => {
                     {<button className="btn-adicinar" onClick={() => abrirCerrarModalInsertar()}>Adicionar Alojamiento</button>}
 
                     <div className="tabla-alojamiento">
-                        {
-                            alojamientoSeleccionado?.length > 0 ?
-                                (
-                                    <>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Nombre</th>
-                                                    <th>ciudad</th>
-                                                    <th>tipo</th>
-                                                    <th>Precio</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    (
-                                                        rowsPerPage > 0 ?
-                                                        filtrarAlojamientos.slice((page -1) * rowsPerPage, (page -1) * rowsPerPage + rowsPerPage)
-                                                        : filtrarAlojamientos
-                                                    ).map((alojamiento) => (
-                                                        <tr key={alojamiento._id}>
-                                                            <td>
-                                                                <input
-                                                                    type="text"
-                                                                    name="id"
-                                                                    value={alojamiento._id}
-                                                                    readOnly
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <input
-                                                                    type="text"
-                                                                    name="name"
-                                                                    value={alojamiento.name}
-                                                                    readOnly
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <input
-                                                                    type="text"
-                                                                    name="ciudad"
-                                                                    value={alojamiento.city}
-                                                                    readOnly
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <input
-                                                                    type="text"
-                                                                    name="tipo"
-                                                                    value={alojamiento.kinds}
-                                                                    readOnly
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <input
-                                                                    type="text"
-                                                                    name="precio"
-                                                                    value={alojamiento.price}
-                                                                    readOnly
-                                                                />
-                                                            </td>
-                                                            <td>
-                                                                <button className="btn btn-light" onClick={() => editar(alojamiento)}><i className="bi bi-feather"></i></button>
-                                                                <button className="btn btn-danger" onClick={() => eliminarAlojamiento(alojamiento._id)}><i className="bi bi-trash3"></i></button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </>
-                                )
-                                :
-                                (
-                                    <div>No hay alojamientos disponibles</div>
-                                )
-                        }
-                        {
-                            <>
-                                <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Adicionar Alojamiento</Modal.Title>
-                                    </Modal.Header>
+                        <>
+                            <CTable columns={columns} data={paginatedData} customClass="custom-table" />
+                        </>
 
-                                    <Modal.Body className="modal-vuelo">
-                                        <CTextField
-                                            type="name"
-                                            name="name"
-                                            placeholder="Nombre.."
-                                            value={alojamiento.name || ""}
-                                            changeEmit={inputHandler}
-                                        />
-                                        <CTextField
-                                            type="city"
-                                            name="city"
-                                            placeholder="ciudad..."
-                                            value={alojamiento.city || ""}
-                                            changeEmit={inputHandler}
-                                        />
-                                        <CTextField
-                                            type="kinds"
-                                            name="kinds"
-                                            placeholder="Tipo..."
-                                            value={alojamiento.kinds || ""}
-                                            changeEmit={inputHandler}
-                                        />
-                                        <CTextField
-                                            type="price"
-                                            name="price"
-                                            placeholder="precio.."
-                                            value={alojamiento.price || ""}
-                                            changeEmit={inputHandler}
-                                        />
-                                    </Modal.Body>
-                                    <Modal.Footer className="modal-footer">
-                                        <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button>
-                                        <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
-                                    </Modal.Footer>
-                                </Modal>
+                        <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white' }}>
+                            <Pagination
+                                count={Math.ceil(mappedData.length / rowsPerPage)}
+                                page={page}
+                                onChange={handleChangePage}
+                                size="large"
+                            />
+                        </Stack>
 
-                                <Modal show={modalEditandoAlojamiento} onHide={abrirCerrarModalEditar}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Editar Vuelo</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body className="modal">
-                                        <TextField className="textFil"
-                                            type="text"
-                                            name="id"
-                                            value={editandoalojamiento._id}
-                                            readOnly
-                                        />
-                                        <CTextField
-                                            type="name"
-                                            name="name"
-                                            placeholder="Nombre.."
-                                            value={editandoalojamiento.name || ""}
-                                            changeEmit={inputHandlerEditar}
-                                        />
-                                        <CTextField
-                                            type="city"
-                                            name="city"
-                                            placeholder="ciudad..."
-                                            value={editandoalojamiento.city || ""}
-                                            changeEmit={inputHandlerEditar}
-                                        />
-                                        <CTextField
-                                            type="kinds"
-                                            name="kinds"
-                                            placeholder="Tipo..."
-                                            value={editandoalojamiento.kinds || ""}
-                                            changeEmit={inputHandlerEditar}
-                                        />
-                                        <CTextField
-                                            type="price"
-                                            name="price"
-                                            placeholder="precio.."
-                                            value={editandoalojamiento.price || ""}
-                                            changeEmit={inputHandlerEditar}
-                                        />
+                        <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Adicionar Alojamiento</Modal.Title>
+                            </Modal.Header>
 
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <button className="btn btn-primary" onClick={() => actualizarAlojamiento()} >Guardar</button>
-                                        <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
-                                    </Modal.Footer>
-                                </Modal>
-                            </>
-                        }
+                            <Modal.Body className="modal-vuelo">
+                                <CTextField
+                                    type="name"
+                                    name="name"
+                                    placeholder="Nombre.."
+                                    value={alojamiento.name || ""}
+                                    changeEmit={inputHandler}
+                                />
+                                <CTextField
+                                    type="city"
+                                    name="city"
+                                    placeholder="ciudad..."
+                                    value={alojamiento.city || ""}
+                                    changeEmit={inputHandler}
+                                />
+                                <CTextField
+                                    type="kinds"
+                                    name="kinds"
+                                    placeholder="Tipo..."
+                                    value={alojamiento.kinds || ""}
+                                    changeEmit={inputHandler}
+                                />
+                                <CTextField
+                                    type="price"
+                                    name="price"
+                                    placeholder="precio.."
+                                    value={alojamiento.price || ""}
+                                    changeEmit={inputHandler}
+                                />
+                            </Modal.Body>
+                            <Modal.Footer className="modal-footer">
+                                <button className="btn btn-primary" onClick={crearAlojamientos}>Guardar</button>
+                                <button className="btn btn-secondary" onClick={abrirCerrarModalInsertar}>Cancelar</button>
+                            </Modal.Footer>
+                        </Modal>
+
+                        <Modal show={modalEditandoAlojamiento} onHide={abrirCerrarModalEditar}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Editar Vuelo</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className="modal">
+                                <TextField className="textFil"
+                                    type="text"
+                                    name="id"
+                                    value={editandoalojamiento._id}
+                                    readOnly
+                                />
+                                <CTextField
+                                    type="name"
+                                    name="name"
+                                    placeholder="Nombre.."
+                                    value={editandoalojamiento.name || ""}
+                                    changeEmit={inputHandlerEditar}
+                                />
+                                <CTextField
+                                    type="city"
+                                    name="city"
+                                    placeholder="ciudad..."
+                                    value={editandoalojamiento.city || ""}
+                                    changeEmit={inputHandlerEditar}
+                                />
+                                <CTextField
+                                    type="kinds"
+                                    name="kinds"
+                                    placeholder="Tipo..."
+                                    value={editandoalojamiento.kinds || ""}
+                                    changeEmit={inputHandlerEditar}
+                                />
+                                <CTextField
+                                    type="price"
+                                    name="price"
+                                    placeholder="precio.."
+                                    value={editandoalojamiento.price || ""}
+                                    changeEmit={inputHandlerEditar}
+                                />
+
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button className="btn btn-primary" onClick={() => actualizarAlojamiento()} >Guardar</button>
+                                <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
-                    <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white'}}>
-                        <Pagination
-                            count={Math.ceil(filtrarAlojamientos.length / rowsPerPage)}
-                            page={page}
-                            onChange={handleChangePage}
-                            size="large"
-                        />
-                    </Stack>
                 </div>
             </div>
         </>

@@ -22,7 +22,7 @@ export const GestionUsuario = () => {
 
     ////////////////   PAGINACIÓN   ////////////////
     const [page, setPage] = React.useState(1);
-    const [rowsPerPage] = React.useState(6);
+    const [rowsPerPage] = React.useState(5);
 
     const handleChangePage = (event, value) => {
         setPage(value);
