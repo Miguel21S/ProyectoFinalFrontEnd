@@ -43,7 +43,7 @@ export const GestionDeAlojamientos = () => {
         city: "",
         kinds: "",
         price: "",
-    })
+    });
 
     useEffect(() => {
         if (!rdxUsuario.credentials.token) {
@@ -173,9 +173,16 @@ export const GestionDeAlojamientos = () => {
     };
 
     const editar = (alojamiento) => {
+        if (!alojamiento) return;
+
         setEditandoAlojamiento({
-            ...alojamiento
+            _id: alojamiento._id || "",
+            name: alojamiento.name || "",
+            city: alojamiento.city || "",
+            kinds: alojamiento.kinds || "",
+            price: alojamiento.price || "",
         });
+
         abrirCerrarModalEditar();
     }
 
@@ -229,6 +236,7 @@ export const GestionDeAlojamientos = () => {
         ciudad: item.city,
         tipo: item.kinds,
         precio: item.price,
+        originalData: item,
         acciones: "Acciones disponibles", // O CUALQUIER VALOR PARA ESTA COLUMNA
     }));
 
@@ -245,23 +253,22 @@ export const GestionDeAlojamientos = () => {
         { header: "Ciudad", accessor: "ciudad" },
         { header: "Tipo", accessor: "tipo" },
         { header: "Precio", accessor: "precio" },
-        { header: "Acciones", accessor: "acciones" },
         {
             header: "Acciones",
             accessor: "acciones",
-            render: (row) => (
-                <div>
-                    <button className="btn btn-light" onClick={() => editar(row)}>
-                        <i className="bi bi-feather"></i>
-                    </button>
-                    <button
-                        className="btn btn-danger"
-                        onClick={() => eliminarAlojamiento(row._id)}
-                    >
-                        <i className="bi bi-trash3"></i>
-                    </button>
-                </div>
-            ),
+            render: (row) => {
+                //console.log("Row en render:", row); // Depuración
+                return (
+                    <div>
+                        <button className="btn btn-light" onClick={() => row?.originalData && editar(row.originalData)}>
+                            <i className="bi bi-feather"></i>
+                        </button>
+                        <button className="btn btn-danger" onClick={() => row?.id && eliminarAlojamiento(row.id)}>
+                            <i className="bi bi-trash3"></i>
+                        </button>
+                    </div>
+                );
+            },
         },
     ];
 
@@ -279,15 +286,6 @@ export const GestionDeAlojamientos = () => {
                         <>
                             <CTable columns={columns} data={paginatedData} customClass="custom-table" />
                         </>
-
-                        <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white' }}>
-                            <Pagination
-                                count={Math.ceil(mappedData.length / rowsPerPage)}
-                                page={page}
-                                onChange={handleChangePage}
-                                size="large"
-                            />
-                        </Stack>
 
                         <Modal show={modalInsertar} onHide={abrirCerrarModalInsertar}>
                             <Modal.Header closeButton>
@@ -332,13 +330,13 @@ export const GestionDeAlojamientos = () => {
 
                         <Modal show={modalEditandoAlojamiento} onHide={abrirCerrarModalEditar}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Editar Vuelo</Modal.Title>
+                                <Modal.Title>Editar Alojamiento</Modal.Title>
                             </Modal.Header>
                             <Modal.Body className="modal">
                                 <TextField className="textFil"
                                     type="text"
                                     name="id"
-                                    value={editandoalojamiento._id}
+                                    value={editandoalojamiento._id || ""}
                                     readOnly
                                 />
                                 <CTextField
@@ -376,6 +374,17 @@ export const GestionDeAlojamientos = () => {
                                 <button className="btn btn-secondary" onClick={abrirCerrarModalEditar}>Cancelar</button>
                             </Modal.Footer>
                         </Modal>
+                    </div>
+
+                    <div>
+                        <Stack spacing={2} sx={{ justifyContent: 'center', backgroundColor: 'white' }}>
+                            <Pagination
+                                count={Math.ceil(mappedData.length / rowsPerPage)}
+                                page={page}
+                                onChange={handleChangePage}
+                                size="large"
+                            />
+                        </Stack>
                     </div>
                 </div>
             </div>

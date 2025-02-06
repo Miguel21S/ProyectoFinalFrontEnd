@@ -2,7 +2,6 @@
 // import "./CTable.css"
 
 export const CTable = ({ columns=[], data=[], customClass }) => {
-
     return (
         <table className={`table ${customClass}`}>
             <thead>
